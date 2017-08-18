@@ -1,8 +1,8 @@
 <template>
   <div id="home">
     <mu-row class="header" gutter>
-      <mu-col width="100" tablet="25" desktop="25" class="logo">霸屏后台管理</mu-col>
-      <mu-col width="100" tablet="15" desktop="15" class="profile">
+      <mu-col width="25" tablet="25" desktop="25" class="logo">霸屏后台管理</mu-col>
+      <mu-col width="10" tablet="10" desktop="10" class="profile">
         <div class="headimg">R</div>
         <mu-icon-menu icon="more_vert" :open="profileIsOpen">
           <mu-menu-item title="个人信息"/>
