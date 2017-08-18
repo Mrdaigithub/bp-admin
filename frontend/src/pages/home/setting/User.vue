@@ -1,7 +1,7 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>user setting</h2>
+  <div class="setting-user">
+    <mu-sub-header>个人设置</mu-sub-header>
+    <mu-divider/>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
       <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>

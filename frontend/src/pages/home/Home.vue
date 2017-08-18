@@ -5,11 +5,9 @@
       <mu-col width="100" tablet="15" desktop="15" class="profile">
         <div class="headimg">R</div>
         <mu-icon-menu icon="more_vert" :open="profileIsOpen">
-          <mu-menu-item title="Refresh"/>
-          <mu-menu-item title="Send feedback"/>
-          <mu-menu-item title="Settings"/>
-          <mu-menu-item title="Help"/>
-          <mu-menu-item title="Sign out"/>
+          <mu-menu-item title="个人信息"/>
+          <mu-divider/>
+          <mu-menu-item title="退出" to="/login" replace/>
         </mu-icon-menu>
       </mu-col>
     </mu-row>
@@ -18,19 +16,19 @@
         <mu-list @change="handleMenuChange" :value="activeMenu">
           <mu-list-item title="霸屏设置" toggleNested value="menu1">
             <mu-icon slot="left" value="inbox"/>
-            <mu-list-item slot="nested" title="移动霸屏" value="menu1-1">
+            <mu-list-item slot="nested" title="移动霸屏" value="menu1-1" to="/home/bp/mobile">
               <mu-icon slot="left" value="grade"/>
             </mu-list-item>
           </mu-list-item>
           <mu-list-item title="统计代码" toggleNested value="menu2">
             <mu-icon slot="left" value="inbox"/>
-            <mu-list-item slot="nested" title="手机统计代码" value="menu2-1">
+            <mu-list-item slot="nested" title="手机统计代码" value="menu2-1" to="/home/statistics/mobile">
               <mu-icon slot="left" value="grade"/>
             </mu-list-item>
           </mu-list-item>
           <mu-list-item title="系统管理" toggleNested value="menu3">
             <mu-icon slot="left" value="inbox"/>
-            <mu-list-item slot="nested" title="个人设置" value="menu3-1">
+            <mu-list-item slot="nested" title="个人设置" value="menu3-1" to="/home/setting/user">
               <mu-icon slot="left" value="grade"/>
             </mu-list-item>
           </mu-list-item>
@@ -38,7 +36,6 @@
       </div>
       <div class="content-right">
         <div class="body">
-          <mu-sub-header>title</mu-sub-header>
           <mu-content-block>
             <router-view></router-view>
           </mu-content-block>
@@ -121,19 +118,16 @@
         display: inline-block;
         float: right;
         padding: 10px 20px;
-        background-color: rgba(0, 0, 0, 0)
+        background-color: rgba(0, 0, 0, 0);
+        .body {
+          background-color: #fff;
+          border-radius: 5px;
+          min-height: 89vh;
+          .mu-sub-header{
+            font-size:18px;
+          }
+        }
       }
     }
-  }
-
-  .body {
-    background-color: white;
-    border-radius: 5px;
-    min-height: 89vh;
-  }
-
-  .footer {
-    padding: 20px 0;
-    text-align: center;
   }
 </style>
