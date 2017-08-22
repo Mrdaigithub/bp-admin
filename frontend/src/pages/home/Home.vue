@@ -1,14 +1,16 @@
 <template>
   <div id="home">
     <mu-row class="header" gutter>
-      <mu-col width="25" tablet="25" desktop="25" class="logo">霸屏后台管理</mu-col>
-      <mu-col width="10" tablet="10" desktop="10" class="profile">
-        <div class="headimg">R</div>
-        <mu-icon-menu icon="more_vert" :open="profileIsOpen">
-          <mu-menu-item title="个人信息"/>
-          <mu-divider/>
-          <mu-menu-item title="退出" to="/login" replace/>
-        </mu-icon-menu>
+      <mu-col :width="menuAndContentWidth[0]" :tablet="menuAndContentWidth[0]" :desktop="menuAndContentWidth[0]" class="logo">霸屏后台管理</mu-col>
+      <mu-col :width="menuAndContentWidth[1]" :tablet="menuAndContentWidth[1]" :desktop="menuAndContentWidth[1]" class="profile">
+        <mu-appbar :zDepth="1">
+          <mu-icon-button icon="menu" slot="left" @click="menuIsOpen=!menuIsOpen"/>
+          <mu-paper class="user-headimg" circle :zDepth="1" slot="right">R</mu-paper>
+          <mu-icon-menu icon="more_vert" slot="right">
+            <mu-menu-item title="个人信息"/>
+            <mu-menu-item title="退出"/>
+          </mu-icon-menu>
+        </mu-appbar>
       </mu-col>
     </mu-row>
     <div class="content">
@@ -51,15 +53,18 @@
     data () {
       return {
         activeMenu: 'menu1-1',
-        profileIsOpen: false
+        menuIsOpen: true
+      }
+    },
+    computed: {
+      menuAndContentWidth () {
+        if (this.menuIsOpen) return ['20', '80']
+        return ['0', '100']
       }
     },
     methods: {
       handleMenuChange (val) {
         this.activeMenu = val
-      },
-      handleProfileToggle () {
-        this.profileIsOpen = !this.profileIsOpen
       }
     }
   }
@@ -70,37 +75,24 @@
     background-color: rgb(236, 236, 236);
     .header {
       background-color: #7e57c2;
-      height: 8vh;
-      line-height: 8vh;
       .logo {
         font-size: 24px;
         color: #fff;
         display: inline-block;
         padding: 0 20px;
+        height: 64px;
+        line-height: 64px;
       }
       .profile {
-        height: 8vh;
-        line-height: 8vh;
-        .headimg {
-          width: 5vh;
-          height: 5vh;
-          line-height: 5vh;
-          font-size: 22px;
+        .user-headimg {
+          display: block;
+          width: 40px;
           color: #fff;
+          background-color: #ffce43;
           font-weight: bold;
-          display: inline-block;
-          vertical-align: middle;
-          background-color: #dd5044;
-          border-radius: 50%;
+          font-size: 20px;
           text-align: center;
-        }
-        .mu-icon-menu {
-          height: 8vh;
-          vertical-align: middle;
-          .mu-icon-button {
-            line-height: 8vh;
-            padding: 0;
-          }
+          line-height: 40px;
         }
       }
     }
@@ -123,8 +115,8 @@
           background-color: #fff;
           border-radius: 5px;
           min-height: 89vh;
-          .mu-sub-header{
-            font-size:18px;
+          .mu-sub-header {
+            font-size: 18px;
           }
         }
       }

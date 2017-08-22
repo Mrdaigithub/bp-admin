@@ -18,7 +18,7 @@
 
 <script>
   export default {
-    name: 'setting user'
+    name: 'setting_user'
   }
 </script>
 
