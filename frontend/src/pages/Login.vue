@@ -25,15 +25,15 @@
                           @click="handleLogin"
                           primary
                           fullWidth
-                          :disabled="loginBtnDisabled"/>
+                          :disabled="errors.any()"/>
       </div>
     </mu-paper>
   </div>
 </template>
 
 <script>
-  //  import axios from 'axios'
-  //  import qs from 'qs'
+  import axios from '../config/axios'
+  import qs from 'qs'
 
   export default {
     name: 'login',
@@ -43,17 +43,27 @@
         password: ''
       }
     },
-    computed: {
-      loginBtnDisabled () {
-        return this.errors.any()
-      }
-    },
     methods: {
       handleLogin () {
-        this.$store.commit('openLoading')
+        this.$validator.validateAll().then(res => {
+          if (res) {
+            this.$store.commit('openLoading')
+            axios.post('/user/login', qs.stringify({
+              username: this.username,
+              password: this.password
+            }))
+              .then(res => {
+                sessionStorage.token = res.token
+                this.$toast('登陆成功', {
+                  horizontalPosition: 'center',
+                  duration: 500
+                })
+                this.$router.replace('/home/bp/mobile')
+              })
+          }
+          return res
+        })
       }
-    },
-    mounted () {
     }
   }
 </script>

@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/', 'WelcomeController@index');
+
 Route::group(['prefix' => 'user'], function()
 {
     Route::post('/login', 'LoginController@login');

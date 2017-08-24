@@ -21,14 +21,14 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: 'statistics/mobile',
-          name: 'statistics mobile',
-          component: StatisticsMobile
-        },
-        {
           path: 'bp/mobile',
           name: 'bp mobile',
           component: BpMobile
+        },
+        {
+          path: 'statistics/mobile',
+          name: 'statistics mobile',
+          component: StatisticsMobile
         },
         {
           path: 'setting/user',

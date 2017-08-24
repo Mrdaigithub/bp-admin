@@ -25,11 +25,10 @@ class LoginController extends Controller
 
         $user = Users::where('username', $request->username)->first();
         try {
-            if ($request->password !== $user->password) {
-                return Response(['error_code' => 401000], 401);
-            }
+            if ($request->password !== $user->password) return Response(['error_code' => 401000], 401);
+            if (strtotime($user->expired_date) <= time()) return Response(['error_code' => 401001], 401);
         } catch (JWTException $e) {
-            return $this->response->errorInternal(500000);
+            return Response(['error_code' => 500000], 500);
         }
         return ['token' => JWTAuth::fromUser($user)];
     }

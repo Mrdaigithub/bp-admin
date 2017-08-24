@@ -6,6 +6,8 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import VeeValidate, {Validator } from 'vee-validate'
 import zh from 'vee-validate/dist/locale/zh_CN'
+import Toast from 'vue-easy-toast'
+import 'vue-easy-toast/dist/vue-easy-toast.css'
 
 Vue.config.productionTip = false
 
@@ -14,12 +16,15 @@ Validator.addLocale(zh)
 Vue.use(VeeValidate, {
   locale: 'zh_CN'
 })
+Vue.use(Toast)
 
 /* eslint-disable no-new */
-new Vue({
+const vue = new Vue({
   el: '#app',
   router,
   store,
   template: '<App/>',
   components: {App}
 })
+
+export default vue
