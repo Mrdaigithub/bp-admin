@@ -4,21 +4,21 @@
       <h2 class="login-form-warp-header">霸屏软件后台登录</h2>
       <div class="login-form">
         <mu-text-field label="帐号"
-                       name="username"
+                       name="帐号"
                        labelFloat
                        fullWidth
-                       v-model="usernameVal"
+                       v-model="username"
                        type="text"
                        v-validate="'required'"
-                       :errorText="errors.first('username')"/>
+                       :errorText="errors.first('帐号')"/>
         <br/>
         <mu-text-field label="密码"
                        type="password"
-                       name="password"
-                       v-model="passwordVal"
+                       name="密码"
+                       v-model="password"
                        labelFloat
                        v-validate="'required'"
-                       :errorText="errors.first('password')"
+                       :errorText="errors.first('密码')"
                        fullWidth/>
         <mu-raised-button label="登录"
                           class="login-button"
@@ -39,31 +39,21 @@
     name: 'login',
     data () {
       return {
-        usernameVal: '',
-        username: {
-          errorText: '',
-          pass: true
-        },
-        passwordVal: '',
-        password: {
-          errorText: '',
-          pass: true
-        }
+        username: '',
+        password: ''
       }
     },
     computed: {
       loginBtnDisabled () {
-        return this.username.pass && this.password.pass
-      }
-    },
-    watch: {
-      usernameVal: function (val, oldVal) {
+        return this.errors.any()
       }
     },
     methods: {
       handleLogin () {
         this.$store.commit('openLoading')
       }
+    },
+    mounted () {
     }
   }
 </script>
