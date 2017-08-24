@@ -11,6 +11,13 @@
 |
 */
 
-Route::post('/login', 'LoginController@store');
-
-Route::delete('/logout', 'LoginController@destroy');
+Route::group(['prefix' => 'user'], function()
+{
+    Route::post('/login', 'LoginController@login');
+    Route::group(['middleware' => ['jwt.auth']], function()
+    {
+        Route::delete('/logout', 'LoginController@logout');
+        Route::post('/create', 'LoginController@create_user');
+        Route::put('/update/password/{uid}', 'LoginController@update_password');
+    });
+});
