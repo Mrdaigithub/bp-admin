@@ -16,6 +16,7 @@
 <style lang="scss">
   html, body {
     font-family: Source Sans Pro, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
+    height:100%;
   }
 
   .route-loading-wrap {

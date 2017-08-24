@@ -1,8 +1,8 @@
 <template>
   <div id="home">
-    <mu-row class="header" gutter>
-      <mu-col :width="menuAndContentWidth[0]" :tablet="menuAndContentWidth[0]" :desktop="menuAndContentWidth[0]" class="logo">霸屏后台管理</mu-col>
-      <mu-col :width="menuAndContentWidth[1]" :tablet="menuAndContentWidth[1]" :desktop="menuAndContentWidth[1]" class="profile">
+    <mu-flexbox class="header" :gutter="0">
+      <mu-flexbox-item class="logo" :grow="menuAndContentWidth[0]" v-show="menuIsOpen">霸屏后台管理</mu-flexbox-item>
+      <mu-flexbox-item :grow="menuAndContentWidth[1]" class="profile">
         <mu-appbar :zDepth="1">
           <mu-icon-button icon="menu" slot="left" @click="menuIsOpen=!menuIsOpen"/>
           <mu-paper class="user-headimg" circle :zDepth="1" slot="right">R</mu-paper>
@@ -11,10 +11,10 @@
             <mu-menu-item title="退出"/>
           </mu-icon-menu>
         </mu-appbar>
-      </mu-col>
-    </mu-row>
-    <div class="content">
-      <div class="content-left">
+      </mu-flexbox-item>
+    </mu-flexbox>
+    <mu-flexbox class="content" :gutter="0" align="flex-start">
+      <mu-flexbox-item class="content-left" :grow="menuAndContentWidth[0]" v-show="menuIsOpen">
         <mu-list @change="handleMenuChange" :value="activeMenu">
           <mu-list-item title="霸屏设置" toggleNested value="menu1">
             <mu-icon slot="left" value="inbox"/>
@@ -35,15 +35,13 @@
             </mu-list-item>
           </mu-list-item>
         </mu-list>
-      </div>
-      <div class="content-right">
-        <div class="body">
-          <mu-content-block>
-            <router-view></router-view>
-          </mu-content-block>
-        </div>
-      </div>
-    </div>
+      </mu-flexbox-item>
+      <mu-flexbox-item class="content-right scrollbar" :grow="menuAndContentWidth[1]">
+        <mu-content-block class="body">
+          <router-view></router-view>
+        </mu-content-block>
+      </mu-flexbox-item>
+    </mu-flexbox>
   </div>
 </template>
 
@@ -58,8 +56,8 @@
     },
     computed: {
       menuAndContentWidth () {
-        if (this.menuIsOpen) return ['20', '80']
-        return ['0', '100']
+        if (this.menuIsOpen) return [1, 4]
+        return [0, 1]
       }
     },
     methods: {
@@ -72,51 +70,71 @@
 
 <style lang="scss">
   #app {
-    background-color: rgb(236, 236, 236);
-    .header {
-      background-color: #7e57c2;
-      .logo {
-        font-size: 24px;
-        color: #fff;
-        display: inline-block;
-        padding: 0 20px;
-        height: 64px;
-        line-height: 64px;
-      }
-      .profile {
-        .user-headimg {
-          display: block;
-          width: 40px;
+    #home {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: rgb(236, 236, 236);
+      .header {
+        background-color: #7e57c2;
+        .logo {
+          font-size: 24px;
           color: #fff;
-          background-color: #ffce43;
-          font-weight: bold;
-          font-size: 20px;
-          text-align: center;
-          line-height: 40px;
+          display: inline-block;
+          text-indent: 20px;
+          height:10vh;
+          line-height: 10vh;
+          min-width: auto;
+        }
+        .profile {
+          .mu-appbar{
+            height:10vh;
+          }
+          .user-headimg {
+            display: block;
+            width: 40px;
+            color: #fff;
+            background-color: #ffce43;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            line-height: 40px;
+          }
         }
       }
-    }
-    .content {
-      overflow: hidden;
-      .content-left {
-        width: 20%;
-        float: left;
-        background-color: white;
-        margin-bottom: -4000px;
-        padding-bottom: 4000px;
-      }
-      .content-right {
-        width: 80%;
-        display: inline-block;
-        float: right;
-        padding: 10px 20px;
-        background-color: rgba(0, 0, 0, 0);
-        .body {
-          background-color: #fff;
-          border-radius: 5px;
-          min-height: 89vh;
-          .mu-sub-header {
-            font-size: 18px;
+      .content {
+        overflow: hidden;
+        .content-left {
+          min-width: auto;
+          background-color: white;
+          margin-bottom: -4000px;
+          padding-bottom: 4000px;
+        }
+        .content-right {
+          padding: 10px 15px;
+          box-sizing: border-box;
+          background-color: rgba(0, 0, 0, 0);
+          height: 90vh;
+          .body {
+            background-color: #fff;
+            border-radius: 5px;
+            min-height: 85vh;
+            .mu-sub-header {
+              font-size: 18px;
+            }
+          }
+        }
+        .scrollbar {
+          overflow: scroll;
+          &::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, .3);
+          }
+          &::-webkit-scrollbar-corner {
+            background-color: transparent;
           }
         }
       }
