@@ -3,26 +3,61 @@
     <mu-paper class="login-form-wrap" :zDepth="2">
       <h2 class="login-form-warp-header">霸屏软件后台登录</h2>
       <div class="login-form">
-        <mu-text-field label="帐号" labelFloat fullWidth v-model="login.data.username"/>
+        <mu-text-field label="帐号"
+                       name="username"
+                       labelFloat
+                       fullWidth
+                       v-model="usernameVal"
+                       type="text"
+                       v-validate="'required'"
+                       :errorText="errors.first('username')"/>
         <br/>
-        <mu-text-field label="密码" type="password" v-model="login.data.password" labelFloat fullWidth/>
-        <mu-raised-button label="登录" class="login-button" @click="handleLogin" primary fullWidth/>
+        <mu-text-field label="密码"
+                       type="password"
+                       name="password"
+                       v-model="passwordVal"
+                       labelFloat
+                       v-validate="'required'"
+                       :errorText="errors.first('password')"
+                       fullWidth/>
+        <mu-raised-button label="登录"
+                          class="login-button"
+                          @click="handleLogin"
+                          primary
+                          fullWidth
+                          :disabled="loginBtnDisabled"/>
       </div>
     </mu-paper>
   </div>
 </template>
 
 <script>
+  //  import axios from 'axios'
+  //  import qs from 'qs'
+
   export default {
     name: 'login',
     data () {
       return {
-        login: {
-          data: {
-            username: '',
-            password: ''
-          }
+        usernameVal: '',
+        username: {
+          errorText: '',
+          pass: true
+        },
+        passwordVal: '',
+        password: {
+          errorText: '',
+          pass: true
         }
+      }
+    },
+    computed: {
+      loginBtnDisabled () {
+        return this.username.pass && this.password.pass
+      }
+    },
+    watch: {
+      usernameVal: function (val, oldVal) {
       }
     },
     methods: {

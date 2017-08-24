@@ -72,7 +72,7 @@
             <mu-text-field label="提交后广告展示测试：" hintText="关键词"/>
             <mu-raised-button label="测试" style="margin-left:15px;"/>
           </mu-col>
-          <mu-paper v-for="adItem of adItemLength" :zDepth="2" class="ad-container">
+          <mu-paper :zDepth="2" class="ad-container">
             <mu-row gutter>
               <mu-col width="100" tablet="100" desktop="100">
                 <mu-select-field v-model="game2" label="选择多个">
