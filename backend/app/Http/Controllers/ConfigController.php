@@ -14,7 +14,7 @@ class ConfigController extends Controller {
 	 */
 	public function index()
 	{
-		return Config::all();
+		return Config::first();
 	}
 
     /**

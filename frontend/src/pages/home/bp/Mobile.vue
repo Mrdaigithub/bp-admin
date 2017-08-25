@@ -98,61 +98,61 @@
         </mu-row>
       </mu-paper>
       <!--<mu-paper :zDepth="3" class="paper-container">-->
-        <!--<mu-row gutter>-->
-          <!--<mu-col width="100" tablet="100" desktop="100">-->
-            <!--<h3>广告位展示</h3>-->
-            <!--<h5 style="margin:0;">-->
-              <!--(可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi</h5>-->
-            <!--<mu-raised-button icon="add" label="点击增加广告位" @click="ad.itemLength++" style="margin:20px 0;"/>-->
-          <!--</mu-col>-->
-          <!--<mu-col width="100" tablet="100" desktop="100">-->
-            <!--<mu-text-field label="提交后广告展示测试：" hintText="关键词" v-model="ad.keyword"/>-->
-            <!--<mu-raised-button label="测试"-->
-                              <!--style="margin-left:15px;"-->
-                              <!--:href="adTestUrl"-->
-                              <!--target="_blank"/>-->
-          <!--</mu-col>-->
-          <!--<mu-paper :zDepth="2" class="ad-container">-->
-            <!--<mu-row gutter>-->
-              <!--<mu-col width="100" tablet="100" desktop="100">-->
-                <!--<mu-select-field v-model="game2" label="选择多个">-->
-                  <!--<mu-menu-item value="2" title="普通广告位"/>-->
-                  <!--<mu-menu-item value="3" title="品牌推广位"/>-->
-                  <!--<mu-menu-item value="4" title="图片轮翻"/>-->
-                  <!--<mu-menu-item value="5" title="专家咨询广告位"/>-->
-                  <!--<mu-menu-item value="6" title="自定义代码"/>-->
-                <!--</mu-select-field>-->
-              <!--</mu-col>-->
-              <!--<mu-col width="100" tablet="100" desktop="100">-->
-                <!--<mu-row gutter>-->
-                  <!--<mu-col width="45" tablet="45" desktop="45">-->
-                    <!--<mu-text-field fullWidth label="匹配关键词:" hintText="(不同关键词显示不同广告,逗号分开)"/>-->
-                  <!--</mu-col>-->
-                  <!--<mu-col width="45" tablet="45" desktop="45">-->
-                    <!--<mu-text-field fullWidth label="否定关键词:" hintText=""/>-->
-                  <!--</mu-col>-->
-                  <!--<mu-col width="45" tablet="45" desktop="45">-->
-                    <!--<mu-text-field fullWidth label="*标题:" hintText=""/>-->
-                  <!--</mu-col>-->
-                  <!--<mu-col width="45" tablet="45" desktop="45">-->
-                    <!--<mu-text-field fullWidth label="*描述:" hintText=""/>-->
-                  <!--</mu-col>-->
-                  <!--<mu-col width="45" tablet="45" desktop="45">-->
-                    <!--<mu-text-field fullWidth label="*链接:" hintText=""/>-->
-                  <!--</mu-col>-->
-                  <!--<mu-col width="45" tablet="45" desktop="45">-->
-                    <!--<mu-text-field fullWidth label="*显示链接:" hintText=""/>-->
-                  <!--</mu-col>-->
-                  <!--<mu-col width="100" tablet="100" desktop="100">-->
-                    <!--<span style="display: inline-block;vertical-align: top">底部显示：</span>-->
-                    <!--<mu-radio label="链接" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
-                    <!--<mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
-                  <!--</mu-col>-->
-                <!--</mu-row>-->
-              <!--</mu-col>-->
-            <!--</mu-row>-->
-          <!--</mu-paper>-->
-        <!--</mu-row>-->
+      <!--<mu-row gutter>-->
+      <!--<mu-col width="100" tablet="100" desktop="100">-->
+      <!--<h3>广告位展示</h3>-->
+      <!--<h5 style="margin:0;">-->
+      <!--(可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi</h5>-->
+      <!--<mu-raised-button icon="add" label="点击增加广告位" @click="ad.itemLength++" style="margin:20px 0;"/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="100" tablet="100" desktop="100">-->
+      <!--<mu-text-field label="提交后广告展示测试：" hintText="关键词" v-model="ad.keyword"/>-->
+      <!--<mu-raised-button label="测试"-->
+      <!--style="margin-left:15px;"-->
+      <!--:href="adTestUrl"-->
+      <!--target="_blank"/>-->
+      <!--</mu-col>-->
+      <!--<mu-paper :zDepth="2" class="ad-container">-->
+      <!--<mu-row gutter>-->
+      <!--<mu-col width="100" tablet="100" desktop="100">-->
+      <!--<mu-select-field v-model="game2" label="选择多个">-->
+      <!--<mu-menu-item value="2" title="普通广告位"/>-->
+      <!--<mu-menu-item value="3" title="品牌推广位"/>-->
+      <!--<mu-menu-item value="4" title="图片轮翻"/>-->
+      <!--<mu-menu-item value="5" title="专家咨询广告位"/>-->
+      <!--<mu-menu-item value="6" title="自定义代码"/>-->
+      <!--</mu-select-field>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="100" tablet="100" desktop="100">-->
+      <!--<mu-row gutter>-->
+      <!--<mu-col width="45" tablet="45" desktop="45">-->
+      <!--<mu-text-field fullWidth label="匹配关键词:" hintText="(不同关键词显示不同广告,逗号分开)"/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="45" tablet="45" desktop="45">-->
+      <!--<mu-text-field fullWidth label="否定关键词:" hintText=""/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="45" tablet="45" desktop="45">-->
+      <!--<mu-text-field fullWidth label="*标题:" hintText=""/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="45" tablet="45" desktop="45">-->
+      <!--<mu-text-field fullWidth label="*描述:" hintText=""/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="45" tablet="45" desktop="45">-->
+      <!--<mu-text-field fullWidth label="*链接:" hintText=""/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="45" tablet="45" desktop="45">-->
+      <!--<mu-text-field fullWidth label="*显示链接:" hintText=""/>-->
+      <!--</mu-col>-->
+      <!--<mu-col width="100" tablet="100" desktop="100">-->
+      <!--<span style="display: inline-block;vertical-align: top">底部显示：</span>-->
+      <!--<mu-radio label="链接" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
+      <!--<mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
+      <!--</mu-col>-->
+      <!--</mu-row>-->
+      <!--</mu-col>-->
+      <!--</mu-row>-->
+      <!--</mu-paper>-->
+      <!--</mu-row>-->
       <!--</mu-paper>-->
       <mu-paper :zDepth="3" class="paper-container">
         <mu-row gutter>
@@ -221,7 +221,7 @@
                            :rows="3"
                            :rowsMax="6"/>
           </mu-col>
-          <mu-col width="50" tablet="50" desktop="50">
+          <mu-col width="75" tablet="75" desktop="75">
             <mu-text-field fullWidth
                            label="商务通霸屏代码"
                            hintText="(将此代码放入你需要的商务通后台中,安装说明)"
@@ -235,6 +235,9 @@
 </template>
 
 <script>
+  import axios from '@/config/axios'
+  //  import qs from 'qs'
+
   export default {
     name: 'bp_mobile',
     data () {
@@ -264,6 +267,29 @@
       adTestUrl () {
         return `http://manager.baldv.com/member/baidu/?id=MDAwMDAwMDAwMIF2ft4&word=${this.ad.keyword}&query=baidu_results`
       }
+    },
+    mounted () {
+      let self = this
+      !(async function () {
+        let [
+          configs
+        ] = await Promise.all([
+          axios.get('/config')
+        ])
+        self.form.hospital = configs.hospital
+        self.form.phone = configs.phone
+        self.form.domainname = configs.domainname
+        self.form.swturl = configs.swturl
+        self.form.opentime = configs.opentime
+        self.form.area = configs.area.split(',')
+        self.form.piaoimg = configs.piaoimg
+        self.form.piaourl = configs.piaourl
+        self.form.wxdz = configs.wxdz
+        self.form.ipduan = configs.ipduan
+        self.form.cith = configs.cith
+        self.form.mobilecode = configs.mobilecode
+        self.form.daima = configs.daima
+      })()
     }
   }
 </script>
