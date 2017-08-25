@@ -24,3 +24,21 @@ Route::group(['prefix' => 'user'], function()
         Route::put('/update/password/{uid}', 'LoginController@update_password');
     });
 });
+
+Route::group(['prefix' => 'config'], function()
+{
+    Route::group(['middleware' => ['jwt.auth']], function()
+    {
+        Route::get('/', 'ConfigController@index');
+        Route::put('/', 'ConfigController@update');
+    });
+});
+
+Route::group(['prefix' => 'ad'], function()
+{
+    Route::group(['middleware' => ['jwt.auth']], function()
+    {
+        Route::get('/', 'ConfigController@index');
+        Route::put('/', 'ConfigController@update');
+    });
+});
