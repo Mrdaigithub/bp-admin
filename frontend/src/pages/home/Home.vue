@@ -7,7 +7,7 @@
           <mu-icon-button icon="menu" slot="left" @click="menuIsOpen=!menuIsOpen"/>
           <mu-paper class="user-headimg" circle :zDepth="1" slot="right" :style="headColor">{{firstName}}</mu-paper>
           <mu-icon-menu icon="more_vert" slot="right">
-            <mu-menu-item title="个人信息"/>
+            <mu-menu-item title="个人信息" @click="dialogVisibility = true"/>
             <mu-divider/>
             <mu-menu-item title="退出" @click="logout"/>
           </mu-icon-menu>
@@ -43,6 +43,9 @@
         </mu-content-block>
       </mu-flexbox-item>
     </mu-flexbox>
+    <mu-dialog :open="dialogVisibility" @close="dialogVisibility = false">
+      {{$store.state.oneself.username}} 到期时间为:{{$store.state.oneself['expired_date']}}。可绑定域名50个
+    </mu-dialog>
   </div>
 </template>
 
@@ -54,7 +57,8 @@
     data () {
       return {
         activeMenu: 'menu1-1',
-        menuIsOpen: true
+        menuIsOpen: true,
+        dialogVisibility: false
       }
     },
     computed: {
