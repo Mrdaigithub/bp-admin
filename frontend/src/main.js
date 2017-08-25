@@ -32,7 +32,10 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(route => {
-  if (route.name === 'Login') delete sessionStorage.token
+  if (route.name === 'Login') {
+    delete sessionStorage.token
+    vue.$store.commit('getOneself', null)
+  }
   if (!sessionStorage.token && route.name !== 'Login') router.replace('/login')
 })
 
