@@ -5,10 +5,10 @@
       <mu-flexbox-item :grow="menuAndContentWidth[1]" class="profile">
         <mu-appbar :zDepth="1">
           <mu-icon-button icon="menu" slot="left" @click="menuIsOpen=!menuIsOpen"/>
-          <mu-paper class="user-headimg" circle :zDepth="1" slot="right">R</mu-paper>
+          <mu-paper class="user-headimg" circle :zDepth="1" slot="right" :style="headColor">{{firstName}}</mu-paper>
           <mu-icon-menu icon="more_vert" slot="right">
             <mu-menu-item title="个人信息"/>
-            <mu-menu-item title="退出"/>
+            <mu-menu-item title="退出" @click="logout"/>
           </mu-icon-menu>
         </mu-appbar>
       </mu-flexbox-item>
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+  import axios from '../../config/axios'
+
   export default {
     name: 'home',
     data () {
@@ -58,12 +60,42 @@
       menuAndContentWidth () {
         if (this.menuIsOpen) return [1, 4]
         return [0, 1]
+      },
+      firstName () {
+        return this.$store.state.oneself ? this.$store.state.oneself.username[0].toUpperCase() : ''
+      },
+      headColor () {
+        let colors = ['#dd4e41', '#4c8bf5', '#ffce42', '#717171', '#b2b2b2', '#7e57c2', '#9999FF', '#660033', '#3399CC', '#333333']
+        if (!this.$store.state.oneself) return {backgroundColor: '#2b2b2b'}
+        let sub = (this.$store.state.oneself.id / 1024 * 65535 / 22 * 8388).toString()[1]
+        return {backgroundColor: colors[sub]}
       }
+    },
+    watch: {
+      '$route': 'fetchInitData'
     },
     methods: {
       handleMenuChange (val) {
         this.activeMenu = val
+      },
+      fetchInitData () {
+        let self = this
+        !(async function () {
+          if (self.$route.name !== 'Login' && sessionStorage.token) {
+            if (!self.$store.state.oneself) {
+              let [oneself] = await Promise.all([axios.get('/user/0')])
+              self.$store.commit('getOneself', oneself)
+              console.log(self.$store.state.oneself.username)
+            }
+          }
+        })()
+      },
+      logout () {
+        this.$router.replace('/login')
       }
+    },
+    mounted () {
+      this.fetchInitData()
     }
   }
 </script>
@@ -82,13 +114,13 @@
           color: #fff;
           display: inline-block;
           text-indent: 20px;
-          height:10vh;
+          height: 10vh;
           line-height: 10vh;
           min-width: auto;
         }
         .profile {
-          .mu-appbar{
-            height:10vh;
+          .mu-appbar {
+            height: 10vh;
           }
           .user-headimg {
             display: block;

@@ -17,22 +17,23 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'Home',
+      name: 'home',
       component: Home,
+      redirect: { name: 'bpMobile' },
       children: [
         {
           path: 'bp/mobile',
-          name: 'bp mobile',
+          name: 'bpMobile',
           component: BpMobile
         },
         {
           path: 'statistics/mobile',
-          name: 'statistics mobile',
+          name: 'statisticsMobile',
           component: StatisticsMobile
         },
         {
           path: 'setting/user',
-          name: 'Setting user',
+          name: 'SettingUser',
           component: SettingUser
         }
       ]

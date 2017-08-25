@@ -1,4 +1,4 @@
-import vue from '../main'
+import vm from '../main'
 import axios from 'axios'
 
 const errors = {
@@ -24,26 +24,28 @@ let axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
+    vm.$store.commit('openLoading')
     if (sessionStorage.token) {
       config.headers.common['Authorization'] = `Bearer ${sessionStorage.token}`
     }
     return config
   },
   err => {
+    vm.$store.commit('openLoading')
     return Promise.reject(err)
   })
 
 axiosInstance.interceptors.response.use(
   response => {
     // if (response.headers.authorization) sessionStorage.token = response.headers.authorization.replace(/Bearer\s/,'');
-    vue.$store.commit('closeLoading')
+    vm.$store.commit('closeLoading')
     return response.data
   },
   error => {
     if (error.response) {
-      vue.$store.commit('closeLoading')
+      vm.$store.commit('closeLoading')
       let errorCode = error.response.data['error_code']
-      vue.$toast(errors[errorCode], {
+      vm.$toast(errors[errorCode], {
         horizontalPosition: 'center',
         className: ['et-alert'],
         duration: 1000
