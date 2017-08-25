@@ -8,6 +8,7 @@
           <mu-paper class="user-headimg" circle :zDepth="1" slot="right" :style="headColor">{{firstName}}</mu-paper>
           <mu-icon-menu icon="more_vert" slot="right">
             <mu-menu-item title="个人信息"/>
+            <mu-divider/>
             <mu-menu-item title="退出" @click="logout"/>
           </mu-icon-menu>
         </mu-appbar>
@@ -46,7 +47,7 @@
 </template>
 
 <script>
-  import axios from '../../config/axios'
+  import axios from '@/config/axios'
 
   export default {
     name: 'home',
@@ -85,7 +86,6 @@
             if (!self.$store.state.oneself) {
               let [oneself] = await Promise.all([axios.get('/user/0')])
               self.$store.commit('getOneself', oneself)
-              console.log(self.$store.state.oneself.username)
             }
           }
         })()

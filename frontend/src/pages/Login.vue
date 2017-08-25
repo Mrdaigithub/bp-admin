@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import axios from '../config/axios'
+  import axios from '@/config/axios'
   import qs from 'qs'
 
   export default {
