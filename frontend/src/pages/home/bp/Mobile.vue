@@ -6,157 +6,226 @@
       <mu-paper :zDepth="3" class="paper-container">
         <mu-row gutter>
           <mu-col width="30" tablet="30" desktop="30">
-            <mu-text-field fullWidth label="公司名称:" v-model="hospital"/>
+            <mu-text-field
+              fullWidth
+              label="公司名称"
+              name="公司名称"
+              v-model.trim="form.hospital"
+              v-validate="''"
+              :errorText="errors.first('公司名称')"
+              type="text"/>
           </mu-col>
           <mu-col width="30" tablet="30" desktop="30">
-            <mu-text-field fullWidth label="电话:" v-model="phone"/>
+            <mu-text-field
+              fullWidth
+              label="电话"
+              name="电话"
+              v-model.trim="form.phone"
+              v-validate="''"
+              :errorText="errors.first('电话')"
+              type="text"/>
           </mu-col>
           <mu-col width="30" tablet="30" desktop="30">
-            <mu-text-field fullWidth label="手机站 域名绑定:" v-model="domainname"/>
+            <mu-text-field
+              fullWidth
+              label="手机站域名绑定"
+              name="手机站域名绑定"
+              v-model.trim="form.domainname"
+              v-validate="''"
+              :errorText="errors.first('手机站域名绑定')"
+              hintText="(以,分割(英文逗号分割) 如wap.aaa.com,m.bbb.com)"
+              type="text"/>
           </mu-col>
           <mu-col width="30" tablet="30" desktop="30">
-            <mu-text-field fullWidth label="广告链接:" v-model="swturl"/>
+            <mu-text-field
+              fullWidth
+              label="广告链接"
+              name="广告链接"
+              v-model.trim="form.swturl"
+              v-validate="''"
+              :errorText="errors.first('广告链接')"
+              type="text"/>
           </mu-col>
           <mu-col width="65" tablet="65" desktop="65">
-            <mu-text-field fullWidth label="开启时段:" hintText=" (为空默认全天,填写方式 按小时以逗号分开如：00,01,08,09,10,11,12,23)"/>
+            <mu-text-field
+              fullWidth
+              label="开启时段"
+              name="开启时段"
+              v-model.trim="form.opentime"
+              v-validate="''"
+              :errorText="errors.first('开启时段')"
+              hintText=" (为空默认全天,填写方式 按小时以逗号分开如：00,01,08,09,10,11,12,23)"
+              type="text"/>
           </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
             <p>投放地区:</p>
-            <p>勾选即为投放，如：勾选"北京"则表示投放北京ip的功能，支持多选(全部不选为全国投放)。</p>
-            <mu-checkbox label="北京" nativeValue="北京" v-model="area"/>
-            <mu-checkbox label="安徽" nativeValue="安徽" v-model="area"/>
-            <mu-checkbox label="福建" nativeValue="福建" v-model="area"/>
-            <mu-checkbox label="甘肃" nativeValue="甘肃" v-model="area"/>
-            <mu-checkbox label="广东" nativeValue="广东" v-model="area"/>
-            <mu-checkbox label="广西" nativeValue="广西" v-model="area"/>
-            <mu-checkbox label="贵州" nativeValue="贵州" v-model="area"/>
-            <mu-checkbox label="海南" nativeValue="海南" v-model="area"/>
-            <mu-checkbox label="河北" nativeValue="河北" v-model="area"/>
-            <mu-checkbox label="河南" nativeValue="河南" v-model="area"/>
-            <mu-checkbox label="黑龙江" nativeValue="黑龙江" v-model="area"/>
-            <mu-checkbox label="湖北" nativeValue="湖北" v-model="area"/>
-            <mu-checkbox label="湖南" nativeValue="湖南" v-model="area"/>
-            <mu-checkbox label="吉林" nativeValue="吉林" v-model="area"/>
-            <mu-checkbox label="江苏" nativeValue="江苏" v-model="area"/>
-            <mu-checkbox label="江西" nativeValue="江西" v-model="area"/>
-            <mu-checkbox label="辽宁" nativeValue="辽宁" v-model="area"/>
-            <mu-checkbox label="内蒙古" nativeValue="内蒙古" v-model="area"/>
-            <mu-checkbox label="宁夏" nativeValue="宁夏" v-model="area"/>
-            <mu-checkbox label="青海" nativeValue="青海" v-model="area"/>
-            <mu-checkbox label="山东" nativeValue="山东" v-model="area"/>
-            <mu-checkbox label="山西" nativeValue="山西" v-model="area"/>
-            <mu-checkbox label="陕西" nativeValue="陕西" v-model="area"/>
-            <mu-checkbox label="上海" nativeValue="上海" v-model="area"/>
-            <mu-checkbox label="四川" nativeValue="四川" v-model="area"/>
-            <mu-checkbox label="天津" nativeValue="天津" v-model="area"/>
-            <mu-checkbox label="西藏" nativeValue="西藏" v-model="area"/>
-            <mu-checkbox label="新疆" nativeValue="新疆" v-model="area"/>
-            <mu-checkbox label="云南" nativeValue="云南" v-model="area"/>
-            <mu-checkbox label="浙江" nativeValue="浙江" v-model="area"/>
-            <mu-checkbox label="重庆" nativeValue="重庆" v-model="area"/>
-            <mu-checkbox label="香港" nativeValue="香港" v-model="area"/>
-            <mu-checkbox label="澳门" nativeValue="澳门" v-model="area"/>
-            <mu-checkbox label="台湾" nativeValue="台湾" v-model="area"/>
+            <p>勾选即为投放，如：勾选"北京"则表示投放北京ip的功能</p>
+            <mu-checkbox label="北京" nativeValue="北京" v-model="form.area"/>
+            <mu-checkbox label="安徽" nativeValue="安徽" v-model="form.area"/>
+            <mu-checkbox label="福建" nativeValue="福建" v-model="form.area"/>
+            <mu-checkbox label="甘肃" nativeValue="甘肃" v-model="form.area"/>
+            <mu-checkbox label="广东" nativeValue="广东" v-model="form.area"/>
+            <mu-checkbox label="广西" nativeValue="广西" v-model="form.area"/>
+            <mu-checkbox label="贵州" nativeValue="贵州" v-model="form.area"/>
+            <mu-checkbox label="海南" nativeValue="海南" v-model="form.area"/>
+            <mu-checkbox label="河北" nativeValue="河北" v-model="form.area"/>
+            <mu-checkbox label="河南" nativeValue="河南" v-model="form.area"/>
+            <mu-checkbox label="黑龙江" nativeValue="黑龙江" v-model="form.area"/>
+            <mu-checkbox label="湖北" nativeValue="湖北" v-model="form.area"/>
+            <mu-checkbox label="湖南" nativeValue="湖南" v-model="form.area"/>
+            <mu-checkbox label="吉林" nativeValue="吉林" v-model="form.area"/>
+            <mu-checkbox label="江苏" nativeValue="江苏" v-model="form.area"/>
+            <mu-checkbox label="江西" nativeValue="江西" v-model="form.area"/>
+            <mu-checkbox label="辽宁" nativeValue="辽宁" v-model="form.area"/>
+            <mu-checkbox label="内蒙古" nativeValue="内蒙古" v-model="form.area"/>
+            <mu-checkbox label="宁夏" nativeValue="宁夏" v-model="form.area"/>
+            <mu-checkbox label="青海" nativeValue="青海" v-model="form.area"/>
+            <mu-checkbox label="山东" nativeValue="山东" v-model="form.area"/>
+            <mu-checkbox label="山西" nativeValue="山西" v-model="form.area"/>
+            <mu-checkbox label="陕西" nativeValue="陕西" v-model="form.area"/>
+            <mu-checkbox label="上海" nativeValue="上海" v-model="form.area"/>
+            <mu-checkbox label="四川" nativeValue="四川" v-model="form.area"/>
+            <mu-checkbox label="天津" nativeValue="天津" v-model="form.area"/>
+            <mu-checkbox label="西藏" nativeValue="西藏" v-model="form.area"/>
+            <mu-checkbox label="新疆" nativeValue="新疆" v-model="form.area"/>
+            <mu-checkbox label="云南" nativeValue="云南" v-model="form.area"/>
+            <mu-checkbox label="浙江" nativeValue="浙江" v-model="form.area"/>
+            <mu-checkbox label="重庆" nativeValue="重庆" v-model="form.area"/>
+            <mu-checkbox label="香港" nativeValue="香港" v-model="form.area"/>
+            <mu-checkbox label="澳门" nativeValue="澳门" v-model="form.area"/>
+            <mu-checkbox label="台湾" nativeValue="台湾" v-model="form.area"/>
           </mu-col>
         </mu-row>
       </mu-paper>
       <!--<mu-paper :zDepth="3" class="paper-container">-->
-      <!--<mu-row gutter>-->
-      <!--<mu-col width="100" tablet="100" desktop="100">-->
-      <!--<h3>广告位展示</h3>-->
-      <!--<h5 style="margin:0;">-->
-      <!--(可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi</h5>-->
-      <!--<mu-raised-button icon="add" label="点击增加广告位" @click="adItemLength++" style="margin:20px 0;"/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="100" tablet="100" desktop="100">-->
-      <!--<mu-text-field label="提交后广告展示测试：" hintText="关键词"/>-->
-      <!--<mu-raised-button label="测试" style="margin-left:15px;"/>-->
-      <!--</mu-col>-->
-      <!--<mu-paper :zDepth="2" class="ad-container">-->
-      <!--<mu-row gutter>-->
-      <!--<mu-col width="100" tablet="100" desktop="100">-->
-      <!--<mu-select-field v-model="game2" label="选择多个">-->
-      <!--<mu-menu-item value="2" title="普通广告位"/>-->
-      <!--<mu-menu-item value="3" title="品牌推广位"/>-->
-      <!--<mu-menu-item value="4" title="图片轮翻"/>-->
-      <!--<mu-menu-item value="5" title="专家咨询广告位"/>-->
-      <!--<mu-menu-item value="6" title="自定义代码"/>-->
-      <!--</mu-select-field>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="100" tablet="100" desktop="100">-->
-      <!--<mu-row gutter>-->
-      <!--<mu-col width="45" tablet="45" desktop="45">-->
-      <!--<mu-text-field fullWidth label="匹配关键词:" hintText="(不同关键词显示不同广告,逗号分开)"/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="45" tablet="45" desktop="45">-->
-      <!--<mu-text-field fullWidth label="否定关键词:" hintText=""/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="45" tablet="45" desktop="45">-->
-      <!--<mu-text-field fullWidth label="*标题:" hintText=""/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="45" tablet="45" desktop="45">-->
-      <!--<mu-text-field fullWidth label="*描述:" hintText=""/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="45" tablet="45" desktop="45">-->
-      <!--<mu-text-field fullWidth label="*链接:" hintText=""/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="45" tablet="45" desktop="45">-->
-      <!--<mu-text-field fullWidth label="*显示链接:" hintText=""/>-->
-      <!--</mu-col>-->
-      <!--<mu-col width="100" tablet="100" desktop="100">-->
-      <!--<span style="display: inline-block;vertical-align: top">底部显示：</span>-->
-      <!--<mu-radio label="链接" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
-      <!--<mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
-      <!--</mu-col>-->
-      <!--</mu-row>-->
-      <!--</mu-col>-->
-      <!--</mu-row>-->
-      <!--</mu-paper>-->
-      <!--</mu-row>-->
+        <!--<mu-row gutter>-->
+          <!--<mu-col width="100" tablet="100" desktop="100">-->
+            <!--<h3>广告位展示</h3>-->
+            <!--<h5 style="margin:0;">-->
+              <!--(可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi</h5>-->
+            <!--<mu-raised-button icon="add" label="点击增加广告位" @click="ad.itemLength++" style="margin:20px 0;"/>-->
+          <!--</mu-col>-->
+          <!--<mu-col width="100" tablet="100" desktop="100">-->
+            <!--<mu-text-field label="提交后广告展示测试：" hintText="关键词" v-model="ad.keyword"/>-->
+            <!--<mu-raised-button label="测试"-->
+                              <!--style="margin-left:15px;"-->
+                              <!--:href="adTestUrl"-->
+                              <!--target="_blank"/>-->
+          <!--</mu-col>-->
+          <!--<mu-paper :zDepth="2" class="ad-container">-->
+            <!--<mu-row gutter>-->
+              <!--<mu-col width="100" tablet="100" desktop="100">-->
+                <!--<mu-select-field v-model="game2" label="选择多个">-->
+                  <!--<mu-menu-item value="2" title="普通广告位"/>-->
+                  <!--<mu-menu-item value="3" title="品牌推广位"/>-->
+                  <!--<mu-menu-item value="4" title="图片轮翻"/>-->
+                  <!--<mu-menu-item value="5" title="专家咨询广告位"/>-->
+                  <!--<mu-menu-item value="6" title="自定义代码"/>-->
+                <!--</mu-select-field>-->
+              <!--</mu-col>-->
+              <!--<mu-col width="100" tablet="100" desktop="100">-->
+                <!--<mu-row gutter>-->
+                  <!--<mu-col width="45" tablet="45" desktop="45">-->
+                    <!--<mu-text-field fullWidth label="匹配关键词:" hintText="(不同关键词显示不同广告,逗号分开)"/>-->
+                  <!--</mu-col>-->
+                  <!--<mu-col width="45" tablet="45" desktop="45">-->
+                    <!--<mu-text-field fullWidth label="否定关键词:" hintText=""/>-->
+                  <!--</mu-col>-->
+                  <!--<mu-col width="45" tablet="45" desktop="45">-->
+                    <!--<mu-text-field fullWidth label="*标题:" hintText=""/>-->
+                  <!--</mu-col>-->
+                  <!--<mu-col width="45" tablet="45" desktop="45">-->
+                    <!--<mu-text-field fullWidth label="*描述:" hintText=""/>-->
+                  <!--</mu-col>-->
+                  <!--<mu-col width="45" tablet="45" desktop="45">-->
+                    <!--<mu-text-field fullWidth label="*链接:" hintText=""/>-->
+                  <!--</mu-col>-->
+                  <!--<mu-col width="45" tablet="45" desktop="45">-->
+                    <!--<mu-text-field fullWidth label="*显示链接:" hintText=""/>-->
+                  <!--</mu-col>-->
+                  <!--<mu-col width="100" tablet="100" desktop="100">-->
+                    <!--<span style="display: inline-block;vertical-align: top">底部显示：</span>-->
+                    <!--<mu-radio label="链接" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
+                    <!--<mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>-->
+                  <!--</mu-col>-->
+                <!--</mu-row>-->
+              <!--</mu-col>-->
+            <!--</mu-row>-->
+          <!--</mu-paper>-->
+        <!--</mu-row>-->
       <!--</mu-paper>-->
       <mu-paper :zDepth="3" class="paper-container">
         <mu-row gutter>
           <mu-col width="45" tablet="45" desktop="45">
-            <mu-text-field fullWidth label="底部漂浮广告:" hintText="(尺寸:360x50 请用站外图片带http://)" v-model="piaoimg"/>
+            <mu-text-field
+              fullWidth
+              label="底部漂浮广告"
+              name="底部漂浮广告"
+              v-model.trim="form.piaoimg"
+              v-validate="'url:true'"
+              hintText="(尺寸:360x50 请用站外图片带http://)"
+              :errorText="errors.first('底部漂浮广告')"
+              type="text"/>
           </mu-col>
           <mu-col width="45" tablet="45" desktop="45">
-            <mu-text-field fullWidth label="漂浮广告点击链接地址:" hintText="(带http://)" v-model="piaourl"/>
+            <mu-text-field
+              fullWidth
+              label="漂浮广告点击链接地址"
+              name="漂浮广告点击链接地址"
+              v-model.trim="form.piaourl"
+              v-validate="'url:true'"
+              hintText="(带http://)"
+              :errorText="errors.first('漂浮广告点击链接地址')"
+              type="text"/>
           </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
-            <mu-text-field fullWidth label="顶部仿微信消息广告链接地址:" hintText="(带http://)" v-model="wxdz"/>
+            <mu-text-field
+              fullWidth
+              label="顶部仿微信消息广告链接地址"
+              name="顶部仿微信消息广告链接地址"
+              v-model.trim="form.wxdz"
+              v-validate="'url:true'"
+              hintText="(带http://)"
+              :errorText="errors.first('顶部仿微信消息广告链接地址')"
+              type="text"/>
           </mu-col>
           <mu-col width="75" tablet="75" desktop="75">
-            <mu-text-field label="IP屏蔽功能(系统已屏蔽百度总部IP段)"
-                           hintText="屏蔽IP段方法： 211.211.211.10-211.211.211.100 之间IP 用-分开每行一个规则"
-                           multiLine
-                           v-model="ipduan"
-                           :rows="3"
-                           :rowsMax="6"
-                           fullWidth/>
+            <mu-text-field
+              fullWidth
+              label="IP屏蔽功能(系统已屏蔽百度总部IP段)"
+              name="IP屏蔽"
+              v-model.trim="form.ipduan"
+              hintText="屏蔽IP段方法： 211.211.211.10-211.211.211.100 之间IP 用-分开每行一个规则"
+              v-validate="''"
+              multiLine
+              :rows="3"
+              :rowsMax="6"
+              :errorText="errors.first('IP屏蔽')"
+              type="text"/>
           </mu-col>
           <mu-col width="75" tablet="75" desktop="75">
-            <mu-text-field label="关键词替换功能"
+            <mu-text-field fullWidth
+                           label="关键词替换功能"
                            hintText="自然排名中的负面信息 黑 坑 骗子之类的 替换成指定关键词 替换格式： 黑-好 用-分开 每行一个规则"
                            multiLine
-                           v-model="cith"
+                           v-model.trim="form.cith"
                            :rows="3"
-                           :rowsMax="6"
-                           fullWidth/>
+                           :rowsMax="6"/>
           </mu-col>
           <mu-col width="75" tablet="75" desktop="75">
-            <mu-text-field label="[第三方统计代码]  手机统计代码:"
+            <mu-text-field fullWidth
+                           label="[第三方统计代码]  手机统计代码:"
                            hintText="(使用51la统计，并隐藏图标)"
                            multiLine
-                           v-model="mobilecode"
+                           v-model.trim="form.mobilecode"
                            :rows="3"
-                           :rowsMax="6"
-                           fullWidth/>
+                           :rowsMax="6"/>
           </mu-col>
           <mu-col width="50" tablet="50" desktop="50">
             <mu-text-field fullWidth
-                           label="商务通霸屏代码:"
+                           label="商务通霸屏代码"
                            hintText="(将此代码放入你需要的商务通后台中,安装说明)"
-                           v-model="daima"/>
+                           v-model.trim="form.daima"/>
           </mu-col>
         </mu-row>
       </mu-paper>
@@ -170,19 +239,30 @@
     name: 'bp_mobile',
     data () {
       return {
-        hospital: '',
-        phone: '',
-        domainname: '',
-        swturl: '',
-        area: ['北京', '浙江'],
-        piaoimg: '',
-        piaourl: '',
-        wxdz: '',
-        ipduan: '',
-        cith: '',
-        mobilecode: '',
-        daima: '',
-        adItemLength: 1
+        form: {
+          hospital: '',
+          phone: '',
+          domainname: '',
+          swturl: '',
+          opentime: '',
+          area: [],
+          piaoimg: '',
+          piaourl: '',
+          wxdz: '',
+          ipduan: '',
+          cith: '',
+          mobilecode: '',
+          daima: ''
+        },
+        ad: {
+          keyword: '',
+          itemLength: 1
+        }
+      }
+    },
+    computed: {
+      adTestUrl () {
+        return `http://manager.baldv.com/member/baidu/?id=MDAwMDAwMDAwMIF2ft4&word=${this.ad.keyword}&query=baidu_results`
       }
     }
   }

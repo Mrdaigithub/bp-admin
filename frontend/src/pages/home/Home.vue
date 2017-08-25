@@ -44,7 +44,7 @@
       </mu-flexbox-item>
     </mu-flexbox>
     <mu-dialog :open="dialogVisibility" @close="dialogVisibility = false">
-      {{$store.state.oneself.username}} 到期时间为:{{$store.state.oneself['expired_date']}}。可绑定域名50个
+      {{$store.state.oneself ? $store.state.oneself.username : ''}} 到期时间为:{{$store.state.oneself ? $store.state.oneself['expired_date'] : ''}}。可绑定域名50个
     </mu-dialog>
   </div>
 </template>
