@@ -1,29 +1,35 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Config;
 
-class ConfigController extends Controller {
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		return Config::first();
-	}
+class ConfigController extends Controller
+{
 
     /**
-     * Update the specified resource in storage.
+     * Get all config
      *
+     * @return mixed
+     */
+    public function index()
+    {
+        return Config::first();
+    }
+
+    /**
+     * Update config
+     *
+     * @param Request $request
      * @return string
      */
-	public function update()
-	{
-		return 'update';
-	}
+    public function update(Request $request)
+    {
+        $config = Config::first();
+        foreach ($request->all() as $key => $val) {
+            $config->$key = $val;
+        }
+        if (!$config->save()) return Response(['error_code' => 500001], 500);
+        return $config;
+    }
 }
