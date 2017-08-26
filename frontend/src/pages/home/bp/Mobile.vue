@@ -110,45 +110,116 @@
                            hintText="关键词"
                            v-model.trim="ad.keyword"/>
             <mu-raised-button label="测试"
-                              style="margin-left:15px;"
+                              style="margin: 0 0 -10px 15px"
                               :href="adTestUrl"
                               target="_blank"/>
           </mu-col>
           <mu-paper :zDepth="2" class="ad-container">
             <mu-row gutter>
               <mu-col width="100" tablet="100" desktop="100">
-                <mu-select-field v-model="game2" label="选择多个">
-                  <mu-menu-item value="2" title="普通广告位"/>
-                  <mu-menu-item value="3" title="品牌推广位"/>
-                  <mu-menu-item value="4" title="图片轮翻"/>
-                  <mu-menu-item value="5" title="专家咨询广告位"/>
-                  <mu-menu-item value="6" title="自定义代码"/>
+                <mu-select-field v-model="ad.adtype" label="广告类型">
+                  <mu-menu-item value="default" title="普通广告位"/>
+                  <mu-menu-item value="brand" title="品牌推广位"/>
+                  <mu-menu-item value="imgturn" title="图片轮翻"/>
+                  <mu-menu-item value="doctorind" title="专家咨询广告位"/>
+                  <mu-menu-item value="custom_code" title="自定义代码"/>
                 </mu-select-field>
               </mu-col>
               <mu-col width="100" tablet="100" desktop="100">
-                <mu-row gutter>
+                <mu-row>
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field fullWidth label="匹配关键词:" hintText="(不同关键词显示不同广告,逗号分开)"/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field fullWidth label="否定关键词:" hintText=""/>
                   </mu-col>
+                </mu-row>
+                <mu-row v-if="(ad.adtype !== 'imgturn') && (ad.adtype !== 'custom_code')">
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="*标题:" hintText=""/>
+                    <mu-text-field fullWidth label="* 标题:" hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="*描述:" hintText=""/>
+                </mu-row>
+                <mu-row v-if="(ad.adtype ==='doctorind')">
+                  <mu-col width="30" tablet="30" desktop="30">
+                    <mu-text-field fullWidth label="* 专家姓名" hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="*链接:" hintText=""/>
+                  <mu-col width="30" tablet="30" desktop="30">
+                    <mu-text-field fullWidth label="* 职务" hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="*显示链接:" hintText=""/>
+                  <mu-col width="30" tablet="30" desktop="30">
+                    <mu-text-field fullWidth label="* 专家照片" hintText=""/>
                   </mu-col>
-                  <mu-col width="100" tablet="100" desktop="100">
+                </mu-row>
+                <mu-row v-if="(ad.adtype !== 'imgturn') && (ad.adtype !== 'custom_code')">
+                  <mu-col width="45" tablet="45" desktop="30">
+                    <mu-text-field fullWidth :label="ad.adtype ==='doctorind' ? '* 专家描述' : '* 描述'" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="30">
+                    <mu-text-field fullWidth label="* 链接:" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="30">
+                    <mu-text-field fullWidth label="* 显示链接:" hintText=""/>
+                  </mu-col>
+                </mu-row>
+                <mu-row>
+                  <mu-col width="100" tablet="100" desktop="100" v-if="ad.adtype === 'default'">
                     <span style="display: inline-block;vertical-align: top">底部显示：</span>
-                    <mu-radio label="链接" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>
-                    <mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value" class="demo-radio"/>
+                    <mu-radio label="链接" name="group" nativeValue="simple1" v-model="value"/>
+                    <mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value"/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45" v-if="ad.adtype === 'brand'">
+                    <mu-text-field fullWidth label="* logo" hintText=""/>
+                  </mu-col>
+                  <mu-col width="75" tablet="75" desktop="75" v-if="ad.adtype === 'custom_code'">
+                    <mu-text-field fullWidth
+                                   label="自定义代码"
+                                   multiLine
+                                   v-model.trim="config.mobilecode"
+                                   :rows="3"
+                                   :rowsMax="6"/>
+                  </mu-col>
+                </mu-row>
+                <mu-row v-if="ad.adtype === 'brand'">
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="* 下标题1" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="* 链接1" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="* 下标题2" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="* 链接2" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="电话号码" hintText=""/>
+                  </mu-col>
+                </mu-row>
+                <mu-row v-if="ad.adtype === 'imgturn'">
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="1 图片链接" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="1 着落页" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="2 图片链接" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="2 着落页" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="3 图片链接" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="3 着落页" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="4 图片链接" hintText=""/>
+                  </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field fullWidth label="4 着落页" hintText=""/>
                   </mu-col>
                 </mu-row>
               </mu-col>
@@ -233,22 +304,6 @@
       </mu-paper>
       <mu-raised-button primary label="提交" fullWidth/>
     </mu-content-block>
-
-    <!--adtype-->
-
-    <!--普通广告位       品牌推广位           图片轮翻              专家咨询广告位       自定义代码-->
-    <!--//keyds       //keyds             //keyds             //keyds            //keyds-->
-    <!--//nokeyds     //nokeyds           //nokeyds           //nokeyds          //nokeyds-->
-    <!--//title       //title             //adimgurl_1        //title            //custom_code-->
-    <!--//depict      //depict            //adimglink_1       //dtname-->
-    <!--//link        //link              //adimgurl_2        //docposition-->
-    <!--//xslink      //xslink            //adimglink_2       //dtpic-->
-    <!--//bshow 01    //brandlogo         //adimgurl_3        //depict-->
-                  <!--//brand_title1      //adimglink_3       //link-->
-                  <!--//brand_lnke1       //adimgurl_4        //xslink-->
-                  <!--//brand_title2      //adimglink_4-->
-                  <!--//brand_lnke2-->
-                  <!--//telephone-->
   </div>
 </template>
 
@@ -277,7 +332,8 @@
         },
         ad: {
           keyword: '',
-          itemLength: 1
+          itemLength: 1,
+          adtype: 'default'
         }
       }
     },
