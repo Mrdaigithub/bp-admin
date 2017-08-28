@@ -38,7 +38,7 @@ Route::group(['prefix' => 'ad'], function()
 {
     Route::group(['middleware' => ['jwt.auth']], function()
     {
-        Route::get('/', 'ConfigController@index');
-        Route::put('/', 'ConfigController@update');
+        Route::get('/', 'AdController@index');
+        Route::put('/', 'AdController@update');
     });
 });

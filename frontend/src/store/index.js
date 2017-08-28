@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     loading: false,
     oneself: null,
-    config: null
+    config: null,
+    ad: null
   },
   mutations: {
     getOneself (state, oneself) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     getConfig (state, config) {
       state.config = config
+    },
+    getAd (state, ad) {
+      state.ad = ad
     },
     closeLoading (state) {
       state.loading = false

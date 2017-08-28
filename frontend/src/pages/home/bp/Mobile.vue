@@ -108,16 +108,16 @@
           <mu-col width="100" tablet="100" desktop="100">
             <mu-text-field label="提交后广告展示测试："
                            hintText="关键词"
-                           v-model.trim="ad.keyword"/>
+                           v-model.trim="adTestKeyword"/>
             <mu-raised-button label="测试"
                               style="margin: 0 0 -10px 15px"
                               :href="adTestUrl"
                               target="_blank"/>
           </mu-col>
-          <mu-paper :zDepth="2" class="ad-container">
+          <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
             <mu-row gutter>
               <mu-col width="100" tablet="100" desktop="100">
-                <mu-select-field v-model="ad.adtype" label="广告类型">
+                <mu-select-field v-model.trim="adItem.adtype" label="广告类型">
                   <mu-menu-item value="default" title="普通广告位"/>
                   <mu-menu-item value="brand" title="品牌推广位"/>
                   <mu-menu-item value="imgturn" title="图片轮翻"/>
@@ -128,98 +128,190 @@
               <mu-col width="100" tablet="100" desktop="100">
                 <mu-row>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="匹配关键词:" hintText="(不同关键词显示不同广告,逗号分开)"/>
+                    <mu-text-field
+                      fullWidth
+                      label="匹配关键词:"
+                      v-model.trim="adItem.keyds"
+                      hintText="(不同关键词显示不同广告,逗号分开)"/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="否定关键词:" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="否定关键词:"
+                      v-model.trim="adItem.nokeyds"
+                      hintText=""/>
                   </mu-col>
                 </mu-row>
-                <mu-row v-if="(ad.adtype !== 'imgturn') && (ad.adtype !== 'custom_code')">
+                <mu-row v-if="(adItem.adtype !== 'imgturn') && (adItem.adtype !== 'custom_code')">
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="* 标题:" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 标题:"
+                      v-model.trim="adItem.title"
+                      hintText=""/>
                   </mu-col>
                 </mu-row>
-                <mu-row v-if="(ad.adtype ==='doctorind')">
+                <mu-row v-if="(adItem.adtype ==='doctorind')">
                   <mu-col width="30" tablet="30" desktop="30">
-                    <mu-text-field fullWidth label="* 专家姓名" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 专家姓名"
+                      v-model.trim="adItem.dtname"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
-                    <mu-text-field fullWidth label="* 职务" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 职务"
+                      v-model.trim="adItem.docposition"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
-                    <mu-text-field fullWidth label="* 专家照片" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 专家照片"
+                      v-model.trim="adItem.dtpic"
+                      hintText=""/>
                   </mu-col>
                 </mu-row>
-                <mu-row v-if="(ad.adtype !== 'imgturn') && (ad.adtype !== 'custom_code')">
+                <mu-row v-if="(adItem.adtype !== 'imgturn') && (adItem.adtype !== 'custom_code')">
                   <mu-col width="45" tablet="45" desktop="30">
-                    <mu-text-field fullWidth :label="ad.adtype ==='doctorind' ? '* 专家描述' : '* 描述'" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      :label="ad.adtype ==='doctorind' ? '* 专家描述' : '* 描述'"
+                      v-model.trim="adItem.depict"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="30">
-                    <mu-text-field fullWidth label="* 链接:" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 链接:"
+                      v-model.trim="adItem.link"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="30">
-                    <mu-text-field fullWidth label="* 显示链接:" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 显示链接:"
+                      v-model.trim="adItem.xslink"
+                      hintText=""/>
                   </mu-col>
                 </mu-row>
                 <mu-row>
-                  <mu-col width="100" tablet="100" desktop="100" v-if="ad.adtype === 'default'">
-                    <span style="display: inline-block;vertical-align: top">底部显示：</span>
-                    <mu-radio label="链接" name="group" nativeValue="simple1" v-model="value"/>
-                    <mu-radio label="咨询框" name="group" nativeValue="simple1" v-model="value"/>
+                  <mu-col width="100" tablet="100" desktop="100" v-if="adItem.adtype === 'default'">
+                    <span style="display: inline-block;vertical-align: top">底部显示</span>
+                    <mu-radio label="链接" :name="adItem.id.toString()" nativeValue="0" v-model.trim="adItem.bshow"/>
+                    <mu-radio label="咨询框" :name="adItem.id.toString()" nativeValue="1" v-model.trim="adItem.bshow"/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45" v-if="ad.adtype === 'brand'">
-                    <mu-text-field fullWidth label="* logo" hintText=""/>
+                  <mu-col width="45" tablet="45" desktop="45" v-if="adItem.adtype === 'brand'">
+                    <mu-text-field
+                      fullWidth
+                      label="* logo"
+                      v-model.trim="adItem.brandlogo"
+                      hintText=""/>
                   </mu-col>
-                  <mu-col width="75" tablet="75" desktop="75" v-if="ad.adtype === 'custom_code'">
+                  <mu-col width="75" tablet="75" desktop="75" v-if="adItem.adtype === 'custom_code'">
                     <mu-text-field fullWidth
                                    label="自定义代码"
                                    multiLine
-                                   v-model.trim="config.mobilecode"
+                                   v-model.trim="adItem['custom_code']"
                                    :rows="3"
                                    :rowsMax="6"/>
                   </mu-col>
                 </mu-row>
-                <mu-row v-if="ad.adtype === 'brand'">
+                <mu-row v-if="adItem.adtype === 'brand'">
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="* 下标题1" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 下标题1"
+                      v-model.trim="adItem['brand_title1']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="* 链接1" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 链接1"
+                      v-model.trim="adItem['brand_lnke1']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="* 下标题2" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 下标题2"
+                      v-model.trim="adItem['brand_title2']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="* 链接2" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="* 链接2"
+                      v-model.trim="adItem['brand_title2']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="电话号码" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="电话号码"
+                      v-model.trim="adItem['telephone']"
+                      hintText=""/>
                   </mu-col>
                 </mu-row>
-                <mu-row v-if="ad.adtype === 'imgturn'">
+                <mu-row v-if="adItem.adtype === 'imgturn'">
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="1 图片链接" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="1 图片链接"
+                      v-model.trim="adItem['adimgurl_1']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="1 着落页" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="1 着落页"
+                      v-model.trim="adItem['adimglink_1']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="2 图片链接" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="2 图片链接"
+                      v-model.trim="adItem['adimgurl_2']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="2 着落页" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="2 着落页"
+                      v-model.trim="adItem['adimglink_2']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="3 图片链接" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="3 图片链接"
+                      v-model.trim="adItem['adimgurl_3']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="3 着落页" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="3 着落页"
+                      v-model.trim="adItem['adimglink_3']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="4 图片链接" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="4 图片链接"
+                      v-model.trim="adItem['adimgurl_4']"
+                      hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field fullWidth label="4 着落页" hintText=""/>
+                    <mu-text-field
+                      fullWidth
+                      label="4 着落页"
+                      v-model.trim="adItem['adimglink_4']"
+                      hintText=""/>
                   </mu-col>
                 </mu-row>
               </mu-col>
@@ -330,23 +422,22 @@
           mobilecode: '',
           daima: ''
         },
-        ad: {
-          keyword: '',
-          itemLength: 1,
-          adtype: 'default'
-        }
+        ad: [],
+        adTestKeyword: ''
       }
     },
     computed: {
       adTestUrl () {
-        return `http://manager.baldv.com/member/baidu/?id=MDAwMDAwMDAwMIF2ft4&word=${this.ad.keyword}&query=baidu_results`
+        return `http://manager.baldv.com/member/baidu/?id=MDAwMDAwMDAwMIF2ft4&word=${this.adTestKeyword}&query=baidu_results`
       }
     },
     mounted () {
       let self = this
       !(async function () {
         if (!self.$store.state.config) self.$store.commit('getConfig', await axios.get('/config'))
+        if (!self.$store.state.ad) self.$store.commit('getAd', await axios.get('/ad'))
         self.config = self.$store.state.config
+        self.ad = self.$store.state.ad
         if (Object.prototype.toString.call(self.config.area) !== '[object Array]') self.config.area = self.config.area.split(',')
       })()
     }

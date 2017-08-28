@@ -1,20 +1,19 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
+use App\Models\Ad;
 
 class AdController extends Controller {
 
 	/**
-	 * Display a listing of the resource.
+	 * Get all ad
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-		return 'ad index';
+		return Ad::all();
 	}
 
 	/**
