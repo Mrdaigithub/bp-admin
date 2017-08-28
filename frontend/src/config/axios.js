@@ -1,4 +1,4 @@
-import vm from '../main'
+import vm from '@/main'
 import axios from 'axios'
 
 const errors = {

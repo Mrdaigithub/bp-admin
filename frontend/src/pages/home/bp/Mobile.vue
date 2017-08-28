@@ -394,14 +394,13 @@
           </mu-col>
         </mu-row>
       </mu-paper>
-      <mu-raised-button primary label="提交" fullWidth/>
+      <mu-raised-button primary label="提交" fullWidth @click="handleSubmit"/>
     </mu-content-block>
   </div>
 </template>
 
 <script>
   import axios from '@/config/axios'
-  //  import qs from 'qs'
 
   export default {
     name: 'bp_mobile',
@@ -429,6 +428,11 @@
     computed: {
       adTestUrl () {
         return `http://manager.baldv.com/member/baidu/?id=MDAwMDAwMDAwMIF2ft4&word=${this.adTestKeyword}&query=baidu_results`
+      }
+    },
+    methods: {
+      handleSubmit () {
+        this.$store.dispatch('updateConfig', this.config)
       }
     },
     mounted () {
