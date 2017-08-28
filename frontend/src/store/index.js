@@ -42,6 +42,28 @@ export default new Vuex.Store({
             duration: 1000
           })
         })
+    },
+    removeAd ({commit, state}, adId) {
+      axios.delete(`/ad/${adId}`)
+        .then(res => {
+          if (res === 1) {
+            for (let i = 0; i < state.ad.length; i++) {
+              if (state.ad[i].id === adId) {
+                this.ad.splice(i, 1)
+                break
+              }
+            }
+            vm.$toast('删除成功', {
+              horizontalPosition: 'center',
+              duration: 1000
+            })
+          } else {
+            vm.$toast('删除失败', {
+              horizontalPosition: 'center',
+              duration: 1000
+            })
+          }
+        })
     }
   }
 })

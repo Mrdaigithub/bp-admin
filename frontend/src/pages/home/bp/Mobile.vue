@@ -103,7 +103,7 @@
             <h3>广告位展示</h3>
             <h5 style="margin:0;">
               (可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi</h5>
-            <mu-raised-button icon="add" label="点击增加广告位" @click="ad.itemLength++" style="margin:20px 0;"/>
+            <mu-raised-button icon="add" label="点击增加广告位" @click="addAd" style="margin:20px 0;"/>
           </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
             <mu-text-field label="提交后广告展示测试："
@@ -117,15 +117,20 @@
           <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
             <mu-row gutter>
               <mu-col width="100" tablet="100" desktop="100">
-                <mu-select-field v-model.trim="adItem.adtype" label="广告类型">
-                  <mu-menu-item value="default" title="普通广告位"/>
-                  <mu-menu-item value="brand" title="品牌推广位"/>
-                  <mu-menu-item value="imgturn" title="图片轮翻"/>
-                  <mu-menu-item value="doctorind" title="专家咨询广告位"/>
-                  <mu-menu-item value="custom_code" title="自定义代码"/>
-                </mu-select-field>
-              </mu-col>
-              <mu-col width="100" tablet="100" desktop="100">
+                <mu-row>
+                  <mu-col width="50" tablet="50" desktop="50">
+                    <mu-select-field v-model.trim="adItem.adtype" label="广告类型">
+                      <mu-menu-item value="default" title="普通广告位"/>
+                      <mu-menu-item value="brand" title="品牌推广位"/>
+                      <mu-menu-item value="imgturn" title="图片轮翻"/>
+                      <mu-menu-item value="doctorind" title="专家咨询广告位"/>
+                      <mu-menu-item value="custom_code" title="自定义代码"/>
+                    </mu-select-field>
+                  </mu-col>
+                  <mu-col width="15" tablet="15" desktop="15">
+                    <mu-raised-button label="删除" secondary @click="removeAd(adItem.id)"/>
+                  </mu-col>
+                </mu-row>
                 <mu-row>
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field
@@ -146,7 +151,10 @@
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="* 标题:"
+                      label="* 标题"
+                      name="标题"
+                      v-validate="'required'"
+                      :errorText="errors.first('标题')"
                       v-model.trim="adItem.title"
                       hintText=""/>
                   </mu-col>
@@ -431,8 +439,28 @@
       }
     },
     methods: {
+      addAd () {
+        axios.post('/ad')
+          .then(res => {
+            this.ad.push(res)
+          })
+      },
+      removeAd (adId) {
+        for (let i = 0; i < this.ad.length; i++) {
+          if (this.ad[i].id === adId) {
+            this.ad.splice(i, 1)
+            break
+          }
+        }
+        this.$store.dispatch('removeAd', adId)
+      },
       handleSubmit () {
-        this.$store.dispatch('updateConfig', this.config)
+        //        this.$store.dispatch('updateConfig', this.config)
+        this.ad.forEach(each => {
+          if (!each.title || each.title === '') {
+            this.$store.dispatch('removeAd', each.id)
+          }
+        })
       }
     },
     mounted () {

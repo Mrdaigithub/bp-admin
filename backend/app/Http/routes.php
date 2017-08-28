@@ -39,6 +39,8 @@ Route::group(['prefix' => 'ad'], function()
     Route::group(['middleware' => ['jwt.auth']], function()
     {
         Route::get('/', 'AdController@index');
+        Route::post('/', 'AdController@add');
         Route::put('/', 'AdController@update');
+        Route::delete('/{id}', 'AdController@destroy');
     });
 });
