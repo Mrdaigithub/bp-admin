@@ -102,8 +102,8 @@
           <mu-col width="100" tablet="100" desktop="100">
             <h3>广告位展示</h3>
             <h5 style="margin:0;">
-              (可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi</h5>
-            <mu-raised-button icon="add" label="点击增加广告位" @click="addAd" style="margin:20px 0;"/>
+              (可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi
+            </h5>
           </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
             <mu-text-field label="提交后广告展示测试："
@@ -111,10 +111,13 @@
                            v-model.trim="adTestKeyword"/>
             <mu-raised-button label="测试"
                               style="margin: 0 0 -10px 15px"
+                              icon="edit"
                               :href="adTestUrl"
                               target="_blank"/>
           </mu-col>
           <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
+            <mu-sub-header style="font-weight: 600">{{adItem.id}}号广告位</mu-sub-header>
+            <mu-divider style="margin-bottom: 40px"/>
             <mu-row gutter>
               <mu-col width="100" tablet="100" desktop="100">
                 <mu-row>
@@ -128,7 +131,7 @@
                     </mu-select-field>
                   </mu-col>
                   <mu-col width="15" tablet="15" desktop="15">
-                    <mu-raised-button label="删除" secondary @click="removeAd(adItem.id)"/>
+                    <mu-raised-button label="删除" secondary @click="removeAd(adItem.id)" icon="delete"/>
                   </mu-col>
                 </mu-row>
                 <mu-row>
@@ -152,9 +155,9 @@
                     <mu-text-field
                       fullWidth
                       label="* 标题"
-                      name="标题"
+                      :name="adItem.id + '号广告的标题'"
                       v-validate="'required'"
-                      :errorText="errors.first('标题')"
+                      :errorText="errors.first(adItem.id + '号广告的标题')"
                       v-model.trim="adItem.title"
                       hintText=""/>
                   </mu-col>
@@ -187,6 +190,9 @@
                     <mu-text-field
                       fullWidth
                       :label="ad.adtype ==='doctorind' ? '* 专家描述' : '* 描述'"
+                      :name="adItem.id + '号广告的描述'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的描述')"
                       v-model.trim="adItem.depict"
                       hintText=""/>
                   </mu-col>
@@ -194,6 +200,9 @@
                     <mu-text-field
                       fullWidth
                       label="* 链接:"
+                      :name="adItem.id + '号广告的链接'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的链接')"
                       v-model.trim="adItem.link"
                       hintText=""/>
                   </mu-col>
@@ -201,6 +210,9 @@
                     <mu-text-field
                       fullWidth
                       label="* 显示链接:"
+                      :name="adItem.id + '号广告的显示链接'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的显示链接')"
                       v-model.trim="adItem.xslink"
                       hintText=""/>
                   </mu-col>
@@ -325,6 +337,7 @@
               </mu-col>
             </mu-row>
           </mu-paper>
+          <mu-raised-button icon="add" label="点击增加广告位" @click="addAd" style="margin:20px 0;" backgroundColor="#a4c639"/>
         </mu-row>
       </mu-paper>
       <mu-paper :zDepth="3" class="paper-container">
@@ -402,7 +415,10 @@
           </mu-col>
         </mu-row>
       </mu-paper>
-      <mu-raised-button primary label="提交" fullWidth @click="handleSubmit"/>
+      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true" @hoverExit="tooltipShow = false">
+        <mu-icon value="send"/>
+        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top" horizontalPosition="center"/>
+      </mu-float-button>
     </mu-content-block>
   </div>
 </template>
@@ -430,7 +446,8 @@
           daima: ''
         },
         ad: [],
-        adTestKeyword: ''
+        adTestKeyword: '',
+        tooltipShow: false
       }
     },
     computed: {
@@ -455,11 +472,17 @@
         this.$store.dispatch('removeAd', adId)
       },
       handleSubmit () {
-        //        this.$store.dispatch('updateConfig', this.config)
-        this.ad.forEach(each => {
-          if (!each.title || each.title === '') {
-            this.$store.dispatch('removeAd', each.id)
+        this.$validator.validateAll().then(res => {
+          console.log(res)
+          if (res) {
+            //        this.$store.dispatch('updateConfig', this.config)
+//        this.ad.forEach(each => {
+//          if (!each.title || each.title === '') {
+//            this.$store.dispatch('removeAd', each.id)
+//          }
+//        })
           }
+          return res
         })
       }
     },
@@ -492,6 +515,11 @@
       .mu-text-field {
         color: rgba(0, 0, 0, .87);
       }
+    }
+    .submit-button{
+      position: fixed;
+      bottom: 5vh;
+      right: 5vw;
     }
   }
 </style>
