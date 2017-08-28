@@ -168,13 +168,19 @@
                       fullWidth
                       label="* 专家姓名"
                       v-model.trim="adItem.dtname"
+                      :name="adItem.id + '号广告的专家姓名'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的专家姓名')"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
                     <mu-text-field
                       fullWidth
-                      label="* 职务"
+                      label="* 专家职务"
                       v-model.trim="adItem.docposition"
+                      :name="adItem.id + '号广告的专家职务'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的专家职务')"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
@@ -182,6 +188,9 @@
                       fullWidth
                       label="* 专家照片"
                       v-model.trim="adItem.dtpic"
+                      :name="adItem.id + '号广告的专家照片'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的专家照片')"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
@@ -228,6 +237,9 @@
                       fullWidth
                       label="* logo"
                       v-model.trim="adItem.brandlogo"
+                      :name="adItem.id + '号广告的logo'"
+                      v-validate="'required'"
+                      :errorText="errors.first(adItem.id + '号广告的logo')"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="75" tablet="75" desktop="75" v-if="adItem.adtype === 'custom_code'">
@@ -235,6 +247,9 @@
                                    label="自定义代码"
                                    multiLine
                                    v-model.trim="adItem['custom_code']"
+                                   :name="adItem.id + '号广告的自定义代码'"
+                                   v-validate="'required'"
+                                   :errorText="errors.first(adItem.id + '号广告的自定义代码')"
                                    :rows="3"
                                    :rowsMax="6"/>
                   </mu-col>
@@ -481,6 +496,12 @@
 //            this.$store.dispatch('removeAd', each.id)
 //          }
 //        })
+          } else {
+            this.$toast('表单验证不通过', {
+              horizontalPosition: 'center',
+              className: ['et-alert'],
+              duration: 1500
+            })
           }
           return res
         })
