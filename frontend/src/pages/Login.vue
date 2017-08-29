@@ -6,6 +6,7 @@
         <mu-text-field label="帐号"
                        name="帐号"
                        labelFloat
+                       icon="person"
                        fullWidth
                        v-model="username"
                        type="text"
@@ -15,15 +16,18 @@
         <mu-text-field label="密码"
                        type="password"
                        name="密码"
+                       icon="vpn_key"
                        v-model="password"
                        labelFloat
                        v-validate="'required'"
                        :errorText="errors.first('密码')"
+                       @keyup.native.enter="handleLogin"
                        fullWidth/>
         <mu-raised-button label="登录"
                           class="login-button"
                           @click="handleLogin"
                           primary
+                          icon="touch_app"
                           fullWidth
                           :disabled="errors.any()"/>
       </div>

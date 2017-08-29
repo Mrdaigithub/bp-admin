@@ -1,6 +1,6 @@
 <template>
   <div class="setting-user">
-    <mu-sub-header>个人设置</mu-sub-header>
+    <mu-sub-header>修改密码</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <div class="setting-form">
@@ -29,12 +29,14 @@
                        name="确认密码"
                        v-validate="'required|confirmed:新密码'"
                        :errorText="errors.first('确认密码')"
+                       @keyup.native.enter="updatePassword"
                        fullWidth/>
         <br/>
         <mu-raised-button label="保存"
                           class="setting-button"
                           primary
                           @click="updatePassword"
+                          icon="save"
                           fullWidth/>
       </div>
     </mu-content-block>
@@ -46,7 +48,7 @@
   import qs from 'qs'
 
   export default {
-    name: 'setting_user',
+    name: 'updatePassword',
     data () {
       return {
         password: '',
@@ -63,10 +65,13 @@
               new_password: this.newPassword
             }))
               .then(res => {
-                this.$toast('密码修改成功', {
+                this.$toast('密码修改成功, 请重新登录', {
                   horizontalPosition: 'center',
-                  duration: 500
+                  duration: 1500
                 })
+                setTimeout(() => {
+                  this.$router.replace('/login')
+                }, 1500)
               })
           }
           return res

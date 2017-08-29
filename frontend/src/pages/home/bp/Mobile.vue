@@ -422,7 +422,7 @@
       </mu-paper>
       <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true"
                        @hoverExit="tooltipShow = false">
-        <mu-icon value="send"/>
+        <mu-icon value="cloud_upload"/>
         <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top"
                     horizontalPosition="center"/>
       </mu-float-button>

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('ip')->default('0.0.0.0');
+            $table->boolean('power')->default(false);
             $table->timestamp('expired_date');
             $table->timestamps();
         });

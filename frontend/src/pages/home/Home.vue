@@ -18,21 +18,18 @@
       <mu-flexbox-item class="content-left" :grow="menuAndContentWidth[0]" v-show="menuIsOpen">
         <mu-list @change="handleMenuChange" :value="activeMenu">
           <mu-list-item title="霸屏设置" toggleNested value="menu1">
-            <mu-icon slot="left" value="inbox"/>
+            <mu-icon slot="left" value="fullscreen"/>
             <mu-list-item slot="nested" title="移动霸屏" value="menu1-1" to="/home/bp/mobile">
-              <mu-icon slot="left" value="wifi"/>
+              <mu-icon slot="left" value="phonelink_setup"/>
             </mu-list-item>
           </mu-list-item>
-          <mu-list-item title="统计代码" toggleNested value="menu2">
-            <mu-icon slot="left" value="code"/>
-            <mu-list-item slot="nested" title="手机统计代码" value="menu2-1" to="/home/statistics/mobile">
-              <mu-icon slot="left" value="phone"/>
-            </mu-list-item>
-          </mu-list-item>
-          <mu-list-item title="系统管理" toggleNested value="menu3">
+          <mu-list-item title="系统管理" toggleNested value="menu2">
             <mu-icon slot="left" value="settings"/>
-            <mu-list-item slot="nested" title="个人设置" value="menu3-1" to="/home/setting/user">
-              <mu-icon slot="left" value="person"/>
+            <mu-list-item slot="nested" title="修改密码" value="menu2-1" to="/home/setting/user/password">
+              <mu-icon slot="left" value="lock_open"/>
+            </mu-list-item>
+            <mu-list-item slot="nested" title="创建新用户" value="menu2-2" to="/home/setting/user/create">
+              <mu-icon slot="left" value="person_add"/>
             </mu-list-item>
           </mu-list-item>
         </mu-list>
