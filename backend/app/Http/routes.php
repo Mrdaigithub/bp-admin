@@ -40,7 +40,7 @@ Route::group(['prefix' => 'ad'], function()
     {
         Route::get('/', 'AdController@index');
         Route::post('/', 'AdController@add');
-        Route::put('/', 'AdController@update');
+        Route::put('/{id}', 'AdController@update');
         Route::delete('/{id}', 'AdController@destroy');
     });
 });

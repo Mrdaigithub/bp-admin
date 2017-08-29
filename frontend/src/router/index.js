@@ -3,8 +3,7 @@ import Router from 'vue-router'
 import Login from '@/pages/Login'
 import Home from '@/pages/home/Home'
 import BpMobile from '@/pages/home/bp/Mobile'
-import StatisticsMobile from '@/pages/home/statistics/Mobile'
-import SettingUser from '@/pages/home/setting/User'
+import SettingPassword from '@/pages/home/setting/Password'
 
 Vue.use(Router)
 
@@ -32,12 +31,12 @@ export default new Router({
           component: BpMobile
         },
         {
-          path: 'statistics/mobile',
-          name: 'statisticsMobile',
-          component: StatisticsMobile
+          path: 'setting/user/password',
+          name: 'SettingPassword',
+          component: SettingPassword
         },
         {
-          path: 'setting/user',
+          path: 'setting/user/create',
           name: 'SettingUser',
           component: SettingUser
         }

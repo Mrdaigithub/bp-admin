@@ -29,7 +29,7 @@ class ConfigController extends Controller
         foreach ($request->all() as $key => $val) {
             $config->$key = $val;
         }
-        if (!$config->save()) return Response(['error_code' => 500001], 500);
+        if (!$config->save()) return Response(['error' => 500001], 500);
         return $config;
     }
 }

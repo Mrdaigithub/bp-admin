@@ -13,11 +13,13 @@ const errors = {
   401000: '密码错误',
   401001: '用户有效期限已过',
   500000: '网络错误',
-  500001: '保存失败'
+  500001: '保存失败',
+  'token_not_provided': 'Access token 不存在请重新登录',
+  'token_expired': 'Access token 已过期请重新登录'
 }
 
 let axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1',
+  baseURL: 'http://192.168.10.48',
   timeout: 3000,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
@@ -44,14 +46,16 @@ axiosInstance.interceptors.response.use(
   error => {
     if (error.response) {
       vm.$store.commit('closeLoading')
-      let errorCode = error.response.data['error_code']
+      let errorCode = error.response.data['error']
       vm.$toast(errors[errorCode], {
         horizontalPosition: 'center',
         className: ['et-alert'],
-        duration: 1000
+        duration: 2000
       })
+      if (errorCode === 'token_not_provided' || errorCode === 'token_expired') vm.$router.replace('/login')
     }
     return Promise.reject(error.response.data)
   })
 
 export default axiosInstance
+

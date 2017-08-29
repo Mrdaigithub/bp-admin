@@ -101,7 +101,8 @@
         <mu-row gutter>
           <mu-col width="100" tablet="100" desktop="100">
             <h3>广告位展示</h3>
-            <h5 style="margin:0;">
+            <mu-divider/>
+            <h5 style="margin:20px 0;">
               (可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi
             </h5>
           </mu-col>
@@ -125,9 +126,7 @@
                     <mu-select-field v-model.trim="adItem.adtype" label="广告类型">
                       <mu-menu-item value="default" title="普通广告位"/>
                       <mu-menu-item value="brand" title="品牌推广位"/>
-                      <mu-menu-item value="imgturn" title="图片轮翻"/>
                       <mu-menu-item value="doctorind" title="专家咨询广告位"/>
-                      <mu-menu-item value="custom_code" title="自定义代码"/>
                     </mu-select-field>
                   </mu-col>
                   <mu-col width="15" tablet="15" desktop="15">
@@ -168,9 +167,6 @@
                       fullWidth
                       label="* 专家姓名"
                       v-model.trim="adItem.dtname"
-                      :name="adItem.id + '号广告的专家姓名'"
-                      v-validate="'required'"
-                      :errorText="errors.first(adItem.id + '号广告的专家姓名')"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
@@ -178,9 +174,6 @@
                       fullWidth
                       label="* 专家职务"
                       v-model.trim="adItem.docposition"
-                      :name="adItem.id + '号广告的专家职务'"
-                      v-validate="'required'"
-                      :errorText="errors.first(adItem.id + '号广告的专家职务')"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
@@ -188,9 +181,6 @@
                       fullWidth
                       label="* 专家照片"
                       v-model.trim="adItem.dtpic"
-                      :name="adItem.id + '号广告的专家照片'"
-                      v-validate="'required'"
-                      :errorText="errors.first(adItem.id + '号广告的专家照片')"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
@@ -258,28 +248,28 @@
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="* 下标题1"
+                      label="下标题1"
                       v-model.trim="adItem['brand_title1']"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="* 链接1"
+                      label="链接1"
                       v-model.trim="adItem['brand_lnke1']"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="* 下标题2"
+                      label="下标题2"
                       v-model.trim="adItem['brand_title2']"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="45" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="* 链接2"
+                      label="链接2"
                       v-model.trim="adItem['brand_title2']"
                       hintText=""/>
                   </mu-col>
@@ -360,7 +350,7 @@
           <mu-col width="45" tablet="45" desktop="45">
             <mu-text-field
               fullWidth
-              label="底部漂浮广告"
+              label="顶部漂浮广告"
               name="底部漂浮广告"
               v-model.trim="config.piaoimg"
               v-validate="'url:true'"
@@ -430,9 +420,11 @@
           </mu-col>
         </mu-row>
       </mu-paper>
-      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true" @hoverExit="tooltipShow = false">
+      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true"
+                       @hoverExit="tooltipShow = false">
         <mu-icon value="send"/>
-        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top" horizontalPosition="center"/>
+        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top"
+                    horizontalPosition="center"/>
       </mu-float-button>
     </mu-content-block>
   </div>
@@ -488,16 +480,11 @@
       },
       handleSubmit () {
         this.$validator.validateAll().then(res => {
-          console.log(res)
           if (res) {
-            //        this.$store.dispatch('updateConfig', this.config)
-//        this.ad.forEach(each => {
-//          if (!each.title || each.title === '') {
-//            this.$store.dispatch('removeAd', each.id)
-//          }
-//        })
+//            this.$store.dispatch('updateConfig', this.config)
+            this.$store.dispatch('updateAd', this.ad)
           } else {
-            this.$toast('表单验证不通过', {
+            this.$toast('表单验证未通过', {
               horizontalPosition: 'center',
               className: ['et-alert'],
               duration: 1500
@@ -537,7 +524,7 @@
         color: rgba(0, 0, 0, .87);
       }
     }
-    .submit-button{
+    .submit-button {
       position: fixed;
       bottom: 5vh;
       right: 5vw;
