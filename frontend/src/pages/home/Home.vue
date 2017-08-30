@@ -25,11 +25,15 @@
           </mu-list-item>
           <mu-list-item title="系统管理" toggleNested value="menu2">
             <mu-icon slot="left" value="settings"/>
-            <mu-list-item slot="nested" title="修改密码" value="menu2-1" to="/home/setting/user/password">
-              <mu-icon slot="left" value="lock_open"/>
-            </mu-list-item>
-            <mu-list-item slot="nested" title="创建新用户" value="menu2-2" to="/home/setting/user/create">
+            <mu-list-item v-if="$store.state.oneself ? $store.state.oneself.power : false"
+                          slot="nested"
+                          title="创建用户"
+                          value="menu2-2"
+                          to="/home/setting/user/create">
               <mu-icon slot="left" value="person_add"/>
+            </mu-list-item>
+            <mu-list-item slot="nested" title="修改密码" value="menu2-1" to="/home/setting/user/update">
+              <mu-icon slot="left" value="lock_open"/>
             </mu-list-item>
           </mu-list-item>
         </mu-list>
@@ -152,6 +156,7 @@
             background-color: #fff;
             border-radius: 5px;
             min-height: 85vh;
+            color: rgba(0, 0, 0, .54);
             .mu-sub-header {
               font-size: 18px;
             }

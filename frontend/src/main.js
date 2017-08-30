@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
-import router from './router'
-import store from './store'
+import router from '@/router'
+import store from '@/store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import VeeValidate, { Validator } from 'vee-validate'
@@ -38,6 +38,7 @@ router.afterEach(route => {
   }
   if (!sessionStorage.token && route.name !== 'Login') router.replace('/login')
   if (sessionStorage.token && !route.name) router.replace('/home/bp/mobile')
+  if ((!store.state.oneself || !store.state.oneself.power) && route.name === 'SettingUserCreate') router.replace('/home/bp/mobile')
 })
 
 export default vue

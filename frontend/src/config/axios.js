@@ -6,12 +6,17 @@ const errors = {
   400001: '密码请求参数缺失',
   400002: '用戶名请求参数存在非法字符',
   400003: '密码请求参数存在非法字符',
-  400004: '用户名不存在',
-  400005: '用户名已存在',
-  400006: '新密码参数缺失',
-  400007: '新密码参数存在非法字符',
+  400004: '用户不存在',
+  400005: '用户已存在',
+  400006: '新密码请求参数缺失',
+  400007: '新密码请求参数存在非法字符',
+  400008: '用户名请求参数过短',
+  400009: '用户名请求参数过长',
+  400010: '密码请求参数过短',
+  400011: '密码请求参数过长',
   401000: '密码错误',
   401001: '用户有效期限已过',
+  403000: '权限不足',
   500000: '网络错误',
   500001: '保存失败',
   'token_not_provided': 'Access token 不存在请重新登录',
@@ -19,7 +24,7 @@ const errors = {
 }
 
 let axiosInstance = axios.create({
-  baseURL: 'http://192.168.10.48',
+  baseURL: 'http://192.168.10.79',
   timeout: 3000,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
@@ -45,7 +50,6 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     if (error.response) {
-      vm.$store.commit('closeLoading')
       let errorCode = error.response.data['error']
       vm.$toast(errors[errorCode], {
         horizontalPosition: 'center',
@@ -53,9 +57,15 @@ axiosInstance.interceptors.response.use(
         duration: 2000
       })
       if (errorCode === 'token_not_provided' || errorCode === 'token_expired') vm.$router.replace('/login')
+    } else {
+      vm.$toast('服务器请求超时', {
+        horizontalPosition: 'center',
+        className: ['et-alert'],
+        duration: 2000
+      })
     }
+    vm.$store.commit('closeLoading')
     return Promise.reject(error.response.data)
   })
 
 export default axiosInstance
-

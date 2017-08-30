@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from '@/pages/Login'
 import Home from '@/pages/home/Home'
 import BpMobile from '@/pages/home/bp/Mobile'
-import SettingUserPassword from '@/pages/home/setting/user/Password'
+import SettingUserUpdate from '@/pages/home/setting/user/Update'
 import SettingUserCreate from '@/pages/home/setting/user/Create'
 
 Vue.use(Router)
@@ -32,9 +32,9 @@ export default new Router({
           component: BpMobile
         },
         {
-          path: 'setting/user/password',
-          name: 'SettingUserPassword',
-          component: SettingUserPassword
+          path: 'setting/user/update',
+          name: 'SettingUserUpdate',
+          component: SettingUserUpdate
         },
         {
           path: 'setting/user/create',

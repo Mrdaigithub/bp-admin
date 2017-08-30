@@ -13,31 +13,25 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::group(['prefix' => 'user'], function()
-{
+Route::group(['prefix' => 'user'], function () {
     Route::post('/login', 'LoginController@login');
-    Route::group(['middleware' => ['jwt.auth']], function()
-    {
+    Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/{uid}', 'UserController@show');
+        Route::post('/create', 'UserController@create_user');
+        Route::put('/update/password/{uid}', 'UserController@update_password');
         Route::delete('/logout', 'LoginController@logout');
-        Route::post('/create', 'LoginController@create_user');
-        Route::put('/update/password/{uid}', 'LoginController@update_password');
     });
 });
 
-Route::group(['prefix' => 'config'], function()
-{
-    Route::group(['middleware' => ['jwt.auth']], function()
-    {
+Route::group(['prefix' => 'config'], function () {
+    Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/', 'ConfigController@index');
         Route::put('/', 'ConfigController@update');
     });
 });
 
-Route::group(['prefix' => 'ad'], function()
-{
-    Route::group(['middleware' => ['jwt.auth']], function()
-    {
+Route::group(['prefix' => 'ad'], function () {
+    Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/', 'AdController@index');
         Route::post('/', 'AdController@add');
         Route::put('/{id}', 'AdController@update');
