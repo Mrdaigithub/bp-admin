@@ -65,6 +65,12 @@
           .then(users => {
             this.$store.commit('getUsers', users)
             this.users = this.$store.state.users
+            this.users.forEach(user => {
+              let expiredUnit = Math.ceil((new Date(user.expired_date).getTime() - new Date().getTime()) / monthTimestamp)
+              if (expiredUnit < 0) expiredUnit = 0
+              if (expiredUnit > 12) expiredUnit = 12
+              user.expiredUnit = expiredUnit
+            })
           })
       }
       this.users.forEach(user => {
