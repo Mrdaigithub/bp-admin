@@ -2,12 +2,23 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Validator;
 use JWTAuth, JWTException;
 use App\Models\Users;
 
 class UserController extends Controller
 {
+    /**
+     * Get users list
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function index()
+    {
+        return Users::all();
+    }
+
     /**
      * create a new user
      *
@@ -36,7 +47,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get user info
+     * Get user info by id
      *
      * @param $uid
      * @return \Illuminate\Support\Collection|null|static
@@ -44,6 +55,7 @@ class UserController extends Controller
     public function show($uid)
     {
         if ($uid == 0) return JWTAuth::parseToken()->authenticate();
+        if (Validator::make(['id' => $uid], ['id' => 'exists:users'])->fails()) return Response(['error' => 400004], 400);
         return Users::find($uid);
     }
 
@@ -62,9 +74,31 @@ class UserController extends Controller
         if (Validator::make($request->all(), ['new_password' => 'required'])->fails()) return Response(['error' => 400006], 400);
         if (Validator::make($request->all(), ['password' => 'string'])->fails()) return Response(['error' => 400003], 400);
         if (Validator::make($request->all(), ['new_password' => 'string'])->fails()) return Response(['error' => 400007], 400);
+        if (Validator::make($request->all(), ['new_password' => 'min:4'])->fails()) return Response(['error' => 400010], 400);
+        if (Validator::make($request->all(), ['new_password' => 'max:16'])->fails()) return Response(['error' => 400011], 400);
         if ($request->password !== $user->password) return Response(['error' => 401000], 401);
 
         $user->password = $request->new_password;
+        if (!$user->save()) return Response(['error' => 500001], 500);
+        return $user;
+    }
+
+    /**
+     * update user expired
+     *
+     * @param $uid
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Support\Collection|null|\Symfony\Component\HttpFoundation\Response|static
+     */
+    public function update_expired($uid, Request $request)
+    {
+        if (!JWTAuth::parseToken()->authenticate()->power) return Response(['error' => 403000], 403);
+        if (Validator::make(['id' => $uid], ['id' => 'exists:users'])->fails()) return Response(['error' => 400004], 400);
+        if (Validator::make($request->all(), ['expired_date' => 'required'])->fails()) return Response(['error' => 400012], 400);
+        if (Validator::make($request->all(), ['expired_date' => 'string'])->fails()) return Response(['error' => 400013], 400);
+
+        $user = Users::find($uid);
+        $user->expired_date = $request->expired_date;
         if (!$user->save()) return Response(['error' => 500001], 500);
         return $user;
     }

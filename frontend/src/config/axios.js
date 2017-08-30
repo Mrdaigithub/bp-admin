@@ -14,13 +14,16 @@ const errors = {
   400009: '用户名请求参数过长',
   400010: '密码请求参数过短',
   400011: '密码请求参数过长',
+  400012: '账户有效期请求参数缺失',
+  400013: '账户有效期请求参数存在非法字符',
   401000: '密码错误',
   401001: '用户有效期限已过',
   403000: '权限不足',
   500000: '网络错误',
   500001: '保存失败',
   'token_not_provided': 'Access token 不存在请重新登录',
-  'token_expired': 'Access token 已过期请重新登录'
+  'token_expired': 'Access token 已过期请重新登录',
+  'token_invalid': 'Access token 无效请重新登录'
 }
 
 let axiosInstance = axios.create({
@@ -56,7 +59,11 @@ axiosInstance.interceptors.response.use(
         className: ['et-alert'],
         duration: 2000
       })
-      if (errorCode === 'token_not_provided' || errorCode === 'token_expired') vm.$router.replace('/login')
+      if (errorCode === 'token_not_provided' || errorCode === 'token_expired' || errorCode === 'token_invalid') {
+        setTimeout(() => {
+          vm.$router.replace('/login')
+        }, 2000)
+      }
     } else {
       vm.$toast('服务器请求超时', {
         horizontalPosition: 'center',

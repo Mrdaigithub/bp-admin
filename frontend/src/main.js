@@ -37,8 +37,11 @@ router.afterEach(route => {
     vue.$store.commit('getOneself', null)
   }
   if (!sessionStorage.token && route.name !== 'Login') router.replace('/login')
-  if (sessionStorage.token && !route.name) router.replace('/home/bp/mobile')
-  if ((!store.state.oneself || !store.state.oneself.power) && route.name === 'SettingUserCreate') router.replace('/home/bp/mobile')
+  if ((sessionStorage.token && !route.name) ||
+    (!store.state.oneself || !store.state.oneself.power) &&
+    (route.name === 'SettingUserCreate' || route.name === 'SettingUserList')) {
+    router.replace('/home/bp/mobile')
+  }
 })
 
 export default vue

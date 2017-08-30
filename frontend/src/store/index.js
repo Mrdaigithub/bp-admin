@@ -11,9 +11,13 @@ export default new Vuex.Store({
     loading: false,
     oneself: null,
     config: null,
-    ad: null
+    ad: null,
+    users: null
   },
   mutations: {
+    getUsers (state, users) {
+      state.users = users
+    },
     getOneself (state, oneself) {
       state.oneself = oneself
     },

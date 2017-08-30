@@ -68,7 +68,7 @@
       createUser () {
         this.$validator.validateAll().then(res => {
           if (res) {
-            axios.post(`/user/create`, qs.stringify({
+            axios.post(`/user`, qs.stringify({
               username: this.username,
               password: this.password,
               expired_date: this.expiredDate

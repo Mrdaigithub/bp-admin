@@ -16,9 +16,11 @@ Route::get('/', 'WelcomeController@index');
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login', 'LoginController@login');
     Route::group(['middleware' => ['jwt.auth']], function () {
+        Route::get('/', 'UserController@index');
         Route::get('/{uid}', 'UserController@show');
-        Route::post('/create', 'UserController@create_user');
-        Route::put('/update/password/{uid}', 'UserController@update_password');
+        Route::post('/', 'UserController@create_user');
+        Route::patch('/expired/{uid}', 'UserController@update_expired');
+        Route::patch('/password/{uid}', 'UserController@update_password');
         Route::delete('/logout', 'LoginController@logout');
     });
 });
