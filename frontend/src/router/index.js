@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/pages/Login'
 import Home from '@/pages/home/Home'
-import BpMobile from '@/pages/home/bp/Mobile'
+import BpMobileConfig from '@/pages/home/bp/mobile/Config'
+import BpMobileAd from '@/pages/home/bp/mobile/Ad'
 import UpdatePassword from '@/pages/home/setting/user/UpdatePassword'
 import SettingUserCreate from '@/pages/home/setting/user/Create'
 import SettingUserList from '@/pages/home/setting/user/List'
@@ -14,7 +15,7 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      redirect: { name: 'Login' }
+      redirect: {name: 'Login'}
     },
     {
       path: '/login',
@@ -25,26 +26,31 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home,
-      redirect: { name: 'bpMobile' },
+      redirect: {name: 'bpMobileConfig'},
       children: [
         {
-          path: 'bp/mobile',
-          name: 'bpMobile',
-          component: BpMobile
+          path: 'bp/mobile/config',
+          name: 'bpMobileConfig',
+          component: BpMobileConfig
+        },
+        {
+          path: 'bp/mobile/ad',
+          name: 'bpMobileAd',
+          component: BpMobileAd
         },
         {
           path: 'setting/user/update/password',
-          name: 'UpdatePassword',
+          name: 'settingUserUpdatePassword',
           component: UpdatePassword
         },
         {
           path: 'setting/user/create',
-          name: 'SettingUserCreate',
+          name: 'settingUserCreate',
           component: SettingUserCreate
         },
         {
           path: 'setting/user/list',
-          name: 'SettingUserList',
+          name: 'settingUserList',
           component: SettingUserList
         }
       ]

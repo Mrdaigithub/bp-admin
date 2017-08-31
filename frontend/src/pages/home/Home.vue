@@ -1,33 +1,36 @@
 <template>
   <div id="home">
     <mu-drawer :open="menuIsOpen" :docked="false" @close="menuIsOpen=false" class="menu-bar">
-      <mu-list @change="handleMenuChange" :value="activeMenu">
+      <mu-list :value="routeName">
         <mu-list-item title="霸屏后台管理" class="logo"/>
-        <mu-list-item title="霸屏设置" toggleNested value="menu1">
-          <mu-icon slot="left" value="fullscreen"/>
-          <mu-list-item slot="nested" title="移动霸屏" value="menu1-1" to="/home/bp/mobile">
-            <mu-icon slot="left" value="phonelink_setup"/>
+        <mu-list-item title="移动霸屏" toggleNested>
+          <mu-icon slot="left" value="phonelink_setup"/>
+          <mu-list-item slot="nested" title="参数设置" value="bpMobileConfig" to="/home/bp/mobile/config">
+            <mu-icon slot="left" value="chrome_reader_mode"/>
+          </mu-list-item>
+          <mu-list-item slot="nested" title="广告位设置" value="bpMobileAd" to="/home/bp/mobile/ad">
+            <mu-icon slot="left" value="view_headline"/>
           </mu-list-item>
         </mu-list-item>
-        <mu-list-item title="系统管理" toggleNested value="menu2">
+        <mu-list-item title="系统管理" toggleNested>
           <mu-icon slot="left" value="settings"/>
           <mu-list-item v-if="$store.state.oneself ? $store.state.oneself.power : false"
                         slot="nested"
                         title="创建用户"
-                        value="menu2-1"
+                        value="settingUserCreate"
                         to="/home/setting/user/create">
             <mu-icon slot="left" value="person_add"/>
           </mu-list-item>
           <mu-list-item v-if="$store.state.oneself ? $store.state.oneself.power : false"
                         slot="nested"
                         title="用户列表"
-                        value="menu2-2"
+                        value="settingUserList"
                         to="/home/setting/user/list">
             <mu-icon slot="left" value="supervisor_account"/>
           </mu-list-item>
           <mu-list-item slot="nested"
                         title="修改密码"
-                        value="menu2-3"
+                        value="settingUserUpdatePassword"
                         to="/home/setting/user/update/password">
             <mu-icon slot="left" value="lock_open"/>
           </mu-list-item>
@@ -63,7 +66,6 @@
     name: 'home',
     data () {
       return {
-        activeMenu: 'menu1-1',
         menuIsOpen: false,
         dialogVisibility: false
       }
@@ -77,15 +79,22 @@
         if (!this.$store.state.oneself) return {backgroundColor: '#2b2b2b'}
         let sub = (this.$store.state.oneself.id / 1024 * 65535 / 22 * 8388).toString()[1]
         return {backgroundColor: colors[sub]}
+      },
+      routeName () {
+        let rName = this.$route.name
+        if (rName === 'bpMobileConfig' ||
+          rName === 'bpMobileAd' ||
+          rName === 'settingUserUpdatePassword' ||
+          rName === 'settingUserCreate' ||
+          rName === 'settingUserList') {
+          return rName
+        }
       }
     },
     watch: {
       '$route': 'fetchInitData'
     },
     methods: {
-      handleMenuChange (val) {
-        this.activeMenu = val
-      },
       fetchInitData () {
         let self = this
         !(async function () {
@@ -112,6 +121,7 @@
     #home {
       width: 100vw;
       height: 100vh;
+      min-width: 640px;
       overflow: hidden;
       background-color: #cecece;
       .menu-bar {

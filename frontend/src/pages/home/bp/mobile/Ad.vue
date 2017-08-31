@@ -1,6 +1,6 @@
 <template>
   <div class="bp-mobile">
-    <mu-sub-header>移动霸屏</mu-sub-header>
+    <mu-sub-header>移动霸屏 - 广告位设置</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-paper :zDepth="3" class="paper-container">
@@ -105,16 +105,6 @@
             <h5 style="margin:20px 0;">
               (可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi
             </h5>
-          </mu-col>
-          <mu-col width="100" tablet="100" desktop="100">
-            <mu-text-field label="提交后广告展示测试："
-                           hintText="关键词"
-                           v-model.trim="adTestKeyword"/>
-            <mu-raised-button label="测试"
-                              style="margin: 0 0 -10px 15px"
-                              icon="edit"
-                              :href="adTestUrl"
-                              target="_blank"/>
           </mu-col>
           <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
             <mu-sub-header style="font-weight: 600">{{adItem.id}}号广告位</mu-sub-header>
@@ -453,13 +443,7 @@
           daima: ''
         },
         ad: [],
-        adTestKeyword: '',
         tooltipShow: false
-      }
-    },
-    computed: {
-      adTestUrl () {
-        return `http://manager.baldv.com/member/baidu/?id=MDAwMDAwMDAwMIF2ft4&word=${this.adTestKeyword}&query=baidu_results`
       }
     },
     methods: {
