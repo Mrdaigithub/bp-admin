@@ -30,11 +30,11 @@
                          :errorText="errors.first('确认密码')"
                          @keyup.native.enter="updatePassword"
                          fullWidth/>
-          <mu-raised-button label="创建"
+          <mu-raised-button label="确认修改"
                             class="update-password-button"
                             primary
                             @click="updatePassword"
-                            icon="save"
+                            icon="edit"
                             fullWidth/>
         </mu-col>
       </mu-row>

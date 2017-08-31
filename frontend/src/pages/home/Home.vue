@@ -1,7 +1,7 @@
 <template>
   <div id="home">
     <mu-drawer :open="menuIsOpen" :docked="false" @close="menuIsOpen=false" class="menu-bar">
-      <mu-list :value="routeName">
+      <mu-list :value="routeName" @change="menuIsOpen=false">
         <mu-list-item title="霸屏后台管理" class="logo"/>
         <mu-list-item title="移动霸屏" toggleNested>
           <mu-icon slot="left" value="phonelink_setup"/>

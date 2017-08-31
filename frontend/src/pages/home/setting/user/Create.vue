@@ -32,11 +32,11 @@
                          fullWidth/>
           <p class="expired-tip">用户使用期限: {{expiredUnit}}个月</p>
           <mu-slider v-model="expiredUnit" :min="1" :max="12" :step="1"/>
-          <mu-raised-button label="创建"
+          <mu-raised-button label="创建新用户"
                             class="create-user-button"
                             primary
                             @click="createUser"
-                            icon="save"
+                            icon="person_add"
                             fullWidth/>
         </mu-col>
       </mu-row>
