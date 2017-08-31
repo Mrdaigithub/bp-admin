@@ -27,15 +27,6 @@ class CreateAdTable extends Migration {
             $table->string('brand_lnke1')->nullable()->default('');
             $table->string('brand_title2')->nullable()->default('');
             $table->string('brand_lnke2')->nullable()->default('');
-            $table->string('telephone')->nullable()->default('');
-            $table->string('adimgurl_1')->nullable()->default('');
-            $table->string('adimglink_1')->nullable()->default('');
-            $table->string('adimgurl_2')->nullable()->default('');
-            $table->string('adimglink_2')->nullable()->default('');
-            $table->string('adimgurl_3')->nullable()->default('');
-            $table->string('adimglink_3')->nullable()->default('');
-            $table->string('adimgurl_4')->nullable()->default('');
-            $table->string('adimglink_4')->nullable()->default('');
             $table->string('dtname')->nullable()->default('');
             $table->string('docposition')->nullable()->default('');
             $table->string('dtpic')->nullable()->default('');

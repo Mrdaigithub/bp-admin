@@ -121,7 +121,7 @@
     #home {
       width: 100vw;
       height: 100vh;
-      min-width: 640px;
+      min-width: 320px;
       overflow: hidden;
       background-color: #cecece;
       .menu-bar {

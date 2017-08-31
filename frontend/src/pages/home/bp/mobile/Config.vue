@@ -1,11 +1,11 @@
 <template>
-  <div class="bp-mobile">
+  <div class="bp-mobile-config">
     <mu-sub-header>移动霸屏 - 参数设置</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-paper :zDepth="3" class="paper-container">
         <mu-row gutter>
-          <mu-col width="30" tablet="30" desktop="30">
+          <mu-col width="100" tablet="30" desktop="30">
             <mu-text-field
               fullWidth
               label="公司名称"
@@ -15,17 +15,17 @@
               :errorText="errors.first('公司名称')"
               type="text"/>
           </mu-col>
-          <mu-col width="30" tablet="30" desktop="30">
+          <mu-col width="100" tablet="30" desktop="30">
             <mu-text-field
               fullWidth
               label="电话"
               name="电话"
               v-model.trim="config.phone"
-              v-validate="''"
+              v-validate="'phone'"
               :errorText="errors.first('电话')"
               type="text"/>
           </mu-col>
-          <mu-col width="30" tablet="30" desktop="30">
+          <mu-col width="100" tablet="30" desktop="30">
             <mu-text-field
               fullWidth
               label="手机站域名绑定"
@@ -36,17 +36,17 @@
               hintText="(以,分割(英文逗号分割) 如wap.aaa.com,m.bbb.com)"
               type="text"/>
           </mu-col>
-          <mu-col width="30" tablet="30" desktop="30">
+          <mu-col width="100" tablet="30" desktop="50">
             <mu-text-field
               fullWidth
               label="广告链接"
               name="广告链接"
               v-model.trim="config.swturl"
-              v-validate="''"
+              v-validate="'url'"
               :errorText="errors.first('广告链接')"
               type="text"/>
           </mu-col>
-          <mu-col width="65" tablet="65" desktop="65">
+          <mu-col width="100" tablet="65" desktop="65">
             <mu-text-field
               fullWidth
               label="开启时段"
@@ -99,18 +99,18 @@
       </mu-paper>
       <mu-paper :zDepth="3" class="paper-container">
         <mu-row gutter>
-          <mu-col width="45" tablet="45" desktop="45">
+          <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field
               fullWidth
               label="顶部漂浮广告"
-              name="底部漂浮广告"
+              name="顶部漂浮广告"
               v-model.trim="config.piaoimg"
               v-validate="'url:true'"
               hintText="(尺寸:360x50 请用站外图片带http://)"
-              :errorText="errors.first('底部漂浮广告')"
+              :errorText="errors.first('顶部漂浮广告')"
               type="text"/>
           </mu-col>
-          <mu-col width="45" tablet="45" desktop="45">
+          <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field
               fullWidth
               label="漂浮广告点击链接地址"
@@ -121,18 +121,7 @@
               :errorText="errors.first('漂浮广告点击链接地址')"
               type="text"/>
           </mu-col>
-          <mu-col width="100" tablet="100" desktop="100">
-            <mu-text-field
-              fullWidth
-              label="顶部仿微信消息广告链接地址"
-              name="顶部仿微信消息广告链接地址"
-              v-model.trim="config.wxdz"
-              v-validate="'url:true'"
-              hintText="(带http://)"
-              :errorText="errors.first('顶部仿微信消息广告链接地址')"
-              type="text"/>
-          </mu-col>
-          <mu-col width="75" tablet="75" desktop="75">
+          <mu-col width="100" tablet="75" desktop="75">
             <mu-text-field
               fullWidth
               label="IP屏蔽功能(系统已屏蔽百度总部IP段)"
@@ -146,7 +135,7 @@
               :errorText="errors.first('IP屏蔽')"
               type="text"/>
           </mu-col>
-          <mu-col width="75" tablet="75" desktop="75">
+          <mu-col width="100" tablet="75" desktop="75">
             <mu-text-field fullWidth
                            label="关键词替换功能"
                            hintText="自然排名中的负面信息 黑 坑 骗子之类的 替换成指定关键词 替换格式： 黑-好 用-分开 每行一个规则"
@@ -155,7 +144,7 @@
                            :rows="3"
                            :rowsMax="6"/>
           </mu-col>
-          <mu-col width="75" tablet="75" desktop="75">
+          <mu-col width="100" tablet="75" desktop="75">
             <mu-text-field fullWidth
                            label="[第三方统计代码]  手机统计代码:"
                            hintText="(使用51la统计，并隐藏图标)"
@@ -164,7 +153,7 @@
                            :rows="3"
                            :rowsMax="6"/>
           </mu-col>
-          <mu-col width="75" tablet="75" desktop="75">
+          <mu-col width="100" tablet="75" desktop="75">
             <mu-text-field fullWidth
                            label="商务通霸屏代码"
                            hintText="(将此代码放入你需要的商务通后台中,安装说明)"
@@ -186,7 +175,7 @@
   import axios from '@/config/axios'
 
   export default {
-    name: 'bp_mobile',
+    name: 'bpMobileConfig',
     data () {
       return {
         config: {
@@ -198,7 +187,6 @@
           area: [],
           piaoimg: '',
           piaourl: '',
-          wxdz: '',
           ipduan: '',
           cith: '',
           mobilecode: '',
@@ -234,7 +222,7 @@
 </script>
 
 <style lang="scss">
-  .bp-mobile {
+  .bp-mobile-config {
     .paper-container {
       margin: 60px 0;
       padding: 20px 30px;
@@ -242,9 +230,6 @@
         width: 100%;
         margin: 10px 0;
         padding: 20px;
-      }
-      .mu-text-field.has-label .mu-text-field-content {
-        /*font-size: 19px;*/
       }
       .mu-text-field {
         color: rgba(0, 0, 0, .87);

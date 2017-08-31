@@ -22,7 +22,6 @@ class CreateConfigTable extends Migration {
             $table->text('area')->nullable();
             $table->string('piaoimg')->nullable();
             $table->string('piaourl')->nullable();
-            $table->string('wxdz')->nullable();
             $table->text('ipduan')->nullable();
             $table->text('cith')->nullable();
             $table->string('mobilecode')->nullable();
