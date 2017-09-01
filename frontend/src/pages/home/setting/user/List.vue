@@ -21,14 +21,14 @@
                   <mu-slider class="expired-slider" v-model="user.expiredUnit" :min="0" :max="12" :step="1"/>
                 </mu-td>
                 <mu-td name="save">
-                  <mu-raised-button label=""
+                  <mu-raised-button label="保存"
                                     primary
                                     icon="save"
                                     backgroundColor="#19a15f"
                                     fullWidth/>
                 </mu-td>
                 <mu-td name="remove">
-                  <mu-raised-button label=""
+                  <mu-raised-button label="删除"
                                     primary
                                     icon="delete"
                                     backgroundColor="#dd5044"
@@ -72,7 +72,7 @@
         } else if (trName === 'remove') {
           axios.delete(`/user/${this.users[index].id}`)
             .then(users => {
-              this.addExpiredUnit(users)
+              this.initUsersData(users)
               this.$toast('删除成功', {
                 horizontalPosition: 'center',
                 duration: 1000
@@ -80,7 +80,7 @@
             })
         }
       },
-      addExpiredUnit (users, context = this) {
+      initUsersData (users, context = this) {
         context.$store.commit('getUsers', users)
         context.users = context.$store.state.users
         context.users.forEach(user => {
@@ -88,6 +88,7 @@
           if (expiredUnit < 0) expiredUnit = 0
           if (expiredUnit > 12) expiredUnit = 12
           user.expiredUnit = expiredUnit
+          user.confirm = false
         })
       }
     },
@@ -95,7 +96,7 @@
       if (!this.$store.state.users) {
         axios.get('/user')
           .then(users => {
-            this.addExpiredUnit(users)
+            this.initUsersData(users)
           })
       }
     }

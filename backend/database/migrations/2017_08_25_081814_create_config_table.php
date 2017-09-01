@@ -16,6 +16,7 @@ class CreateConfigTable extends Migration {
             $table->increments('id');
             $table->string('hospital')->nullable();
             $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->text('domainname')->nullable();
             $table->text('swturl')->nullable();
             $table->string('opentime')->nullable();

@@ -22,7 +22,7 @@ class CreateAdTable extends Migration {
             $table->string('link')->nullable()->default('');
             $table->string('xslink')->nullable()->default('');
             $table->string('bshow')->nullable()->default('1');
-            $table->string('brandlogo')->nullable()->default('');
+            $table->string('picture')->nullable()->default('');
             $table->string('brand_title1')->nullable()->default('');
             $table->string('brand_lnke1')->nullable()->default('');
             $table->string('brand_title2')->nullable()->default('');
