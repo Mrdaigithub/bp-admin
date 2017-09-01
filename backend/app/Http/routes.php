@@ -19,6 +19,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('/', 'UserController@create_user');
         Route::patch('/expired/{uid}', 'UserController@update_expired');
         Route::patch('/password/{uid}', 'UserController@update_password');
+        Route::delete('/{uid}', 'UserController@destroy');
         Route::delete('/logout', 'LoginController@logout');
     });
 });

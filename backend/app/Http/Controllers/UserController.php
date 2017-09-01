@@ -102,4 +102,16 @@ class UserController extends Controller
         if (!$user->save()) return Response(['error' => 500001], 500);
         return $user;
     }
+
+    /**
+     * Remove user
+     *
+     * @param $uid
+     * @return mixed
+     */
+    public function destroy($uid)
+    {
+        if (Users::destroy($uid)) return Users::all();
+        return false;
+    }
 }

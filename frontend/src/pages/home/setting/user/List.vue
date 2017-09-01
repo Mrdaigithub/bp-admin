@@ -5,12 +5,13 @@
     <mu-content-block>
       <mu-row>
         <mu-col width="100" tablet="100" desktop="100">
-          <mu-table ref="table" :showCheckbox="false" @cellClick="handlerSave">
+          <mu-table ref="table" :showCheckbox="false" @cellClick="handlerOperate">
             <mu-thead>
               <mu-tr>
                 <mu-th>用户名</mu-th>
                 <mu-th>剩余时间 (单位/月)</mu-th>
-                <mu-th>操作</mu-th>
+                <mu-th>保存</mu-th>
+                <mu-th>删除</mu-th>
               </mu-tr>
             </mu-thead>
             <mu-tbody>
@@ -19,10 +20,18 @@
                 <mu-td>
                   <mu-slider class="expired-slider" v-model="user.expiredUnit" :min="0" :max="12" :step="1"/>
                 </mu-td>
-                <mu-td name="saveBtn">
-                  <mu-raised-button label="保存"
+                <mu-td name="save">
+                  <mu-raised-button label=""
                                     primary
                                     icon="save"
+                                    backgroundColor="#19a15f"
+                                    fullWidth/>
+                </mu-td>
+                <mu-td name="remove">
+                  <mu-raised-button label=""
+                                    primary
+                                    icon="delete"
+                                    backgroundColor="#dd5044"
                                     fullWidth/>
                 </mu-td>
               </mu-tr>
@@ -48,37 +57,47 @@
       }
     },
     methods: {
-      handlerSave (index, trName) {
-        if (!trName) return false
-        this.users[index].expired_date = new Date(new Date().getTime() + this.users[index].expiredUnit * monthTimestamp)
-        axios.patch(`/user/expired/${this.users[index].id}`, qs.stringify({
-          expired_date: this.users[index].expired_date
-        }))
-          .then(res => {
-            this.$store.commit('getUsers', this.users)
-          })
+      handlerOperate (index, trName) {
+        if (trName === 'save') {
+          this.users[index].expired_date = new Date(new Date().getTime() + this.users[index].expiredUnit * monthTimestamp)
+          axios.patch(`/user/expired/${this.users[index].id}`, qs.stringify({
+            expired_date: this.users[index].expired_date
+          }))
+            .then(users => {
+              this.$toast('保存成功', {
+                horizontalPosition: 'center',
+                duration: 1000
+              })
+            })
+        } else if (trName === 'remove') {
+          axios.delete(`/user/${this.users[index].id}`)
+            .then(users => {
+              this.addExpiredUnit(users)
+              this.$toast('删除成功', {
+                horizontalPosition: 'center',
+                duration: 1000
+              })
+            })
+        }
+      },
+      addExpiredUnit (users, context = this) {
+        context.$store.commit('getUsers', users)
+        context.users = context.$store.state.users
+        context.users.forEach(user => {
+          let expiredUnit = Math.ceil((new Date(user.expired_date).getTime() - new Date().getTime()) / monthTimestamp)
+          if (expiredUnit < 0) expiredUnit = 0
+          if (expiredUnit > 12) expiredUnit = 12
+          user.expiredUnit = expiredUnit
+        })
       }
     },
     mounted () {
       if (!this.$store.state.users) {
         axios.get('/user')
           .then(users => {
-            this.$store.commit('getUsers', users)
-            this.users = this.$store.state.users
-            this.users.forEach(user => {
-              let expiredUnit = Math.ceil((new Date(user.expired_date).getTime() - new Date().getTime()) / monthTimestamp)
-              if (expiredUnit < 0) expiredUnit = 0
-              if (expiredUnit > 12) expiredUnit = 12
-              user.expiredUnit = expiredUnit
-            })
+            this.addExpiredUnit(users)
           })
       }
-      this.users.forEach(user => {
-        let expiredUnit = Math.ceil((new Date(user.expired_date).getTime() - new Date().getTime()) / monthTimestamp)
-        if (expiredUnit < 0) expiredUnit = 0
-        if (expiredUnit > 12) expiredUnit = 12
-        user.expiredUnit = expiredUnit
-      })
     }
   }
 </script>

@@ -78,6 +78,9 @@
                   horizontalPosition: 'center',
                   duration: 1500
                 })
+                let users = this.$store.state.users
+                users.push(res)
+                this.$store.commit('getUsers', users)
               })
           }
           return res
