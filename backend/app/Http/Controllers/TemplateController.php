@@ -17,8 +17,8 @@ class TemplateController extends Controller
     {
         $config = Config::first();
         $htmlStr = "";
-        $brands = Ad::where('adtype', 'brand')->get();
-        $defaults = Ad::where('adtype', 'default')->get();
+        $brands = Ad::where('type', 'brand')->get();
+        $defaults = Ad::where('type', 'default')->get();
         foreach ($brands as $key => $brand) {
             $htmlStr .=
                 "<div class='ec_ad_results' sourceid='160' posid='1' prank='1'style='display:block !important;visibility: visible !important;'>
@@ -34,18 +34,18 @@ class TemplateController extends Controller
                       </a>
                       <div class='c-row c-gap-top-small'>
                         <div class='c-span4 ec_display_flex'>
-                          <a class='c-blocka ec_boxflex' href='#url'>
+                          <a class='c-blocka ec_boxflex' href='$brand->link'>
                             <div class='c-img ec_img_zone_showimg c-img-s'><img src='$brand->picture'></div>
                           </a>
                         </div>
                         <div class='c-span8 '>
-                          <a href='#url'>
+                          <a href='$brand->brand_link'>
                             <ul class='ec_img_zone_abs c-color'>
                               <li class='c-gap-bottom-small'>
-                                <span class='ec_icon_blue c-gap-right'>范围</span>$brand->brand_title1
+                                <span class='ec_icon_blue c-gap-right'>$brand->brand_title1</span>$brand->brand_description1
                               </li>
                               <li class='c-gap-bottom-small'>
-                                <span class='ec_icon_blue c-gap-right'>介绍</span>$brand->brand_title2
+                                <span class='ec_icon_blue c-gap-right'>$brand->brand_title2</span>$brand->brand_description2
                               </li>
                             </ul>
                           </a>
@@ -55,7 +55,7 @@ class TemplateController extends Controller
                         <div class='c-gap-top'>
                           <div class='c-row c-gap-top-small c-gap-top'>
                             <div class='c-span9 '>
-                              <a class='ec_async_phone c-color c-blocka' href='tel:电话号码'>
+                              <a class='ec_async_phone c-color c-blocka' href='tel:$config->link'>
                                 $config->hospital<br> <span class='c-color-gray-a c-line-clamp1'>$config->address</span>
                               </a>
                             </div>
@@ -71,7 +71,7 @@ class TemplateController extends Controller
                     <div class='ec_url'>
                       <div class='ec_urlbtn'></div>
                       <div class='ec_urlline'>
-                        <a href='#url'><span class='ec_site c-color-url'>$brand->xslink</span></a>
+                        <a href='$brand->link'><span class='ec_site c-color-url'>$brand->show_link</span></a>
                         <span class='ec_vlogo c-gap-left'><i class='ec_font_v3'></i></span>
                       </div>
                     </div>
@@ -81,7 +81,7 @@ class TemplateController extends Controller
         foreach ($defaults as $key => $default) {
             $htmlStr .=
                 "<div class='c-container ec_resitem ec_wise_ ec_adv_last' id='ec_wise_adtopnum' adtopnum='1' style='display:block !important;visibility: visible !important;'>
-                  <a class='ec_title c-blocka' href='#url'>
+                  <a class='ec_title c-blocka' href='$default->link'>
                     <h3 class='c-title c-gap-top-small'>$default->title</h3>
                   </a>
                   <div class='c-row c-gap-top-small'>
@@ -92,7 +92,7 @@ class TemplateController extends Controller
                     </div>
                     <div class='c-span9'>
                       <a class='c-blocka c-color' href='#url'>
-                        <div class='c-color'>$default->depict</div>
+                        <div class='c-color'>$default->description</div>
                       </a>
                       <div class='ec_url'>
                         <div class='ec_urlbtn'></div>

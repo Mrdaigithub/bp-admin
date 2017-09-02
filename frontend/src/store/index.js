@@ -57,6 +57,7 @@ export default new Vuex.Store({
           nokeyds: each.nokeyds ? each.nokeyds : '',
           title: each.title ? each.title : '',
           description: each.description ? each.description : '',
+          picture: each.picture ? each.picture : '',
           link: each.link ? each.link : '',
           show_link: each.show_link ? each.show_link : ''
         }
