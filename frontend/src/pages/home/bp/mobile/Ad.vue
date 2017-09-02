@@ -8,9 +8,7 @@
           <mu-col width="100" tablet="100" desktop="100">
             <h3>广告位展示</h3>
             <mu-divider/>
-            <h5 style="margin:20px 0;">
-              (可使用通配符{*}飘红关键词 [red]飘红[/red] 链接中[key]代替关键词 链接中[formurl]代替来路(使用[formurl]必须设置返回页面方式为搜索结果页),如: http://wap.url.com/?keyword=[key]&formurl=[formurl]  商务通参数&p=[formurl]&r=bpjiechi&e=bpjiechi
-            </h5>
+            <p class="ad-tips">提示: 兼容HTML标签</p>
           </mu-col>
           <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
             <mu-sub-header style="font-weight: 600">{{adItem.id}}号广告位</mu-sub-header>
@@ -19,10 +17,10 @@
               <mu-col width="100" tablet="100" desktop="100">
                 <mu-row>
                   <mu-col width="50" tablet="50" desktop="50">
-                    <mu-select-field v-model.trim="adItem.adtype" label="广告类型">
+                    <mu-select-field v-model.trim="adItem.type" label="广告类型">
                       <mu-menu-item value="default" title="普通广告位"/>
                       <mu-menu-item value="brand" title="品牌推广位"/>
-                      <mu-menu-item value="doctorind" title="专家咨询广告位"/>
+                      <mu-menu-item value="doctor" title="专家咨询广告位"/>
                     </mu-select-field>
                   </mu-col>
                   <mu-col width="15" tablet="15" desktop="15">
@@ -54,42 +52,52 @@
                       v-model.trim="adItem.title"
                       hintText=""/>
                   </mu-col>
+                  <mu-col width="45" tablet="45" desktop="45">
+                    <mu-text-field
+                      fullWidth
+                      label="广告图片"
+                      :name="adItem.id + '号广告的广告图片'"
+                      v-validate="'url'"
+                      :errorText="errors.first(adItem.id + '号广告的广告图片')"
+                      v-model.trim="adItem.picture"
+                      hintText=""/>
+                  </mu-col>
                 </mu-row>
-                <mu-row v-if="(adItem.adtype ==='doctorind')">
+                <mu-row v-if="(adItem.type ==='doctor')">
                   <mu-col width="30" tablet="30" desktop="30">
                     <mu-text-field
                       fullWidth
                       label="* 专家姓名"
-                      v-model.trim="adItem.dtname"
+                      v-model.trim="adItem.doctor_name"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
                     <mu-text-field
                       fullWidth
                       label="* 专家职务"
-                      v-model.trim="adItem.docposition"
+                      v-model.trim="adItem.doctor_job"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="30" tablet="30" desktop="30">
                     <mu-text-field
                       fullWidth
                       label="* 专家照片"
-                      v-model.trim="adItem.dtpic"
+                      v-model.trim="adItem.doctor_pic"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
                 <mu-row>
-                  <mu-col width="45" tablet="45" desktop="30">
+                  <mu-col width="100" tablet="45" desktop="30">
                     <mu-text-field
                       fullWidth
-                      :label="adItem.adtype ==='doctorind' ? '* 专家描述' : '* 描述'"
+                      :label="adItem.type ==='doctor' ? '* 专家描述' : '* 描述'"
                       :name="adItem.id + '号广告的描述'"
                       v-validate="'required'"
                       :errorText="errors.first(adItem.id + '号广告的描述')"
-                      v-model.trim="adItem.depict"
+                      v-model.trim="adItem.description"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="30">
+                  <mu-col width="100" tablet="45" desktop="30">
                     <mu-text-field
                       fullWidth
                       label="* 链接:"
@@ -99,62 +107,62 @@
                       v-model.trim="adItem.link"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="30">
+                  <mu-col width="100" tablet="45" desktop="30">
                     <mu-text-field
                       fullWidth
                       label="* 显示链接:"
                       :name="adItem.id + '号广告的显示链接'"
                       v-validate="'required|url'"
                       :errorText="errors.first(adItem.id + '号广告的显示链接')"
-                      v-model.trim="adItem.xslink"
+                      v-model.trim="adItem.show_link"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
-                <mu-row v-if="adItem.adtype === 'brand'">
-                  <mu-col width="45" tablet="45" desktop="45">
+                <mu-row v-if="adItem.type === 'brand'">
+                  <mu-col width="100" tablet="100" desktop="100">
+                    <mu-text-field
+                      fullWidth
+                      label="下标题链接"
+                      v-model.trim="adItem.brand_link"
+                      :name="adItem.id + '号广告的下标题链接'"
+                      v-validate="'url'"
+                      :errorText="errors.first(adItem.id + '号广告的下标题链接')"
+                      hintText=""/>
+                  </mu-col>
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="下标题1"
-                      v-model.trim="adItem['brand_title1']"
+                      v-model.trim="adItem.brand_title1"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="链接1"
-                      v-model.trim="adItem['brand_lnke1']"
+                      label="下标题描述1"
+                      v-model.trim="adItem.brand_description1"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="下标题2"
-                      v-model.trim="adItem['brand_title2']"
+                      v-model.trim="adItem.brand_title2"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="链接2"
-                      v-model.trim="adItem['brand_title2']"
+                      label="下标题描述2"
+                      v-model.trim="adItem.brand_description2"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
-                <mu-row>
-                  <mu-col width="100" tablet="100" desktop="100" v-if="adItem.adtype === 'default'">
+                <mu-row v-if="adItem.type === 'default'">
+                  <mu-col width="100" tablet="100" desktop="100">
                     <span style="display: inline-block;vertical-align: top">底部显示</span>
                     <mu-radio label="链接" :name="adItem.id.toString()" nativeValue="0" v-model.trim="adItem.bshow"/>
                     <mu-radio label="咨询框" :name="adItem.id.toString()" nativeValue="1" v-model.trim="adItem.bshow"/>
-                  </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45" v-if="adItem.adtype === 'brand'">
-                    <mu-text-field
-                      fullWidth
-                      label="* logo"
-                      v-model.trim="adItem.brandlogo"
-                      :name="adItem.id + '号广告的logo'"
-                      v-validate="'required'"
-                      :errorText="errors.first(adItem.id + '号广告的logo')"
-                      hintText=""/>
                   </mu-col>
                 </mu-row>
               </mu-col>
@@ -203,7 +211,6 @@
       handleSubmit () {
         this.$validator.validateAll().then(res => {
           if (res) {
-//            this.$store.dispatch('updateConfig', this.config)
             this.$store.dispatch('updateAd', this.ad)
           } else {
             this.$toast('表单验证未通过', {
@@ -231,6 +238,12 @@
     .paper-container {
       margin: 60px 0;
       padding: 20px 30px;
+      .ad-tips {
+        color: #db4639;
+        font-size: 15px;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
       .ad-container {
         width: 100%;
         margin: 10px 0;

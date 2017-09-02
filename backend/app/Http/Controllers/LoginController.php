@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use JWTAuth, JWTException;
 use App\Models\Users;
@@ -25,7 +26,7 @@ class LoginController extends Controller
 
         $user = Users::where('username', $request->username)->first();
         try {
-            if ($request->password !== $user->password) return Response(['error' => 401000], 401);
+            if (!Hash::check($request->password, $user->password)) return Response(['error' => 401000], 401);
             if (strtotime($user->expired_date) <= time()) return Response(['error' => 401001], 401);
         } catch (JWTException $e) {
             return Response(['error' => 500000], 500);

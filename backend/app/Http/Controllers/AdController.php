@@ -40,22 +40,23 @@ class AdController extends Controller
     public function update($id, Request $request)
     {
         if (!$ad = Ad::find($id)) return 'false';
-        $ad->adtype = $request->adtype;
+        $ad->type = $request->type;
         $ad->keyds = $request->keyds;
         $ad->nokeyds = $request->nokeyds;
         $ad->title = $request->title;
-        $ad->depict = $request->depict;
+        $ad->description = $request->description;
+        $ad->picture = $request->picture;
         $ad->link = $request->link;
-        $ad->xslink = $request->xslink;
+        $ad->show_link = $request->show_link;
         $ad->bshow = $request->bshow;
-        $ad->brandlogo = $request->brandlogo;
+        $ad->brand_link = $request->brand_link;
         $ad->brand_title1 = $request->brand_title1;
-        $ad->brand_lnke1 = $request->brand_lnke1;
+        $ad->brand_description1 = $request->brand_description1;
         $ad->brand_title2 = $request->brand_title2;
-        $ad->brand_lnke2 = $request->brand_lnke2;
-        $ad->dtname = $request->dtname;
-        $ad->docposition = $request->docposition;
-        $ad->dtpic = $request->dtpic;
+        $ad->brand_description2 = $request->brand_description2;
+        $ad->doctor_name = $request->doctor_name;
+        $ad->doctor_job = $request->doctor_job;
+        $ad->doctor_pic = $request->doctor_pic;
 
         if (!$ad->save()) return Response(['error' => 500001], 500);
         return $ad;

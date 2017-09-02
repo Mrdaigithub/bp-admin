@@ -8,7 +8,7 @@
           <mu-text-field label="用户名"
                          type="text"
                          labelFloat
-                         v-model="username"
+                         v-model.trim="username"
                          name="用户名"
                          v-validate="'required|min:4|max:10'"
                          :errorText="errors.first('用户名')"
@@ -16,7 +16,7 @@
           <mu-text-field label="密码"
                          type="password"
                          labelFloat
-                         v-model="password"
+                         v-model.trim="password"
                          name="密码"
                          v-validate="'required|min:4|max:16'"
                          :errorText="errors.first('密码')"
@@ -24,7 +24,7 @@
           <mu-text-field label="确认密码"
                          type="password"
                          labelFloat
-                         v-model="checkPassword"
+                         v-model.trim="checkPassword"
                          name="确认密码"
                          v-validate="'required|confirmed:密码'"
                          :errorText="errors.first('确认密码')"

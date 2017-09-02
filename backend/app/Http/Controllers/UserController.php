@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use JWTAuth, JWTException;
 use App\Models\Users;
@@ -40,7 +41,7 @@ class UserController extends Controller
 
         $user = new Users();
         $user->username = $request->username;
-        $user->password = $request->password;
+        $user->password = bcrypt($request->password);
         $user->expired_date = $request->has('expired_date') ? $request->expired_date : date('Y-m-d H:i:s', time() + 2592000);
         if (!$user->save()) return Response(['error' => 500001], 500);
         return $user;
@@ -76,9 +77,9 @@ class UserController extends Controller
         if (Validator::make($request->all(), ['new_password' => 'string'])->fails()) return Response(['error' => 400007], 400);
         if (Validator::make($request->all(), ['new_password' => 'min:4'])->fails()) return Response(['error' => 400010], 400);
         if (Validator::make($request->all(), ['new_password' => 'max:16'])->fails()) return Response(['error' => 400011], 400);
-        if ($request->password !== $user->password) return Response(['error' => 401000], 401);
+        if (!Hash::check($request->password, $user->password)) return Response(['error' => 401000], 401);
 
-        $user->password = $request->new_password;
+        $user->password = bcrypt($request->new_password);
         if (!$user->save()) return Response(['error' => 500001], 500);
         return $user;
     }
