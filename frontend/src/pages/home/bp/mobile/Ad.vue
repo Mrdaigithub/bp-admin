@@ -169,6 +169,10 @@
         axios.post('/ad')
           .then(res => {
             this.ad.push(res)
+            this.$toast('添加成功', {
+              horizontalPosition: 'center',
+              duration: 1000
+            })
           })
       },
       removeAd (adId) {

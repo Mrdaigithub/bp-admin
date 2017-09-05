@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use JWTAuth, JWTException;
 use App\Models\Config;
 
 class ConfigController extends Controller
 {
+    function __construct()
+    {
+        $this->user = JWTAuth::parseToken()->authenticate();
+    }
 
     /**
      * Get all config
@@ -14,7 +19,7 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        return Config::first();
+        return $this->user->config->first();
     }
 
     /**
@@ -25,11 +30,12 @@ class ConfigController extends Controller
      */
     public function update(Request $request)
     {
-        $configs = Config::first();
+        $configs = $this->user->config->first();
         if (!$configs) {
             $configs = new Config();
             if (!$configs->save()) return Response(['error' => 500001], 500);
             $configs = Config::find($configs->id);
+            $this->user->config()->attach($configs->id);
         }
         foreach ($request->all() as $key => $val) {
             $configs->$key = $val;

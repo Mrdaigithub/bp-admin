@@ -2,10 +2,15 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use JWTAuth, JWTException;
 use App\Models\Ad;
 
 class AdController extends Controller
 {
+    function __construct()
+    {
+        $this->user = JWTAuth::parseToken()->authenticate();
+    }
 
     /**
      * Get all ad
@@ -14,7 +19,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        return Ad::all();
+        return $this->user->ad->all();
     }
 
     /**
@@ -26,8 +31,8 @@ class AdController extends Controller
     {
         $ad = new Ad();
         if (!$ad->save()) return Response(['error' => 500001], 500);
-        $ad_id = $ad->id;
-        return Ad::find($ad_id);
+        $this->user->ad()->attach($ad->id);
+        return Ad::find($ad->id);
     }
 
     /**
@@ -66,6 +71,7 @@ class AdController extends Controller
      */
     public function destroy($id)
     {
+        $this->user->ad()->detach($id);
         return Ad::destroy($id);
     }
 }
