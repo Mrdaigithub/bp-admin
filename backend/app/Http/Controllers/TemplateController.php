@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use App\Models\Config;
 use App\Models\Ad;
@@ -13,11 +14,11 @@ class TemplateController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($uid)
     {
-        return bcrypt('root');
-        $config = Config::first();
-        $ads = Ad::all();
+        $user = Users::find($uid);
+        $config = $user->config->first();
+        $ads = $user->ad->all();
         $htmlStr =
             "<div style=' border:1px solid #d9d9d9; margin:6px 0;'>
                 <a href='$config->piaourl'><img src='$config->piaoimg' width='100%'></a>
@@ -117,7 +118,7 @@ class TemplateController extends Controller
                         <div class='c-row c-gap-top-small'>
                             <div class='c-span3 ec_display_flex'>
                                 <a class='c-blocka ec_boxflex' href='$ad->link'>
-                                    <div class='c-img  c-img-s'><img src='$ad->doctor_pic'></div>
+                                    <div class='c-img  c-img-s'><img src='$ad->picture'></div>
                                 </a>
                             </div>
                             <div class='c-span9'>
