@@ -1,37 +1,43 @@
 <template>
   <div class="login text-center">
-    <mu-paper class="login-form-wrap" :zDepth="2">
-      <h2 class="login-form-warp-header">霸屏软件后台登录</h2>
-      <div class="login-form">
-        <mu-text-field label="帐号"
-                       name="帐号"
-                       labelFloat
-                       icon="person"
-                       fullWidth
-                       v-model="username"
-                       type="text"
-                       v-validate="'required'"
-                       :errorText="errors.first('帐号')"/>
-        <br/>
-        <mu-text-field label="密码"
-                       type="password"
-                       name="密码"
-                       icon="vpn_key"
-                       v-model="password"
-                       labelFloat
-                       v-validate="'required'"
-                       :errorText="errors.first('密码')"
-                       @keyup.native.enter="handleLogin"
-                       fullWidth/>
-        <mu-raised-button label="登录"
-                          class="login-button"
-                          @click="handleLogin"
-                          primary
-                          icon="touch_app"
-                          fullWidth
-                          :disabled="errors.any()"/>
-      </div>
-    </mu-paper>
+    <mu-row gutter>
+      <mu-col width="5" tablet="20" desktop="35"></mu-col>
+      <mu-col width="90" tablet="60" desktop="30">
+        <mu-paper class="login-form-wrap" :zDepth="2">
+          <h2 class="login-form-warp-header">霸屏软件后台登录</h2>
+          <div class="login-form">
+            <mu-text-field label="帐号"
+                           name="帐号"
+                           labelFloat
+                           icon="person"
+                           fullWidth
+                           v-model="username"
+                           type="text"
+                           v-validate="'required'"
+                           :errorText="errors.first('帐号')"/>
+            <br/>
+            <mu-text-field label="密码"
+                           type="password"
+                           name="密码"
+                           icon="vpn_key"
+                           v-model="password"
+                           labelFloat
+                           v-validate="'required'"
+                           :errorText="errors.first('密码')"
+                           @keyup.native.enter="handleLogin"
+                           fullWidth/>
+            <mu-raised-button label="登录"
+                              class="login-button"
+                              @click="handleLogin"
+                              primary
+                              icon="touch_app"
+                              fullWidth
+                              :disabled="errors.any()"/>
+          </div>
+        </mu-paper>
+      </mu-col>
+      <mu-col width="5" tablet="20" desktop="35"></mu-col>
+    </mu-row>
   </div>
 </template>
 
@@ -83,8 +89,7 @@
     box-sizing: border-box;
     padding: 20px;
     display: inline-block;
-    height: 45vh;
-    width: 25vw;
+    width: 100%;
     margin-top: 20vh;
     text-align: center;
     .login-form-wrap-header {

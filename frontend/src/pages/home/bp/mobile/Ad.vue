@@ -28,21 +28,7 @@
                   </mu-col>
                 </mu-row>
                 <mu-row>
-                  <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field
-                      fullWidth
-                      label="匹配关键词:"
-                      v-model.trim="adItem.keyds"
-                      hintText="(不同关键词显示不同广告,逗号分开)"/>
-                  </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
-                    <mu-text-field
-                      fullWidth
-                      label="否定关键词:"
-                      v-model.trim="adItem.nokeyds"
-                      hintText=""/>
-                  </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="* 标题"
@@ -52,7 +38,7 @@
                       v-model.trim="adItem.title"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="45" tablet="45" desktop="45">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="广告图片"
@@ -156,13 +142,6 @@
                       label="下标题描述2"
                       v-model.trim="adItem.brand_description2"
                       hintText=""/>
-                  </mu-col>
-                </mu-row>
-                <mu-row v-if="adItem.type === 'default'">
-                  <mu-col width="100" tablet="100" desktop="100">
-                    <span style="display: inline-block;vertical-align: top">底部显示</span>
-                    <mu-radio label="链接" :name="adItem.id.toString()" nativeValue="0" v-model.trim="adItem.bshow"/>
-                    <mu-radio label="咨询框" :name="adItem.id.toString()" nativeValue="1" v-model.trim="adItem.bshow"/>
                   </mu-col>
                 </mu-row>
               </mu-col>

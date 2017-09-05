@@ -50,11 +50,9 @@ export default new Vuex.Store({
           })
         })
     },
-    updateAd ({commit, state}, _ad) {
+    updateAd ({commit}, _ad) {
       _ad.forEach(each => {
         let args = {
-          keyds: each.keyds ? each.keyds : '',
-          nokeyds: each.nokeyds ? each.nokeyds : '',
           title: each.title ? each.title : '',
           description: each.description ? each.description : '',
           picture: each.picture ? each.picture : '',
@@ -63,7 +61,6 @@ export default new Vuex.Store({
         }
         if (each.type === 'default') {
           args.type = 'default'
-          args.bshow = each.bshow ? each.bshow : ''
         } else if (each.type === 'brand') {
           args.type = 'brand'
           args.brand_link = each['brand_link'] ? each['brand_link'] : ''
@@ -78,7 +75,7 @@ export default new Vuex.Store({
           args.doctor_pic = each['doctor_pic'] ? each['doctor_pic'] : ''
         }
         for (let key in each) {
-          if (key === 'id' || key === 'bshow') continue
+          if (key === 'id') continue
           each[key] = ''
         }
         for (let key in args) {
@@ -87,14 +84,14 @@ export default new Vuex.Store({
       })
       commit('getAd', [])
       _ad.forEach(item => {
-        axios.put(`/ad/${item.id}`, qs.stringify(item))
+        axios.put(`ad/${item.id}`, qs.stringify(item))
           .then(adItem => {
             // commit('pushAd', adItem)
           })
       })
     },
     removeAd ({commit, state}, adId) {
-      axios.delete(`/ad/${adId}`)
+      axios.delete(`ad/${adId}`)
         .then(res => {
           if (res === 1) {
             for (let i = 0; i < state.ad.length; i++) {
