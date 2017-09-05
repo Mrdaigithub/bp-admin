@@ -41,14 +41,11 @@ class AdController extends Controller
     {
         if (!$ad = Ad::find($id)) return 'false';
         $ad->type = $request->type;
-        $ad->keyds = $request->keyds;
-        $ad->nokeyds = $request->nokeyds;
         $ad->title = $request->title;
         $ad->description = $request->description;
         $ad->picture = $request->picture;
         $ad->link = $request->link;
         $ad->show_link = $request->show_link;
-        $ad->bshow = $request->bshow;
         $ad->brand_link = $request->brand_link;
         $ad->brand_title1 = $request->brand_title1;
         $ad->brand_description1 = $request->brand_description1;
@@ -56,7 +53,6 @@ class AdController extends Controller
         $ad->brand_description2 = $request->brand_description2;
         $ad->doctor_name = $request->doctor_name;
         $ad->doctor_job = $request->doctor_job;
-        $ad->doctor_pic = $request->doctor_pic;
 
         if (!$ad->save()) return Response(['error' => 500001], 500);
         return $ad;

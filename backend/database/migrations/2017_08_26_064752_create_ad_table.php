@@ -13,16 +13,13 @@ class CreateAdTable extends Migration {
     public function up()
     {
         Schema::create('ads', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->string('type')->nullable()->default('default');
-            $table->string('keyds')->nullable()->default('');
-            $table->string('nokeyds')->nullable()->default('');
             $table->string('title')->nullable()->default('');
             $table->string('description')->nullable()->default('');
             $table->string('picture')->nullable()->default('');
             $table->string('link')->nullable()->default('');
             $table->string('show_link')->nullable()->default('');
-            $table->string('bshow')->nullable()->default('1');
             $table->string('brand_link')->nullable()->default('');
             $table->string('brand_title1')->nullable()->default('');
             $table->string('brand_description1')->nullable()->default('');
@@ -30,7 +27,6 @@ class CreateAdTable extends Migration {
             $table->string('brand_description2')->nullable()->default('');
             $table->string('doctor_name')->nullable()->default('');
             $table->string('doctor_job')->nullable()->default('');
-            $table->string('doctor_pic')->nullable()->default('');
             $table->timestamps();
         });
     }

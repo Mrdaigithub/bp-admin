@@ -15,6 +15,7 @@ class TemplateController extends Controller
      */
     public function index()
     {
+        return bcrypt('root');
         $config = Config::first();
         $ads = Ad::all();
         $htmlStr =

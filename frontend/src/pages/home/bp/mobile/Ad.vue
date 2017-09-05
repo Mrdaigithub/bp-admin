@@ -41,34 +41,27 @@
                   <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
-                      label="广告图片"
-                      :name="adItem.id + '号广告的广告图片'"
+                      :label="adItem.type === 'doctor' ? '专家照片' : '广告图片'"
+                      :name="adItem.id + '号广告的图片'"
                       v-validate="'url'"
-                      :errorText="errors.first(adItem.id + '号广告的广告图片')"
+                      :errorText="errors.first(adItem.id + '号广告的图片')"
                       v-model.trim="adItem.picture"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
                 <mu-row v-if="(adItem.type ==='doctor')">
-                  <mu-col width="30" tablet="30" desktop="30">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="* 专家姓名"
                       v-model.trim="adItem.doctor_name"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="30" tablet="30" desktop="30">
+                  <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="* 专家职务"
                       v-model.trim="adItem.doctor_job"
-                      hintText=""/>
-                  </mu-col>
-                  <mu-col width="30" tablet="30" desktop="30">
-                    <mu-text-field
-                      fullWidth
-                      label="* 专家照片"
-                      v-model.trim="adItem.doctor_pic"
                       hintText=""/>
                   </mu-col>
                 </mu-row>
