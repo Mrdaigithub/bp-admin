@@ -128,7 +128,7 @@
         .mu-list {
           padding: 0;
           .logo {
-            background-color: #7e57c2;
+            background-color: #009688;
             .mu-item {
               color: #fff;
               height: 9vh;
