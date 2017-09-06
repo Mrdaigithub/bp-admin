@@ -1,5 +1,6 @@
 <template>
   <div class="login text-center">
+    <div class="login-bg" v-bind:style="{backgroundImage: 'url(' + wallpaperUrl + ')'}"></div>
     <mu-row gutter>
       <mu-col width="5" tablet="20" desktop="35"></mu-col>
       <mu-col width="90" tablet="60" desktop="30">
@@ -50,7 +51,8 @@
     data () {
       return {
         username: '',
-        password: ''
+        password: '',
+        wallpaperUrl: ''
       }
     },
     methods: {
@@ -74,6 +76,12 @@
           return res
         })
       }
+    },
+    mounted () {
+      axios.get('/wallpaper')
+        .then(res => {
+          this.wallpaperUrl = res
+        })
     }
   }
 </script>
@@ -82,24 +90,37 @@
   .login {
     width: 100vw;
     height: 100vh;
-    background: url("../assets/login_bg.jpg") no-repeat center;
-  }
-
-  .login-form-wrap {
-    box-sizing: border-box;
-    padding: 20px;
-    display: inline-block;
-    width: 100%;
-    margin-top: 20vh;
-    text-align: center;
-    .login-form-wrap-header {
-      font-weight: normal;
-      color: #7d7d7d;
-      font-size: 24px;
+    .login-bg {
+      position: fixed;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      filter: blur(5px);
+      width: 100vw;
+      height: 100vh;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
-    .login-form {
-      .login-button {
-        margin-top: 30px;
+    .login-form-wrap {
+      position: relative;
+      z-index: 999999;
+      background-color: #fff;
+      box-sizing: border-box;
+      padding: 20px;
+      display: inline-block;
+      width: 100%;
+      margin-top: 30vh;
+      text-align: center;
+      .login-form-wrap-header {
+        font-weight: normal;
+        color: #7d7d7d;
+        font-size: 24px;
+      }
+      .login-form {
+        .login-button {
+          margin-top: 30px;
+        }
       }
     }
   }

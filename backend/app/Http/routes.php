@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('/wallpaper', 'WallpaperController@index');
+
 Route::get('/template/{uid}', 'TemplateController@index');
 
 Route::group(['prefix' => 'user'], function () {
