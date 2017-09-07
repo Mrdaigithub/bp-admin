@@ -56,16 +56,27 @@
               :errorText="errors.first('广告链接')"
               type="text"/>
           </mu-col>
-          <mu-col width="100" tablet="100" desktop="100">
-            <mu-text-field
+          <mu-col width="100" tablet="45" desktop="45">
+            <mu-time-picker
+              label="开启时刻"
               fullWidth
-              label="开启时段"
-              name="开启时段"
-              v-model.trim="configs.opentime"
+              name="开启时刻"
+              v-model.trim="openTimeValue"
               v-validate="''"
-              :errorText="errors.first('开启时段')"
-              hintText=" (为空默认全天,填写方式 按小时以逗号分开如：00,01,08,09,10,11,12,23)"
-              type="text"/>
+              :errorText="errors.first('开启时刻')"
+              format="24hr"
+              mode="landscape"/>
+          </mu-col>
+          <mu-col width="100" tablet="45" desktop="45">
+            <mu-time-picker
+              label="关闭时刻"
+              fullWidth
+              name="关闭时刻"
+              v-model.trim="closeTimeValue"
+              v-validate="''"
+              :errorText="errors.first('关闭时刻')"
+              format="24hr"
+              mode="landscape"/>
           </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
             <p>投放地区:</p>
@@ -171,10 +182,16 @@
           </mu-col>
         </mu-row>
       </mu-paper>
-      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true"
+      <mu-float-button @click="handleSubmit"
+                       class="submit-button"
+                       ref="submitButton"
+                       @hover="tooltipShow = true"
                        @hoverExit="tooltipShow = false">
         <mu-icon value="cloud_upload"/>
-        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top"
+        <mu-tooltip label="提交当前表单"
+                    :show="tooltipShow"
+                    :trigger="$refs['submitButton']"
+                    verticalPosition="top"
                     horizontalPosition="center"/>
       </mu-float-button>
     </mu-content-block>
@@ -192,7 +209,21 @@
           hospital: '',
           area: []
         },
+        openTimeValue: '',
+        closeTimeValue: '',
         tooltipShow: false
+      }
+    },
+    watch: {
+      openTimeValue (val) {
+        let timeArr = this.configs.opentime.split('-')
+        timeArr[0] = `${val}:00`
+        this.configs.opentime = timeArr.join('-')
+      },
+      closeTimeValue (val) {
+        let timeArr = this.configs.opentime.split('-')
+        timeArr[1] = `${val}:59`
+        this.configs.opentime = timeArr.join('-')
       }
     },
     methods: {
@@ -228,6 +259,10 @@
         self.configs.cith = configs.cith ? configs.cith : ''
         self.configs.mobilecode = configs.mobilecode ? configs.mobilecode : ''
         self.configs.daima = configs.daima ? configs.daima : ''
+        if (self.configs.opentime) {
+          self.openTimeValue = `${self.configs.opentime.split('-')[0].split(':')[0]}:${self.configs.opentime.split('-')[0].split(':')[1]}`
+          self.closeTimeValue = `${self.configs.opentime.split('-')[1].split(':')[0]}:${self.configs.opentime.split('-')[1].split(':')[1]}`
+        }
       })()
     }
   }

@@ -3,11 +3,9 @@
     <mu-sub-header>移动霸屏 - 广告位设置</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
-      <mu-paper :zDepth="3" class="paper-container">
+      <div class="paper-container">
         <mu-row gutter>
           <mu-col width="100" tablet="100" desktop="100">
-            <h3>广告位展示</h3>
-            <mu-divider/>
             <p class="ad-tips">提示: 兼容HTML标签</p>
           </mu-col>
           <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
@@ -142,12 +140,10 @@
           </mu-paper>
           <mu-raised-button icon="add" label="点击增加广告位" @click="addAd" style="margin:20px 0;" backgroundColor="#19a15f"/>
         </mu-row>
-      </mu-paper>
-      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true"
-                       @hoverExit="tooltipShow = false">
+      </div>
+      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true" @hoverExit="tooltipShow = false">
         <mu-icon value="cloud_upload"/>
-        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top"
-                    horizontalPosition="center"/>
+        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top" horizontalPosition="center"/>
       </mu-float-button>
     </mu-content-block>
   </div>
@@ -212,8 +208,7 @@
 <style lang="scss">
   .bp-mobile-ad {
     .paper-container {
-      margin: 60px 0;
-      padding: 20px 30px;
+      margin: 20px 0;
       .ad-tips {
         color: #db4639;
         font-size: 15px;
