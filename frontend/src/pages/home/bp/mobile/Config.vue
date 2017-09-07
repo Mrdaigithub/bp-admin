@@ -269,15 +269,17 @@
 </script>
 
 <style lang="scss">
+  .mu-time-display-time {
+    display: table;
+    span:nth-child(2) {
+      margin:0 8px;
+    }
+  }
+
   .bp-mobile-config {
     .paper-container {
       margin: 60px 0;
       padding: 20px 30px;
-      .ad-container {
-        width: 100%;
-        margin: 10px 0;
-        padding: 20px;
-      }
       .mu-text-field {
         color: rgba(0, 0, 0, .87);
       }
