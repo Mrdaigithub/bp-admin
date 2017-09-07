@@ -24,7 +24,7 @@
                   <mu-raised-button label="保存"
                                     primary
                                     icon="save"
-                                    backgroundColor="#19a15f"
+                                    primary
                                     fullWidth/>
                 </mu-td>
                 <mu-td name="remove">

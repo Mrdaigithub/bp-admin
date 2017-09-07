@@ -138,7 +138,7 @@
               </mu-col>
             </mu-row>
           </mu-paper>
-          <mu-raised-button icon="add" label="点击增加广告位" @click="addAd" style="margin:20px 0;" backgroundColor="#19a15f"/>
+          <mu-raised-button icon="add" primary label="点击增加广告位" @click="addAd" style="margin:20px 0;"/>
         </mu-row>
       </div>
       <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true" @hoverExit="tooltipShow = false">

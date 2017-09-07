@@ -137,6 +137,11 @@
               }
             }
           }
+          .selected{
+            .mu-icon{
+              color: #009688!important;
+            }
+          }
         }
       }
       .main {
