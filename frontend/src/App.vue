@@ -24,7 +24,7 @@
     height: 100vh;
     background-color: rgba(255, 255, 255, .95);
     position: fixed;
-    z-index: 99;
+    z-index: 999999;
     top: 0;
     left: 0;
     .route-loading {

@@ -104,7 +104,7 @@
     }
     .login-form-wrap {
       position: relative;
-      z-index: 999999;
+      z-index: 99;
       background-color: #fff;
       box-sizing: border-box;
       padding: 20px;
