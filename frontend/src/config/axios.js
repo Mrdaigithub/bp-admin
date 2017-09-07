@@ -47,7 +47,7 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   response => {
-    // if (response.headers.authorization) sessionStorage.token = response.headers.authorization.replace(/Bearer\s/,'');
+    if (response.headers.authorization) sessionStorage.token = response.headers.authorization.replace(/Bearer\s/, '')
     vm.$store.commit('closeLoading')
     return response.data
   },
