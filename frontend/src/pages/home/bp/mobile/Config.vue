@@ -1,11 +1,12 @@
 <template>
   <div class="bp-mobile-config">
+    <a style="display: none" id="parseUrl"></a>
     <mu-sub-header>移动霸屏 - 参数设置</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-paper :zDepth="3" class="paper-container">
         <mu-row>
-          <mu-col width="100" tablet="30" desktop="30">
+          <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field
               fullWidth
               label="公司名称"
@@ -15,7 +16,7 @@
               :errorText="errors.first('公司名称')"
               type="text"/>
           </mu-col>
-          <mu-col width="100" tablet="30" desktop="30">
+          <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field
               fullWidth
               label="电话"
@@ -25,7 +26,7 @@
               :errorText="errors.first('电话')"
               type="text"/>
           </mu-col>
-          <mu-col width="100" tablet="30" desktop="30">
+          <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field
               fullWidth
               label="医院地址"
@@ -44,16 +45,6 @@
               v-validate="''"
               :errorText="errors.first('手机站域名绑定')"
               hintText="(以英文逗号分割 如m.aa.com,4g.bb.com"
-              type="text"/>
-          </mu-col>
-          <mu-col width="100" tablet="45" desktop="45">
-            <mu-text-field
-              fullWidth
-              label="广告链接"
-              name="广告链接"
-              v-model.trim="configs.swturl"
-              v-validate="'url'"
-              :errorText="errors.first('广告链接')"
               type="text"/>
           </mu-col>
           <mu-col width="100" tablet="45" desktop="45">
@@ -81,40 +72,40 @@
           <mu-col width="100" tablet="100" desktop="100">
             <p>投放地区:</p>
             <p>勾选即为投放，如：勾选"北京"则表示投放北京ip的功能</p>
-            <mu-checkbox label="北京" nativeValue="北京" v-model="configs.area"/>
-            <mu-checkbox label="安徽" nativeValue="安徽" v-model="configs.area"/>
-            <mu-checkbox label="福建" nativeValue="福建" v-model="configs.area"/>
-            <mu-checkbox label="甘肃" nativeValue="甘肃" v-model="configs.area"/>
-            <mu-checkbox label="广东" nativeValue="广东" v-model="configs.area"/>
-            <mu-checkbox label="广西" nativeValue="广西" v-model="configs.area"/>
-            <mu-checkbox label="贵州" nativeValue="贵州" v-model="configs.area"/>
-            <mu-checkbox label="海南" nativeValue="海南" v-model="configs.area"/>
-            <mu-checkbox label="河北" nativeValue="河北" v-model="configs.area"/>
-            <mu-checkbox label="河南" nativeValue="河南" v-model="configs.area"/>
-            <mu-checkbox label="黑龙江" nativeValue="黑龙江" v-model="configs.area"/>
-            <mu-checkbox label="湖北" nativeValue="湖北" v-model="configs.area"/>
-            <mu-checkbox label="湖南" nativeValue="湖南" v-model="configs.area"/>
-            <mu-checkbox label="吉林" nativeValue="吉林" v-model="configs.area"/>
-            <mu-checkbox label="江苏" nativeValue="江苏" v-model="configs.area"/>
-            <mu-checkbox label="江西" nativeValue="江西" v-model="configs.area"/>
-            <mu-checkbox label="辽宁" nativeValue="辽宁" v-model="configs.area"/>
-            <mu-checkbox label="内蒙古" nativeValue="内蒙古" v-model="configs.area"/>
-            <mu-checkbox label="宁夏" nativeValue="宁夏" v-model="configs.area"/>
-            <mu-checkbox label="青海" nativeValue="青海" v-model="configs.area"/>
-            <mu-checkbox label="山东" nativeValue="山东" v-model="configs.area"/>
-            <mu-checkbox label="山西" nativeValue="山西" v-model="configs.area"/>
-            <mu-checkbox label="陕西" nativeValue="陕西" v-model="configs.area"/>
-            <mu-checkbox label="上海" nativeValue="上海" v-model="configs.area"/>
-            <mu-checkbox label="四川" nativeValue="四川" v-model="configs.area"/>
-            <mu-checkbox label="天津" nativeValue="天津" v-model="configs.area"/>
-            <mu-checkbox label="西藏" nativeValue="西藏" v-model="configs.area"/>
-            <mu-checkbox label="新疆" nativeValue="新疆" v-model="configs.area"/>
-            <mu-checkbox label="云南" nativeValue="云南" v-model="configs.area"/>
-            <mu-checkbox label="浙江" nativeValue="浙江" v-model="configs.area"/>
-            <mu-checkbox label="重庆" nativeValue="重庆" v-model="configs.area"/>
-            <mu-checkbox label="香港" nativeValue="香港" v-model="configs.area"/>
-            <mu-checkbox label="澳门" nativeValue="澳门" v-model="configs.area"/>
-            <mu-checkbox label="台湾" nativeValue="台湾" v-model="configs.area"/>
+            <mu-checkbox label="北京" nativeValue="北京" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="安徽" nativeValue="安徽" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="福建" nativeValue="福建" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="甘肃" nativeValue="甘肃" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="广东" nativeValue="广东" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="广西" nativeValue="广西" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="贵州" nativeValue="贵州" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="海南" nativeValue="海南" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="河北" nativeValue="河北" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="河南" nativeValue="河南" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="湖北" nativeValue="湖北" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="湖南" nativeValue="湖南" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="吉林" nativeValue="吉林" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="江苏" nativeValue="江苏" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="江西" nativeValue="江西" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="辽宁" nativeValue="辽宁" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="宁夏" nativeValue="宁夏" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="青海" nativeValue="青海" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="山东" nativeValue="山东" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="山西" nativeValue="山西" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="陕西" nativeValue="陕西" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="上海" nativeValue="上海" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="四川" nativeValue="四川" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="天津" nativeValue="天津" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="西藏" nativeValue="西藏" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="新疆" nativeValue="新疆" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="云南" nativeValue="云南" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="浙江" nativeValue="浙江" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="重庆" nativeValue="重庆" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="香港" nativeValue="香港" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="澳门" nativeValue="澳门" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="台湾" nativeValue="台湾" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="黑龙江" nativeValue="黑龙江" labelLeft class="area-item" v-model="configs.area"/>
+            <mu-checkbox label="内蒙古" nativeValue="内蒙古" labelLeft class="area-item" v-model="configs.area"/>
           </mu-col>
         </mu-row>
       </mu-paper>
@@ -174,11 +165,23 @@
                            :rows="3"
                            :rowsMax="6"/>
           </mu-col>
-          <mu-col width="100" tablet="75" desktop="75">
+          <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field fullWidth
-                           label="商务通霸屏代码"
-                           hintText="(将此代码放入你需要的商务通后台中,安装说明)"
-                           v-model.trim="configs.daima"/>
+                           label="商务通霸屏文件url"
+                           name="商务通霸屏文件url"
+                           v-model.trim="swtPath"
+                           v-validate="'url:true'"
+                           hintText="http://bpfile.php"
+                           :errorText="errors.first('商务通霸屏文件url')"/>
+          </mu-col>
+          <mu-col width="100" tablet="45" desktop="45">
+            <mu-text-field fullWidth
+                           disabled
+                           label="预览商务通霸屏url"
+                           name="预览商务通霸屏url"
+                           v-model.trim="configs.swturl"
+                           v-validate="'url:true'"
+                           :errorText="errors.first('预览商务通霸屏url')"/>
           </mu-col>
         </mu-row>
       </mu-paper>
@@ -211,6 +214,7 @@
         },
         openTimeValue: '',
         closeTimeValue: '',
+        swtPath: '',
         tooltipShow: false
       }
     },
@@ -224,6 +228,16 @@
         let timeArr = this.configs.opentime.split('-')
         timeArr[1] = `${val}:59`
         this.configs.opentime = timeArr.join('-')
+      },
+      swtPath (val) {
+        if (!val) {
+          this.configs.swturl = ''
+          return
+        }
+        let parseUrlDom = document.querySelector('#parseUrl')
+        let uid = this.$store.state.oneself ? this.$store.state.oneself.id : ''
+        parseUrlDom.href = val
+        this.configs.swturl = `http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}`
       }
     },
     methods: {
@@ -250,7 +264,6 @@
         self.configs.phone = configs.phone ? configs.phone : ''
         self.configs.address = configs.address ? configs.address : ''
         self.configs.domainname = configs.domainname ? configs.domainname : ''
-        self.configs.swturl = configs.swturl ? configs.swturl : ''
         self.configs.opentime = configs.opentime ? configs.opentime : ''
         self.configs.area = configs.area ? configs.area.split(',') : []
         self.configs.piaoimg = configs.piaoimg ? configs.piaoimg : ''
@@ -258,7 +271,12 @@
         self.configs.ipduan = configs.ipduan ? configs.ipduan : ''
         self.configs.cith = configs.cith ? configs.cith : ''
         self.configs.mobilecode = configs.mobilecode ? configs.mobilecode : ''
-        self.configs.daima = configs.daima ? configs.daima : ''
+        self.configs.swturl = configs.swturl ? configs.swturl : ''
+
+        let parseUrlDom = document.querySelector('#parseUrl')
+        parseUrlDom.href = configs.swturl ? configs.swturl : ''
+        self.swtPath = configs.swturl ? `http://${parseUrlDom.hostname}${parseUrlDom.pathname}` : ''
+
         if (self.configs.opentime) {
           self.openTimeValue = `${self.configs.opentime.split('-')[0].split(':')[0]}:${self.configs.opentime.split('-')[0].split(':')[1]}`
           self.closeTimeValue = `${self.configs.opentime.split('-')[1].split(':')[0]}:${self.configs.opentime.split('-')[1].split(':')[1]}`
@@ -272,7 +290,7 @@
   .mu-time-display-time {
     display: table;
     span:nth-child(2) {
-      margin:0 8px;
+      margin: 0 8px;
     }
   }
 
@@ -282,6 +300,9 @@
       padding: 20px 30px;
       .mu-text-field {
         color: rgba(0, 0, 0, .87);
+      }
+      .area-item {
+        margin-right: 80px;
       }
     }
     .submit-button {

@@ -13,7 +13,6 @@ class WallpaperController extends Controller
     public function index()
     {
         $curl = curl_init();
-        //设置抓取的url
         curl_setopt($curl, CURLOPT_URL, 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $data = json_decode(curl_exec($curl));
