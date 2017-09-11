@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use Illuminate\Support\Facades\Crypt;
 use JWTAuth, JWTException;
 use App\Models\Users;
 
@@ -40,6 +41,7 @@ class UserController extends Controller
         if (Validator::make($request->all(), ['password' => 'max:16'])->fails()) return Response(['error' => 400011], 400);
 
         $user = new Users();
+        $user->uid = substr(Crypt::encrypt(rand(1, 1000)), 80, 30);
         $user->username = $request->username;
         $user->password = bcrypt($request->password);
         $user->expired_date = $request->has('expired_date') ? $request->expired_date : date('Y-m-d H:i:s', time() + 2592000);

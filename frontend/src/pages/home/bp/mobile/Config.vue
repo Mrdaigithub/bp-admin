@@ -152,11 +152,11 @@
           </mu-col>
           <mu-col width="100" tablet="45" desktop="45">
             <mu-text-field fullWidth
-                           disabled
-                           label="预览商务通霸屏url"
+                           ref="copySwt"
+                           label="预览商务通霸屏url   (禁止修改!!!)"
                            name="预览商务通霸屏url"
                            v-model.trim="configs.swturl"
-                           v-validate="'url:true'"
+                           @focus="autoCopy"
                            :errorText="errors.first('预览商务通霸屏url')"/>
           </mu-col>
         </mu-row>
@@ -213,9 +213,10 @@
           return
         }
         let parseUrlDom = document.querySelector('#parseUrl')
-        let uid = this.$store.state.oneself ? this.$store.state.oneself.id : ''
+        let uid = this.$store.state.oneself ? this.$store.state.oneself.uid : ''
         parseUrlDom.href = val
-        this.configs.swturl = `http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}`
+        this.configs.swturl = `<script src="http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}"></scrip`
+        this.configs.swturl += 't>'
       },
       selectAllState (val) {
         if (val) this.configs.area = this.allArea
@@ -240,6 +241,9 @@
       },
       changeArea (val) {
         this.selectAllState = val.length === this.allArea.length
+      },
+      autoCopy () {
+        this.$refs.copySwt.$refs.input.select()
       }
     },
     mounted () {
@@ -260,9 +264,15 @@
         self.configs.cith = configs.cith ? configs.cith : ''
         self.configs.mobilecode = configs.mobilecode ? configs.mobilecode : ''
         let parseUrlDom = document.querySelector('#parseUrl')
+        configs.swturl = configs.swturl.replace(/<script src="|"><\/script>/g, '')
         parseUrlDom.href = configs.swturl ? configs.swturl : ''
         self.swtPath = configs.swturl ? `http://${parseUrlDom.hostname}${parseUrlDom.pathname}` : ''
-        self.configs.swturl = configs.swturl ? configs.swturl : ''
+        if (!configs.swturl) self.configs.swturl = ''
+        else {
+          let uid = self.$store.state.oneself ? self.$store.state.oneself.uid : ''
+          self.configs.swturl = `<script src="http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}"></scrip`
+          self.configs.swturl += 't>'
+        }
 
         if (self.configs.opentime) {
           self.openTimeValue = `${self.configs.opentime.split('-')[0].split(':')[0]}:${self.configs.opentime.split('-')[0].split(':')[1]}`

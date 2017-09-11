@@ -31,7 +31,6 @@ let axiosInstance = axios.create({
   timeout: 3000,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
-
 axiosInstance.interceptors.request.use(
   config => {
     vm.$store.commit('openLoading')

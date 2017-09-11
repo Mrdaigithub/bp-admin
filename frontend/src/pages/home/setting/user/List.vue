@@ -9,6 +9,7 @@
             <mu-thead>
               <mu-tr>
                 <mu-th>ID</mu-th>
+                <mu-th>UID</mu-th>
                 <mu-th>用户名</mu-th>
                 <mu-th>剩余时间 (单位/月)</mu-th>
                 <mu-th>保存</mu-th>
@@ -18,6 +19,7 @@
             <mu-tbody>
               <mu-tr v-for="user of users" :key="user.id">
                 <mu-td>{{user.id}}</mu-td>
+                <mu-td>{{user.uid}}</mu-td>
                 <mu-td>{{user.username}}</mu-td>
                 <mu-td>
                   <mu-slider class="expired-slider" v-model="user.expiredUnit" :min="0" :max="12" :step="1"/>
