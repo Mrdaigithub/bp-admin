@@ -70,42 +70,18 @@
               mode="landscape"/>
           </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
-            <p>投放地区:</p>
-            <p>勾选即为投放，如：勾选"北京"则表示投放北京ip的功能</p>
-            <mu-checkbox label="北京" nativeValue="北京" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="安徽" nativeValue="安徽" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="福建" nativeValue="福建" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="甘肃" nativeValue="甘肃" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="广东" nativeValue="广东" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="广西" nativeValue="广西" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="贵州" nativeValue="贵州" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="海南" nativeValue="海南" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="河北" nativeValue="河北" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="河南" nativeValue="河南" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="湖北" nativeValue="湖北" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="湖南" nativeValue="湖南" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="吉林" nativeValue="吉林" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="江苏" nativeValue="江苏" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="江西" nativeValue="江西" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="辽宁" nativeValue="辽宁" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="宁夏" nativeValue="宁夏" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="青海" nativeValue="青海" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="山东" nativeValue="山东" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="山西" nativeValue="山西" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="陕西" nativeValue="陕西" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="上海" nativeValue="上海" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="四川" nativeValue="四川" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="天津" nativeValue="天津" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="西藏" nativeValue="西藏" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="新疆" nativeValue="新疆" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="云南" nativeValue="云南" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="浙江" nativeValue="浙江" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="重庆" nativeValue="重庆" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="香港" nativeValue="香港" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="澳门" nativeValue="澳门" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="台湾" nativeValue="台湾" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="黑龙江" nativeValue="黑龙江" labelLeft class="area-item" v-model="configs.area"/>
-            <mu-checkbox label="内蒙古" nativeValue="内蒙古" labelLeft class="area-item" v-model="configs.area"/>
+            <p>投放地区</p>
+            <div class="select-all-area">
+              <mu-checkbox label="全选" nativeValue="全选" labelLeft class="area-item" v-model="selectAllState"/>
+            </div>
+            <mu-checkbox v-for="areaItem of allArea"
+                         :key="areaItem"
+                         :label="areaItem"
+                         :nativeValue="areaItem"
+                         labelLeft
+                         class="area-item"
+                         v-model="configs.area"
+                         @change="changeArea"/>
           </mu-col>
         </mu-row>
       </mu-paper>
@@ -212,6 +188,8 @@
           hospital: '',
           area: []
         },
+        allArea: ['北京', '安徽', '福建', '甘肃', '广东', '广西', '贵州', '海南', '河北', '河南', '湖北', '湖南', '吉林', '江苏', '江西', '辽宁', '宁夏', '青海', '山东', '山西', '陕西', '上海', '四川', '天津', '西藏', '新疆', '云南', '浙江', '重庆', '香港', '澳门', '台湾', '黑龙江', '内蒙古'],
+        selectAllState: false,
         openTimeValue: '',
         closeTimeValue: '',
         swtPath: '',
@@ -238,6 +216,12 @@
         let uid = this.$store.state.oneself ? this.$store.state.oneself.id : ''
         parseUrlDom.href = val
         this.configs.swturl = `http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}`
+      },
+      selectAllState (val) {
+        if (val) this.configs.area = this.allArea
+        else {
+          if (this.configs.area.length === this.allArea.length) this.configs.area = []
+        }
       }
     },
     methods: {
@@ -253,12 +237,16 @@
           }
           return res
         })
+      },
+      changeArea (val) {
+        this.selectAllState = val.length === this.allArea.length
       }
     },
     mounted () {
       let self = this
       !(async function () {
         if (!self.$store.state.configs) self.$store.commit('getConfig', await axios.get('/config'))
+        if (!self.$store.state.oneself) self.$store.commit('getOneself', await axios.get('/user/0'))
         let configs = self.$store.state.configs
         self.configs.hospital = configs.hospital ? configs.hospital : ''
         self.configs.phone = configs.phone ? configs.phone : ''
@@ -271,16 +259,16 @@
         self.configs.ipduan = configs.ipduan ? configs.ipduan : ''
         self.configs.cith = configs.cith ? configs.cith : ''
         self.configs.mobilecode = configs.mobilecode ? configs.mobilecode : ''
-        self.configs.swturl = configs.swturl ? configs.swturl : ''
-
         let parseUrlDom = document.querySelector('#parseUrl')
         parseUrlDom.href = configs.swturl ? configs.swturl : ''
         self.swtPath = configs.swturl ? `http://${parseUrlDom.hostname}${parseUrlDom.pathname}` : ''
+        self.configs.swturl = configs.swturl ? configs.swturl : ''
 
         if (self.configs.opentime) {
           self.openTimeValue = `${self.configs.opentime.split('-')[0].split(':')[0]}:${self.configs.opentime.split('-')[0].split(':')[1]}`
           self.closeTimeValue = `${self.configs.opentime.split('-')[1].split(':')[0]}:${self.configs.opentime.split('-')[1].split(':')[1]}`
         }
+        self.selectAllState = self.configs.area.length === self.allArea.length
       })()
     }
   }
@@ -301,8 +289,16 @@
       .mu-text-field {
         color: rgba(0, 0, 0, .87);
       }
+      .select-all-area {
+        margin: 5px 0 20px 0;
+      }
       .area-item {
-        margin-right: 80px;
+        margin-right: 30px;
+        .mu-checkbox-wrapper {
+          .mu-checkbox-icon {
+            margin-left: 3px;
+          }
+        }
       }
     }
     .submit-button {

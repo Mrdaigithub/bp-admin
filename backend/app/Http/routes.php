@@ -16,7 +16,7 @@ Route::get('/template/{uid}', 'TemplateController@index');
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login', 'LoginController@login');
-    Route::group(['middleware' => ['jwt.auth', 'jwt.refresh']], function () {
+    Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/', 'UserController@index');
         Route::get('/{uid}', 'UserController@show');
         Route::post('/', 'UserController@create_user');
