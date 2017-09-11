@@ -8,6 +8,8 @@ use Validator;
 use Illuminate\Support\Facades\Crypt;
 use JWTAuth, JWTException;
 use App\Models\Users;
+use App\Models\Config;
+use App\Models\Ad;
 
 class UserController extends Controller
 {
@@ -114,7 +116,17 @@ class UserController extends Controller
      */
     public function destroy($uid)
     {
-        if (Users::destroy($uid)) return Users::all();
-        return false;
+        $user = Users::find($uid);
+        $config = $user->config();
+        $config_id = $config->first()->id;
+        $ad = $user->ad();
+        Config::destroy($config_id);
+        $config->detach();
+        foreach ($ad->get() as $item) {
+            Ad::destroy($item->id);
+        }
+        $ad->detach();
+        $user->delete();
+        return Users::all();
     }
 }
