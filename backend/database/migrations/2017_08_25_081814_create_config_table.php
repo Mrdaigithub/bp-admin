@@ -21,6 +21,7 @@ class CreateConfigTable extends Migration
             $table->text('domainname')->nullable();
             $table->text('swturl')->nullable();
             $table->string('opentime')->nullable()->default('00:00:00-23:59:59');
+            $table->string('channel')->nullable();
             $table->text('area')->nullable();
             $table->string('piaoimg')->nullable();
             $table->string('piaourl')->nullable();

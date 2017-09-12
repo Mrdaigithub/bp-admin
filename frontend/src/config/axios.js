@@ -16,6 +16,7 @@ const errors = {
   400011: '密码请求参数过长',
   400012: '账户有效期请求参数缺失',
   400013: '账户有效期请求参数存在非法字符',
+  400014: '请求参数存在非法字符',
   401000: '密码错误',
   401001: '用户有效期限已过',
   403000: '权限不足',
@@ -66,22 +67,11 @@ axiosInstance.interceptors.response.use(
       }
     } else {
       vm.$store.commit('closeLoading')
-      if (vm.$route.name !== 'Login') {
-        vm.$toast('服务器请求超时, 请重新登录', {
-          horizontalPosition: 'center',
-          className: ['et-alert'],
-          duration: 2000
-        })
-        setTimeout(function () {
-          vm.$router.replace('/login')
-        }, 2000)
-      } else {
-        vm.$toast('服务器请求超时', {
-          horizontalPosition: 'center',
-          className: ['et-alert'],
-          duration: 2000
-        })
-      }
+      vm.$toast('服务器请求超时', {
+        horizontalPosition: 'center',
+        className: ['et-alert'],
+        duration: 2000
+      })
     }
     return Promise.reject(error.response.data)
   })

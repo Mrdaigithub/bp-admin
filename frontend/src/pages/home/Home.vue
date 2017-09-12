@@ -34,6 +34,13 @@
                         to="/home/setting/user/update/password">
             <mu-icon slot="left" value="lock_open"/>
           </mu-list-item>
+          <mu-list-item v-if="$store.state.oneself ? $store.state.oneself.power : false"
+                        slot="nested"
+                        title="访问日志"
+                        value="settingLog"
+                        to="/home/setting/log">
+            <mu-icon slot="left" value="lock_open"/>
+          </mu-list-item>
         </mu-list-item>
       </mu-list>
     </mu-drawer>
@@ -137,9 +144,9 @@
               }
             }
           }
-          .selected{
-            .mu-icon{
-              color: #009688!important;
+          .selected {
+            .mu-icon {
+              color: #009688 !important;
             }
           }
         }

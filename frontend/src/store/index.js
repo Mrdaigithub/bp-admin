@@ -40,6 +40,7 @@ export default new Vuex.Store({
   actions: {
     updateConfig ({commit}, _configs) {
       let configs = JSON.parse(JSON.stringify(_configs))
+      if (configs.channel) configs.channel = configs.channel.join()
       if (configs.area) configs.area = configs.area.join()
       axios.put('/config', qs.stringify(configs))
         .then(res => {

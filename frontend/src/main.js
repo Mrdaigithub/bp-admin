@@ -35,7 +35,7 @@ router.afterEach(route => {
   if (!sessionStorage.token && route.name !== 'Login') router.replace('/login')
   if ((sessionStorage.token && !route.name) ||
     (!store.state.oneself || !store.state.oneself.power) &&
-    (route.name === 'settingUserCreate' || route.name === 'settingUserList')) {
+    (route.name === 'settingUserCreate' || route.name === 'settingUserList' || route.name === 'settingLog')) {
     router.replace('/home/bp/mobile/config')
   }
 })

@@ -35,4 +35,9 @@ class Users extends Model implements AuthenticatableContract, CanResetPasswordCo
         return $this->belongsToMany('App\Models\Ad', 'user_ad', 'user_id', 'ad_id');
     }
 
+    public function log()
+    {
+        return $this->belongsToMany('App\Models\Log', 'user_log', 'user_id', 'log_id');
+    }
+
 }

@@ -25,13 +25,18 @@ class CreateUsersTable extends Migration
         });
 
         Schema::create('user_config', function (Blueprint $table) {
-            $table->string('user_id');
+            $table->integer('user_id')->unsigned();
             $table->integer('config_id')->unsigned();
         });
 
         Schema::create('user_ad', function (Blueprint $table) {
-            $table->string('user_id');
+            $table->integer('user_id')->unsigned();
             $table->integer('ad_id')->unsigned();
+        });
+
+        Schema::create('user_log', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->integer('log_id')->unsigned();
         });
     }
 

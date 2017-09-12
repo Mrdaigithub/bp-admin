@@ -69,12 +69,24 @@
               format="24hr"
               mode="landscape"/>
           </mu-col>
+          <mu-col width="100" tablet="100" desktop="100" class="channel">
+            <p>投放渠道</p>
+            <mu-checkbox name="channel"
+                         v-for="channelItem of allChannel"
+                         :key="channelItem"
+                         :label="channelItem"
+                         :nativeValue="channelItem"
+                         labelLeft
+                         class="area-item"
+                         v-model="configs.channel"/>
+          </mu-col>
           <mu-col width="100" tablet="100" desktop="100">
             <p>投放地区</p>
             <div class="select-all-area">
               <mu-checkbox label="全选" nativeValue="全选" labelLeft class="area-item" v-model="selectAllState"/>
             </div>
-            <mu-checkbox v-for="areaItem of allArea"
+            <mu-checkbox name="area"
+                         v-for="areaItem of allArea"
                          :key="areaItem"
                          :label="areaItem"
                          :nativeValue="areaItem"
@@ -186,9 +198,11 @@
       return {
         configs: {
           hospital: '',
-          area: []
+          area: [],
+          channel: []
         },
         allArea: ['北京', '安徽', '福建', '甘肃', '广东', '广西', '贵州', '海南', '河北', '河南', '湖北', '湖南', '吉林', '江苏', '江西', '辽宁', '宁夏', '青海', '山东', '山西', '陕西', '上海', '四川', '天津', '西藏', '新疆', '云南', '浙江', '重庆', '香港', '澳门', '台湾', '黑龙江', '内蒙古'],
+        allChannel: ['百度', '搜狗', '神马', '360'],
         selectAllState: false,
         openTimeValue: '',
         closeTimeValue: '',
@@ -257,6 +271,7 @@
         self.configs.address = configs.address ? configs.address : ''
         self.configs.domainname = configs.domainname ? configs.domainname : ''
         self.configs.opentime = configs.opentime ? configs.opentime : ''
+        self.configs.channel = configs.channel ? configs.channel.split(',') : []
         self.configs.area = configs.area ? configs.area.split(',') : []
         self.configs.piaoimg = configs.piaoimg ? configs.piaoimg : ''
         self.configs.piaourl = configs.piaourl ? configs.piaourl : ''
@@ -303,6 +318,9 @@
       }
       .select-all-area {
         margin: 5px 0 20px 0;
+      }
+      .channel {
+        margin: 20px 0 50px 0;
       }
       .area-item {
         margin-right: 30px;
