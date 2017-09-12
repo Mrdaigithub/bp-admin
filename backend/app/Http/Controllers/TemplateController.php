@@ -16,7 +16,7 @@ class TemplateController extends Controller
      */
     public function index($uid)
     {
-        $user = Users::find($uid);
+        $user = Users::where('uid', $uid);
         $config = $user->config->first();
         $ads = $user->ad->all();
         $htmlStr =

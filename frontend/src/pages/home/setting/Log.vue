@@ -1,108 +1,102 @@
 <template>
   <div class="users-list">
-    <mu-sub-header>用户列表</mu-sub-header>
+    <mu-sub-header>访问日志</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-row>
         <mu-col width="100" tablet="100" desktop="100">
-          <mu-table ref="table" :showCheckbox="false" @cellClick="handlerOperate">
+          <mu-table ref="table" :showCheckbox="false" :enableSelectAll="false" :multiSelectable="false" @rowSelection="rowSelection">
             <mu-thead>
               <mu-tr>
                 <mu-th>ID</mu-th>
-                <mu-th>UID</mu-th>
-                <mu-th>用户名</mu-th>
-                <mu-th>剩余时间 (单位/月)</mu-th>
-                <mu-th>保存</mu-th>
-                <mu-th>删除</mu-th>
+                <mu-th>关键词</mu-th>
+                <mu-th>来源</mu-th>
+                <mu-th>IP</mu-th>
+                <mu-th>地理位置</mu-th>
+                <mu-th>访问时间</mu-th>
               </mu-tr>
             </mu-thead>
             <mu-tbody>
-              <mu-tr v-for="user of users" :key="user.id">
-                <mu-td>{{user.id}}</mu-td>
-                <mu-td>{{user.uid}}</mu-td>
-                <mu-td>{{user.username}}</mu-td>
-                <mu-td>
-                  <mu-slider class="expired-slider" v-model="user.expiredUnit" :min="0" :max="12" :step="1"/>
-                </mu-td>
-                <mu-td name="save">
-                  <mu-raised-button label="保存"
-                                    primary
-                                    icon="save"
-                                    primary
-                                    fullWidth/>
-                </mu-td>
-                <mu-td name="remove">
-                  <mu-raised-button label="删除"
-                                    primary
-                                    icon="delete"
-                                    backgroundColor="#dd5044"
-                                    fullWidth/>
-                </mu-td>
+              <mu-tr v-for="log of logData" :key="log.id">
+                <mu-td>{{log.id}}</mu-td>
+                <mu-td>{{log.keyword}}</mu-td>
+                <mu-td>{{log.channel}}</mu-td>
+                <mu-td>{{log.ip}}</mu-td>
+                <mu-td><a :href="log.geography" target="_blank">查询IP</a></mu-td>
+                <mu-td>{{log.created_at}}</mu-td>
               </mu-tr>
             </mu-tbody>
           </mu-table>
         </mu-col>
       </mu-row>
+      <mu-pagination :total="page.total" :current="page.current"
+                     @pageChange="changePage"></mu-pagination>
     </mu-content-block>
+    <!--<mu-float-button @click="handleRemove"-->
+                     <!--class="remove-button"-->
+                     <!--ref="submitButton"-->
+                     <!--@hover="tooltipShow = true"-->
+                     <!--@hoverExit="tooltipShow = false">-->
+      <!--<mu-icon value="delete"/>-->
+    <!--</mu-float-button>-->
   </div>
 </template>
 
 <script>
   import axios from '@/config/axios'
-  import qs from 'qs'
-  
-  const monthTimestamp = 30 * 24 * 3600 * 1000
 
   export default {
     name: 'log',
     data () {
       return {
-        users: this.$store.state.users ? this.$store.state.users : []
+        logs: null,
+        selectedRowsIndex: []
+      }
+    },
+    computed: {
+      page () {
+        return this.logs ? {
+          total: this.logs.total,
+          current: this.logs.current_page,
+          pageSize: this.logs.per_page
+        } : {
+          total: 1,
+          current: 1
+        }
+      },
+      logData () {
+        return this.logs ? this.logs.data : []
       }
     },
     methods: {
-      handlerOperate (index, trName) {
-        if (trName === 'save') {
-          this.users[index].expired_date = new Date(new Date().getTime() + this.users[index].expiredUnit * monthTimestamp)
-          axios.patch(`/user/expired/${this.users[index].id}`, qs.stringify({
-            expired_date: this.users[index].expired_date
-          }))
-            .then(users => {
-              this.$toast('保存成功', {
-                horizontalPosition: 'center',
-                duration: 1000
-              })
+      getPage (pageIndex) {
+        this.selectedRowsIndex = []
+        axios.get(`/log?page=${pageIndex}`)
+          .then(logs => {
+            logs.data.forEach(log => {
+              log.geography = `http://www.baidu.com/s?wd=${log.ip}`
             })
-        } else if (trName === 'remove') {
-          axios.delete(`/user/${this.users[index].id}`)
-            .then(users => {
-              this.initUsersData(users)
-              this.$toast('删除成功', {
-                horizontalPosition: 'center',
-                duration: 1000
-              })
-            })
-        }
+            this.logs = logs
+          })
       },
-      initUsersData (users, context = this) {
-        context.$store.commit('getUsers', users)
-        context.users = context.$store.state.users
-        context.users.forEach(user => {
-          let expiredUnit = Math.ceil((new Date(user.expired_date).getTime() - new Date().getTime()) / monthTimestamp)
-          if (expiredUnit < 0) expiredUnit = 0
-          if (expiredUnit > 12) expiredUnit = 12
-          user.expiredUnit = expiredUnit
-          user.confirm = false
+      changePage (newIndex) {
+        this.getPage(newIndex)
+      },
+      handleRemove () {
+        this.selectedRowsIndex.forEach(index => {
+          let logId = this.logData[index].id
+          this.logs.data.splice(index, 1)
+          console.log(this.logs.data)
+          axios.delete(`/log/${logId}`).then(res => {})
+          this.getPage(this.page.current)
         })
+      },
+      rowSelection (selectedRowsIndex) {
+        this.selectedRowsIndex = selectedRowsIndex
       }
     },
     mounted () {
-      if (!this.$store.state.users) {
-        axios.get('/user')
-          .then(users => {
-            this.initUsersData(users)
-          })
-      }
+      this.getPage(1)
     }
   }
 </script>
@@ -112,5 +106,12 @@
     .expired-slider {
       margin: 0;
     }
+  }
+
+  .remove-button {
+    position: fixed;
+    right: 5vw;
+    bottom: 5vh;
+    background: #dd5044;
   }
 </style>

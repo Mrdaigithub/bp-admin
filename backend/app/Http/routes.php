@@ -49,7 +49,7 @@ Route::group(['prefix' => 'ad'], function () {
 Route::group(['prefix' => 'log'], function () {
     Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('/', 'LogController@index');
-        Route::get('/{uid}', 'LogController@create');
         Route::delete('/{id}', 'LogController@destroy');
     });
+    Route::get('/{uid}', 'LogController@create');
 });

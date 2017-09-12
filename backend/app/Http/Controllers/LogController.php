@@ -18,7 +18,7 @@ class LogController extends Controller
     public function index()
     {
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->log()->orderBy('created_at', 'desc')->paginate(15);
+        return $user->log()->orderBy('created_at', 'desc')->paginate(10);
     }
 
     /**
@@ -32,13 +32,12 @@ class LogController extends Controller
     {
         if (Validator::make($request->all(), ['keyword' => 'string'])->fails()) return Response(['error' => 400014], 400);
         if (Validator::make($request->all(), ['channel' => 'string'])->fails()) return Response(['error' => 400014], 400);
-        if (Validator::make($request->all(), ['ip' => 'ip'])->fails()) return Response(['error' => 400014], 400);
 
         $user = Users::where('uid', $uid)->first();
         $log = new Log();
         if ($request->has('keyword')) $log->keyword = $request->keyword;
         if ($request->has('channel')) $log->channel = $request->channel;
-        if ($request->has('ip')) $log->ip = $request->ip;
+        if ($request->has('ip')) $log->ip = $_SERVER['REMOTE_ADDR'];
         if (!$log->save()) return Response(['error' => 500001], 500);
         $user->log()->attach($log->id);
         return $log;

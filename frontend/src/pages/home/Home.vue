@@ -39,7 +39,7 @@
                         title="访问日志"
                         value="settingLog"
                         to="/home/setting/log">
-            <mu-icon slot="left" value="lock_open"/>
+            <mu-icon slot="left" value="speaker_notes"/>
           </mu-list-item>
         </mu-list-item>
       </mu-list>
@@ -93,7 +93,8 @@
           rName === 'bpMobileAd' ||
           rName === 'settingUserUpdatePassword' ||
           rName === 'settingUserCreate' ||
-          rName === 'settingUserList') {
+          rName === 'settingUserList' ||
+          rName === 'settingLog') {
           return rName
         }
       }

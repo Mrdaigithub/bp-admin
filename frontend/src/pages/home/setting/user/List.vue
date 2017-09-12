@@ -18,7 +18,7 @@
             </mu-thead>
             <mu-tbody>
               <mu-tr v-for="user of users" :key="user.id">
-                <mu-td>{{user.id}}</mu-td>
+                <mu-td class="id-col">{{user.id}}</mu-td>
                 <mu-td>{{user.uid}}</mu-td>
                 <mu-td>{{user.username}}</mu-td>
                 <mu-td>
@@ -108,6 +108,20 @@
 </script>
 
 <style lang="scss">
+  .mu-table {
+    .mu-thead {
+      .mu-th:nth-child(1){
+        width: 5%;
+      }
+      .mu-th:nth-child(3) {
+        width: 10%;
+      }
+      .mu-th:nth-child(5), .mu-th:nth-child(6) {
+        width: 15%;
+      }
+    }
+  }
+
   .users-list {
     .expired-slider {
       margin: 0;
