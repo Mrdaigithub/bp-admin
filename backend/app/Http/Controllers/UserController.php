@@ -118,14 +118,17 @@ class UserController extends Controller
     {
         $user = Users::find($uid);
         $config = $user->config();
-        $config_id = $config->first()->id;
         $ad = $user->ad();
-        Config::destroy($config_id);
-        $config->detach();
-        foreach ($ad->get() as $item) {
-            Ad::destroy($item->id);
+        if (count($config->get())) {
+            Config::destroy($config->first()->id);
+            $config->detach();
         }
-        $ad->detach();
+        if (count($ad->get())) {
+            foreach ($ad->get() as $item) {
+                Ad::destroy($item->id);
+            }
+            $ad->detach();
+        }
         $user->delete();
         return Users::all();
     }

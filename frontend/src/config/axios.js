@@ -51,7 +51,8 @@ axiosInstance.interceptors.response.use(
     return response.data
   },
   error => {
-    if (error.response) {
+    if (error.response.data.error) {
+      vm.$store.commit('closeLoading')
       let errorCode = error.response.data['error']
       vm.$toast(errors[errorCode], {
         horizontalPosition: 'center',
@@ -64,13 +65,24 @@ axiosInstance.interceptors.response.use(
         }, 2000)
       }
     } else {
-      vm.$toast('服务器请求超时', {
-        horizontalPosition: 'center',
-        className: ['et-alert'],
-        duration: 2000
-      })
+      vm.$store.commit('closeLoading')
+      if (vm.$route.name !== 'Login') {
+        vm.$toast('服务器请求超时, 请重新登录', {
+          horizontalPosition: 'center',
+          className: ['et-alert'],
+          duration: 2000
+        })
+        setTimeout(function () {
+          vm.$router.replace('/login')
+        }, 2000)
+      } else {
+        vm.$toast('服务器请求超时', {
+          horizontalPosition: 'center',
+          className: ['et-alert'],
+          duration: 2000
+        })
+      }
     }
-    vm.$store.commit('closeLoading')
     return Promise.reject(error.response.data)
   })
 

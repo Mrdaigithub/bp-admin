@@ -10,6 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+Route::get('/', 'WelcomeController@index');
+
 Route::get('/wallpaper', 'WallpaperController@index');
 
 Route::get('/template/{uid}', 'TemplateController@index');

@@ -264,9 +264,11 @@
         self.configs.cith = configs.cith ? configs.cith : ''
         self.configs.mobilecode = configs.mobilecode ? configs.mobilecode : ''
         let parseUrlDom = document.querySelector('#parseUrl')
-        configs.swturl = configs.swturl.replace(/<script src="|"><\/script>/g, '')
-        parseUrlDom.href = configs.swturl ? configs.swturl : ''
-        self.swtPath = configs.swturl ? `http://${parseUrlDom.hostname}${parseUrlDom.pathname}` : ''
+        if (configs.swturl) {
+          configs.swturl = configs.swturl.replace(/<script src="|"><\/script>/g, '')
+          parseUrlDom.href = configs.swturl ? configs.swturl : ''
+          self.swtPath = configs.swturl ? `http://${parseUrlDom.hostname}${parseUrlDom.pathname}` : ''
+        }
         if (!configs.swturl) self.configs.swturl = ''
         else {
           let uid = self.$store.state.oneself ? self.$store.state.oneself.uid : ''
