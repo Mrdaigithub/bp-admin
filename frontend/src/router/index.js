@@ -7,7 +7,7 @@ import BpMobileAd from '@/pages/home/bp/mobile/Ad'
 import UpdatePassword from '@/pages/home/setting/user/UpdatePassword'
 import SettingUserCreate from '@/pages/home/setting/user/Create'
 import SettingUserList from '@/pages/home/setting/user/List'
-import SettingLog from '@/pages/home/setting/Log'
+import SettingSystemLog from '@/pages/home/setting/system/Log'
 
 Vue.use(Router)
 
@@ -55,9 +55,9 @@ export default new Router({
           component: SettingUserList
         },
         {
-          path: 'setting/log',
-          name: 'settingLog',
-          component: SettingLog
+          path: 'setting/system/log',
+          name: 'settingSystemLog',
+          component: SettingSystemLog
         }
       ]
     }

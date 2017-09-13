@@ -10,6 +10,7 @@ use JWTAuth, JWTException;
 use App\Models\Users;
 use App\Models\Config;
 use App\Models\Ad;
+use App\Models\Log;
 
 class UserController extends Controller
 {
@@ -119,6 +120,7 @@ class UserController extends Controller
         $user = Users::find($uid);
         $config = $user->config();
         $ad = $user->ad();
+        $log = $user->log();
         if (count($config->get())) {
             Config::destroy($config->first()->id);
             $config->detach();
@@ -128,6 +130,13 @@ class UserController extends Controller
                 Ad::destroy($item->id);
             }
             $ad->detach();
+        }
+        if (count($log->get())) {
+            $logs_id = array_map(function ($item){
+                return $item['id'];
+            }, $log->get()->toArray());
+            Log::destroy($logs_id);
+            $log->detach();
         }
         $user->delete();
         return Users::all();

@@ -12,8 +12,8 @@
             <mu-icon slot="left" value="view_headline"/>
           </mu-list-item>
         </mu-list-item>
-        <mu-list-item title="系统管理" toggleNested>
-          <mu-icon slot="left" value="settings"/>
+        <mu-list-item title="用户管理" toggleNested>
+          <mu-icon slot="left" value="account_circle"/>
           <mu-list-item v-if="$store.state.oneself ? $store.state.oneself.power : false"
                         slot="nested"
                         title="创建用户"
@@ -34,11 +34,13 @@
                         to="/home/setting/user/update/password">
             <mu-icon slot="left" value="lock_open"/>
           </mu-list-item>
-          <mu-list-item v-if="$store.state.oneself ? $store.state.oneself.power : false"
-                        slot="nested"
+        </mu-list-item>
+        <mu-list-item title="系统管理" toggleNested>
+          <mu-icon slot="left" value="settings"/>
+          <mu-list-item slot="nested"
                         title="访问日志"
-                        value="settingLog"
-                        to="/home/setting/log">
+                        value="settingSystemLog"
+                        to="/home/setting/system/log">
             <mu-icon slot="left" value="speaker_notes"/>
           </mu-list-item>
         </mu-list-item>
@@ -94,7 +96,7 @@
           rName === 'settingUserUpdatePassword' ||
           rName === 'settingUserCreate' ||
           rName === 'settingUserList' ||
-          rName === 'settingLog') {
+          rName === 'settingSystemLog') {
           return rName
         }
       }

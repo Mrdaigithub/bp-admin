@@ -32,10 +32,12 @@
                                     fullWidth/>
                 </mu-td>
                 <mu-td name="remove">
-                  <mu-raised-button label="删除"
+                  <mu-raised-button :disabled="user.id===1 && user.username==='root'"
+                                    label="删除"
                                     primary
                                     icon="delete"
                                     backgroundColor="#dd5044"
+                                    @click="removeUser(user.id)"
                                     fullWidth/>
                 </mu-td>
               </mu-tr>
@@ -73,16 +75,17 @@
                 duration: 1000
               })
             })
-        } else if (trName === 'remove') {
-          axios.delete(`/user/${this.users[index].id}`)
-            .then(users => {
-              this.initUsersData(users)
-              this.$toast('删除成功', {
-                horizontalPosition: 'center',
-                duration: 1000
-              })
-            })
         }
+      },
+      removeUser (id) {
+        axios.delete(`/user/${id}`)
+          .then(users => {
+            this.initUsersData(users)
+            this.$toast('删除成功', {
+              horizontalPosition: 'center',
+              duration: 1000
+            })
+          })
       },
       initUsersData (users, context = this) {
         context.$store.commit('getUsers', users)
@@ -110,7 +113,7 @@
 <style lang="scss">
   .mu-table {
     .mu-thead {
-      .mu-th:nth-child(1){
+      .mu-th:nth-child(1) {
         width: 5%;
       }
       .mu-th:nth-child(3) {
