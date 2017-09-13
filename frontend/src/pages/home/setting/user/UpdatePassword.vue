@@ -1,6 +1,6 @@
 <template>
   <div class="update-password">
-    <mu-sub-header>修改密码</mu-sub-header>
+    <mu-sub-header>用户管理 - 修改密码</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-row>

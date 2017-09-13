@@ -17,6 +17,7 @@ class CreateLogTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('keyword')->nullable();
             $table->string('channel')->nullable();
+            $table->string('sourceurl')->nullable();
             $table->string('ip')->nullable()->default('0.0.0.0');
             $table->timestamps();
         });

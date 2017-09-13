@@ -37,7 +37,8 @@ class LogController extends Controller
         $log = new Log();
         if ($request->has('keyword')) $log->keyword = $request->keyword;
         if ($request->has('channel')) $log->channel = $request->channel;
-        if ($request->has('ip')) $log->ip = $_SERVER['REMOTE_ADDR'];
+        if ($request->has('sourceurl')) $log->sourceurl = $request->sourceurl;
+        $log->ip = $_SERVER['REMOTE_ADDR'];
         if (!$log->save()) return Response(['error' => 500001], 500);
         $user->log()->attach($log->id);
         return $log;

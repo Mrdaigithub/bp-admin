@@ -35,6 +35,15 @@
             <mu-icon slot="left" value="lock_open"/>
           </mu-list-item>
         </mu-list-item>
+        <!--<mu-list-item title="数据统计" toggleNested>-->
+          <!--<mu-icon slot="left" value="insert_chart"/>-->
+          <!--<mu-list-item slot="nested"-->
+                        <!--title="总体数据"-->
+                        <!--value="dataTotal"-->
+                        <!--to="/home/data/total">-->
+            <!--<mu-icon slot="left" value="show_chart"/>-->
+          <!--</mu-list-item>-->
+        <!--</mu-list-item>-->
         <mu-list-item title="系统管理" toggleNested>
           <mu-icon slot="left" value="settings"/>
           <mu-list-item slot="nested"
@@ -96,7 +105,8 @@
           rName === 'settingUserUpdatePassword' ||
           rName === 'settingUserCreate' ||
           rName === 'settingUserList' ||
-          rName === 'settingSystemLog') {
+          rName === 'settingSystemLog' ||
+          rName === 'dataTotal') {
           return rName
         }
       }

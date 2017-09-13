@@ -8,6 +8,7 @@ import UpdatePassword from '@/pages/home/setting/user/UpdatePassword'
 import SettingUserCreate from '@/pages/home/setting/user/Create'
 import SettingUserList from '@/pages/home/setting/user/List'
 import SettingSystemLog from '@/pages/home/setting/system/Log'
+import DataTotal from '@/pages/home/data/total'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
           path: 'setting/system/log',
           name: 'settingSystemLog',
           component: SettingSystemLog
+        },
+        {
+          path: 'data/total',
+          name: 'dataTotal',
+          component: DataTotal
         }
       ]
     }

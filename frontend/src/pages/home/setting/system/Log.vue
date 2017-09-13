@@ -1,16 +1,17 @@
 <template>
   <div class="users-list">
-    <mu-sub-header>访问日志</mu-sub-header>
+    <mu-sub-header>系统管理 - 访问日志</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-row>
         <mu-col width="100" tablet="100" desktop="100">
-          <mu-table ref="table" :showCheckbox="false" :enableSelectAll="false" :multiSelectable="false" @rowSelection="rowSelection">
+          <mu-table ref="table" :showCheckbox="false" :enableSelectAll="false" :multiSelectable="false">
             <mu-thead>
               <mu-tr>
                 <mu-th>ID</mu-th>
                 <mu-th>关键词</mu-th>
-                <mu-th>来源</mu-th>
+                <mu-th>渠道</mu-th>
+                <mu-th>来源页</mu-th>
                 <mu-th>IP</mu-th>
                 <mu-th>地理位置</mu-th>
                 <mu-th>访问时间</mu-th>
@@ -21,6 +22,7 @@
                 <mu-td>{{log.id}}</mu-td>
                 <mu-td>{{log.keyword}}</mu-td>
                 <mu-td>{{log.channel}}</mu-td>
+                <mu-td>{{log.sourceurl}}</mu-td>
                 <mu-td>{{log.ip}}</mu-td>
                 <mu-td><a :href="log.geography" target="_blank">查询IP</a></mu-td>
                 <mu-td>{{log.created_at}}</mu-td>
@@ -32,13 +34,6 @@
       <mu-pagination :total="page.total" :current="page.current"
                      @pageChange="changePage"></mu-pagination>
     </mu-content-block>
-    <!--<mu-float-button @click="handleRemove"-->
-                     <!--class="remove-button"-->
-                     <!--ref="submitButton"-->
-                     <!--@hover="tooltipShow = true"-->
-                     <!--@hoverExit="tooltipShow = false">-->
-      <!--<mu-icon value="delete"/>-->
-    <!--</mu-float-button>-->
   </div>
 </template>
 
@@ -49,8 +44,7 @@
     name: 'log',
     data () {
       return {
-        logs: null,
-        selectedRowsIndex: []
+        logs: null
       }
     },
     computed: {
@@ -81,18 +75,6 @@
       },
       changePage (newIndex) {
         this.getPage(newIndex)
-      },
-      handleRemove () {
-        this.selectedRowsIndex.forEach(index => {
-          let logId = this.logData[index].id
-          this.logs.data.splice(index, 1)
-          console.log(this.logs.data)
-          axios.delete(`/log/${logId}`).then(res => {})
-          this.getPage(this.page.current)
-        })
-      },
-      rowSelection (selectedRowsIndex) {
-        this.selectedRowsIndex = selectedRowsIndex
       }
     },
     mounted () {

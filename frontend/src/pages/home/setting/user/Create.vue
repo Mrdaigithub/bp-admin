@@ -1,6 +1,6 @@
 <template>
   <div class="create-user">
-    <mu-sub-header>创建用户</mu-sub-header>
+    <mu-sub-header>用户管理 - 创建用户</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-row>

@@ -1,6 +1,6 @@
 <template>
   <div class="users-list">
-    <mu-sub-header>用户列表</mu-sub-header>
+    <mu-sub-header>用户管理 - 用户列表</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
       <mu-row>

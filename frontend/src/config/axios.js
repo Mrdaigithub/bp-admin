@@ -28,7 +28,7 @@ const errors = {
 }
 
 let axiosInstance = axios.create({
-  // baseURL: 'http://127.0.0.1',
+  baseURL: 'http://127.0.0.1',
   timeout: 3000,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
