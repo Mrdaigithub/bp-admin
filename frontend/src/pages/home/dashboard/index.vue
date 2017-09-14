@@ -9,7 +9,7 @@
             <h4>百度昨日访问人数</h4>
             <div class="clearfix">
               <i class="icon pull-left">百</i>
-              <span class="pull-right">3</span>
+              <span class="pull-right">{{yesterdayData.baidu}}</span>
             </div>
           </mu-paper>
         </mu-col>
@@ -18,7 +18,7 @@
             <h4>搜狗昨日访问人数</h4>
             <div class="clearfix">
               <i class="icon pull-left">搜</i>
-              <span class="pull-right">300</span>
+              <span class="pull-right">{{yesterdayData.sougou}}</span>
             </div>
           </mu-paper>
         </mu-col>
@@ -27,7 +27,7 @@
             <h4>360昨日访问人数</h4>
             <div class="clearfix">
               <i class="icon pull-left">3</i>
-              <span class="pull-right">300</span>
+              <span class="pull-right">{{yesterdayData['360']}}</span>
             </div>
           </mu-paper>
         </mu-col>
@@ -36,7 +36,7 @@
             <h4>神马昨日访问人数</h4>
             <div class="clearfix">
               <i class="icon pull-left">神</i>
-              <span class="pull-right">300</span>
+              <span class="pull-right">{{yesterdayData.sm}}</span>
             </div>
           </mu-paper>
         </mu-col>
@@ -105,61 +105,56 @@
 </template>
 
 <script>
-  //  import axios from '@/config/axios'
+  import axios from '@/config/axios'
 
   export default {
     name: 'dashboard',
     data () {
       return {
+        yesterdayData: {baidu: [], sougou: [], 360: [], sm: []},
+        monthData: {baidu: [], sougou: [], 360: [], sm: []},
         roundChartData: {
-          columns: ['日期', '销售额-1季度', '销售额-2季度', '占比', '其他'],
+          columns: ['百度', '搜狗', '360', '神马'],
           rows: [
-            {'日期': '1月1日', '销售额-1季度': 1523, '销售额-2季度': 1523, '占比': 0.12, '其他': 100},
-            {'日期': '1月2日', '销售额-1季度': 1223, '销售额-2季度': 1523, '占比': 0.345, '其他': 100},
-            {'日期': '1月3日', '销售额-1季度': 2123, '销售额-2季度': 1523, '占比': 0.7, '其他': 100},
-            {'日期': '1月4日', '销售额-1季度': 4123, '销售额-2季度': 1523, '占比': 0.31, '其他': 100},
-            {'日期': '1月5日', '销售额-1季度': 3123, '销售额-2季度': 1523, '占比': 0.12, '其他': 100},
-            {'日期': '1月6日', '销售额-1季度': 7123, '销售额-2季度': 1523, '占比': 0.65, '其他': 100}
+            {'searchEngine': '百度', 'value': 1523},
+            {'searchEngine': '搜狗', 'value': 1223},
+            {'searchEngine': '360', 'value': 2123},
+            {'searchEngine': '神马', 'value': 4123}
           ]
         },
         roundChartSettings: {
-          dimension: '日期',
-          metrics: '销售额-1季度',
-          dataType: 'KMB',
+          dimension: 'searchEngine',
+          metrics: 'value',
           selectedMode: 'single',
-          hoverAnimation: false,
-          radius: 100,
-          offsetY: 200
+          hoverAnimation: true,
+          radius: 150,
+          offsetY: 230
         },
         lineChartData: {
-          columns: ['日期', '销售额-1季度', '销售额-2季度', '占比', '其他'],
+          columns: ['日期', '百度', '搜狗', '360', '神马'],
           rows: [
-            {'日期': '1月1日', '销售额-1季度': 1523, '销售额-2季度': 1523, '占比': 0.12, '其他': 100},
-            {'日期': '1月2日', '销售额-1季度': 1223, '销售额-2季度': 1523, '占比': 0.345, '其他': 100},
-            {'日期': '1月3日', '销售额-1季度': 2123, '销售额-2季度': 1523, '占比': 0.7, '其他': 100},
-            {'日期': '1月4日', '销售额-1季度': 4123, '销售额-2季度': 1523, '占比': 0.31, '其他': 100},
-            {'日期': '1月5日', '销售额-1季度': 3123, '销售额-2季度': 1523, '占比': 0.12, '其他': 100},
-            {'日期': '1月6日', '销售额-1季度': 7123, '销售额-2季度': 1523, '占比': 0.65, '其他': 100}
+            {'日期': '08-01', '百度': 1523, '搜狗': 1523, '360': 0.12, '神马': 1000},
+            {'日期': '08-02', '百度': 1223, '搜狗': 1523, '360': 0.345, '神马': 1000},
+            {'日期': '08-03', '百度': 2123, '搜狗': 1523, '360': 0.7, '神马': 1000},
+            {'日期': '08-04', '百度': 4123, '搜狗': 1523, '360': 0.31, '神马': 10000},
+            {'日期': '08-05', '百度': 3123, '搜狗': 1523, '360': 0.12, '神马': 1000},
+            {'日期': '08-06', '百度': 7123, '搜狗': 1523, '360': 0.65, '神马': 1000}
           ]
         },
         lineChartSettings: {
           dimension: ['日期'],
-          metrics: ['销售额-1季度', '销售额-2季度', '占比'],
-          axisSite: {
-            right: ['占比']
-          },
-          yAxisType: ['KMB', 'percent'],
-          yAxisName: ['销售额', '占比'],
-          area: true,
-          stack: {
-            '销售额': ['销售额-1季度', '销售额-2季度']
-          }
+          metrics: ['百度', '搜狗', '360', '神马'],
+          area: true
         }
       }
     },
     computed: {},
     methods: {},
     mounted () {
+      axios.get('dashboard/yesterday')
+        .then(res => {
+          this.yesterdayData = res
+        })
     }
   }
 </script>
@@ -217,8 +212,8 @@
     }
     .chart-box {
       margin-top: 30px;
-      #roundChart, #lineChart{
-        padding:20px 0;
+      #roundChart, #lineChart {
+        padding: 20px 0;
       }
     }
     .table-box {

@@ -20,6 +20,7 @@ Route::get('/template/{uid}', 'TemplateController@index');
 Route::group(['prefix' => 'dashboard'], function () {
     Route::group(['middleware' => ['jwt.auth']], function () {
         Route::get('yesterday', 'DashboardController@showYesterday');
+        Route::get('month', 'DashboardController@showMonth');
     });
 });
 

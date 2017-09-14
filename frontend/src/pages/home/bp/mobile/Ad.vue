@@ -96,7 +96,7 @@
                       fullWidth
                       label="* 显示链接:"
                       :name="adItem.id + '号广告的显示链接'"
-                      v-validate="'required|url'"
+                      v-validate="''"
                       :errorText="errors.first(adItem.id + '号广告的显示链接')"
                       v-model.trim="adItem.show_link"
                       hintText=""/>

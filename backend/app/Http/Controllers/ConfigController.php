@@ -24,7 +24,7 @@ class ConfigController extends Controller
         $config = $this->user->config->first();
         $config->swturl = $root_config->swturl;
         $config->fronturl = $root_config->fronturl;
-        $config->previewurl = "<script src='$config->swturl?uid=" . $this->user->uid . "'></script>";
+        $config->previewurl = "<script src='$config->swturl?uid=" . $this->user->uid . "' charset='utf-8'></script>";
         return $config;
     }
 
