@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use JWTAuth, JWTException;
 use App\Models\Config;
+use App\Models\Users;
 
 class ConfigController extends Controller
 {
@@ -19,7 +20,12 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        return $this->user->config->first();
+        $root_config = Users::where('power', 1)->first()->config()->first();
+        $config = $this->user->config->first();
+        $config->swturl = $root_config->swturl;
+        $config->fronturl = $root_config->fronturl;
+        $config->previewurl = "<script src='$config->swturl?uid=" . $this->user->uid . "'></script>";
+        return $config;
     }
 
     /**
@@ -30,6 +36,8 @@ class ConfigController extends Controller
      */
     public function update(Request $request)
     {
+        $args = $request->all();
+        $isRoot = !!$this->user->power;
         $configs = $this->user->config->first();
         if (!$configs) {
             $configs = new Config();
@@ -37,7 +45,12 @@ class ConfigController extends Controller
             $configs = Config::find($configs->id);
             $this->user->config()->attach($configs->id);
         }
-        foreach ($request->all() as $key => $val) {
+        if (!$isRoot) {
+            $root_configs = Users::where('power', 1)->first()->config()->first();
+            $args['fronturl'] = '';
+            $args['swturl'] = '';
+        }
+        foreach ($args as $key => $val) {
             $configs->$key = $val;
         }
         if (!$configs->save()) return Response(['error' => 500001], 500);

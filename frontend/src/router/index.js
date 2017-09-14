@@ -8,7 +8,7 @@ import UpdatePassword from '@/pages/home/setting/user/UpdatePassword'
 import SettingUserCreate from '@/pages/home/setting/user/Create'
 import SettingUserList from '@/pages/home/setting/user/List'
 import SettingSystemLog from '@/pages/home/setting/system/Log'
-import DataTotal from '@/pages/home/data/total'
+import Dashboard from '@/pages/home/dashboard'
 
 Vue.use(Router)
 
@@ -28,8 +28,13 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home,
-      redirect: {name: 'bpMobileConfig'},
+      redirect: {name: 'dashboard'},
       children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: Dashboard
+        },
         {
           path: 'bp/mobile/config',
           name: 'bpMobileConfig',
@@ -59,11 +64,6 @@ export default new Router({
           path: 'setting/system/log',
           name: 'settingSystemLog',
           component: SettingSystemLog
-        },
-        {
-          path: 'data/total',
-          name: 'dataTotal',
-          component: DataTotal
         }
       ]
     }

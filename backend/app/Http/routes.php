@@ -17,6 +17,12 @@ Route::get('/wallpaper', 'WallpaperController@index');
 
 Route::get('/template/{uid}', 'TemplateController@index');
 
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::group(['middleware' => ['jwt.auth']], function () {
+        Route::get('yesterday', 'DashboardController@showYesterday');
+    });
+});
+
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login', 'LoginController@login');
     Route::group(['middleware' => ['jwt.auth']], function () {

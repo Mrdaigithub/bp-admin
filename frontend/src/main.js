@@ -5,6 +5,7 @@ import store from '@/store'
 import toast from '@/plugins/toast'
 import museUI from '@/plugins/museUI'
 import veeValidate from '@/plugins/vee-validate'
+import VCharts from '@/plugins/v-charts'
 
 Vue.config.productionTip = false
 
@@ -13,9 +14,10 @@ const vue = new Vue({
   el: '#app',
   router,
   store,
+  toast,
   museUI,
   veeValidate,
-  toast,
+  VCharts,
   template: '<App/>',
   components: {App}
 })
@@ -36,7 +38,7 @@ router.afterEach(route => {
   if ((sessionStorage.token && !route.name) ||
     (!store.state.oneself || !store.state.oneself.power) &&
     (route.name === 'settingUserCreate' || route.name === 'settingUserList')) {
-    router.replace('/home/bp/mobile/config')
+    router.replace('/home/dashboard')
   }
 })
 

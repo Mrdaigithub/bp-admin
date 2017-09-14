@@ -62,12 +62,11 @@ export default new Vuex.Store({
         }
         if (each.type === 'default') {
           args.type = 'default'
+        } else if (each.type === 'defaulttext') {
+          args.type = 'defaulttext'
         } else if (each.type === 'brand') {
           args.type = 'brand'
-          args.brand_link = each['brand_link'] ? each['brand_link'] : ''
-          args.brand_title1 = each['brand_title1'] ? each['brand_title1'] : ''
           args.brand_description1 = each['brand_description1'] ? each['brand_description1'] : ''
-          args.brand_title2 = each['brand_title2'] ? each['brand_title2'] : ''
           args.brand_description2 = each['brand_description2'] ? each['brand_description2'] : ''
         } else if (each.type === 'doctor') {
           args.type = 'doctor'

@@ -5,8 +5,14 @@
     <mu-content-block>
       <div class="paper-container">
         <mu-row gutter>
-          <mu-col width="100" tablet="100" desktop="100">
-            <p class="ad-tips">提示: 兼容HTML标签</p>
+          <mu-col width="100" tablet="50" desktop="50">
+            <p class="ad-tips">提示: 兼容HTML标签 &lt;em&gt;&lt;/em&gt;标签飘红</p>
+          </mu-col>
+          <mu-col width="100" tablet="30" desktop="30">
+            <mu-text-field v-model="previewKeyword"
+                           hintText="键入关键词回车预览"
+                           @keyup.native.enter="handlerPreview"
+                           fullWidth/>
           </mu-col>
           <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
             <mu-sub-header style="font-weight: 600">{{adItem.id}}号广告位</mu-sub-header>
@@ -16,7 +22,8 @@
                 <mu-row>
                   <mu-col width="50" tablet="50" desktop="50">
                     <mu-select-field v-model.trim="adItem.type" label="广告类型">
-                      <mu-menu-item value="default" title="普通广告位"/>
+                      <mu-menu-item value="default" title="普通广告位 (带图片)"/>
+                      <mu-menu-item value="defaulttext" title="普通广告位 (纯文字)"/>
                       <mu-menu-item value="brand" title="品牌推广位"/>
                       <mu-menu-item value="doctor" title="专家咨询广告位"/>
                     </mu-select-field>
@@ -36,7 +43,7 @@
                       v-model.trim="adItem.title"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="100" tablet="45" desktop="45">
+                  <mu-col width="100" tablet="45" desktop="45" v-if="adItem.type !=='defaulttext'">
                     <mu-text-field
                       fullWidth
                       :label="adItem.type === 'doctor' ? '专家照片' : '广告图片'"
@@ -44,7 +51,7 @@
                       v-validate="'url'"
                       :errorText="errors.first(adItem.id + '号广告的图片')"
                       v-model.trim="adItem.picture"
-                      hintText=""/>
+                      hintText="图片尺寸: 200*200"/>
                   </mu-col>
                 </mu-row>
                 <mu-row v-if="(adItem.type ==='doctor')">
@@ -64,7 +71,7 @@
                   </mu-col>
                 </mu-row>
                 <mu-row>
-                  <mu-col width="100" tablet="45" desktop="30">
+                  <mu-col width="100" tablet="45" desktop="30" v-if="adItem.type !=='brand'">
                     <mu-text-field
                       fullWidth
                       :label="adItem.type ==='doctor' ? '* 专家描述' : '* 描述'"
@@ -74,7 +81,7 @@
                       v-model.trim="adItem.description"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="100" tablet="45" desktop="30">
+                  <mu-col width="100" tablet="45" :desktop="adItem.type ==='brand' ? '45' : '30'">
                     <mu-text-field
                       fullWidth
                       label="* 链接:"
@@ -84,7 +91,7 @@
                       v-model.trim="adItem.link"
                       hintText=""/>
                   </mu-col>
-                  <mu-col width="100" tablet="45" desktop="30">
+                  <mu-col width="100" tablet="45" :desktop="adItem.type ==='brand' ? '45' : '30'">
                     <mu-text-field
                       fullWidth
                       label="* 显示链接:"
@@ -96,35 +103,11 @@
                   </mu-col>
                 </mu-row>
                 <mu-row v-if="adItem.type === 'brand'">
-                  <mu-col width="100" tablet="100" desktop="100">
-                    <mu-text-field
-                      fullWidth
-                      label="下标题链接"
-                      v-model.trim="adItem.brand_link"
-                      :name="adItem.id + '号广告的下标题链接'"
-                      v-validate="'url'"
-                      :errorText="errors.first(adItem.id + '号广告的下标题链接')"
-                      hintText=""/>
-                  </mu-col>
-                  <mu-col width="100" tablet="45" desktop="45">
-                    <mu-text-field
-                      fullWidth
-                      label="下标题1"
-                      v-model.trim="adItem.brand_title1"
-                      hintText=""/>
-                  </mu-col>
                   <mu-col width="100" tablet="45" desktop="45">
                     <mu-text-field
                       fullWidth
                       label="下标题描述1"
                       v-model.trim="adItem.brand_description1"
-                      hintText=""/>
-                  </mu-col>
-                  <mu-col width="100" tablet="45" desktop="45">
-                    <mu-text-field
-                      fullWidth
-                      label="下标题2"
-                      v-model.trim="adItem.brand_title2"
                       hintText=""/>
                   </mu-col>
                   <mu-col width="100" tablet="45" desktop="45">
@@ -141,9 +124,11 @@
           <mu-raised-button icon="add" primary label="点击增加广告位" @click="addAd" style="margin:20px 0;"/>
         </mu-row>
       </div>
-      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true" @hoverExit="tooltipShow = false">
+      <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true"
+                       @hoverExit="tooltipShow = false">
         <mu-icon value="cloud_upload"/>
-        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top" horizontalPosition="center"/>
+        <mu-tooltip label="提交当前表单" :show="tooltipShow" :trigger="$refs['submitButton']" verticalPosition="top"
+                    horizontalPosition="center"/>
       </mu-float-button>
     </mu-content-block>
   </div>
@@ -157,7 +142,8 @@
     data () {
       return {
         ad: [],
-        tooltipShow: false
+        tooltipShow: false,
+        previewKeyword: ''
       }
     },
     methods: {
@@ -193,11 +179,17 @@
           }
           return res
         })
+      },
+      handlerPreview () {
+        if (!this.previewKeyword) return
+        window.open(`${this.$store.state.configs.fronturl}/?uid=${this.$store.state.oneself.uid}&word=${this.previewKeyword}&mykey=${this.$store.state.configs.hospital}&sourceurl=后台预览&flag=1`)
+        this.previewKeyword = ''
       }
     },
     mounted () {
       let self = this
       !(async function () {
+        if (!self.$store.state.configs) self.$store.commit('getConfig', await axios.get('/config'))
         if (!self.$store.state.ad) self.$store.commit('getAd', await axios.get('/ad'))
         self.ad = self.$store.state.ad
       })()

@@ -21,10 +21,7 @@ class CreateAdTable extends Migration
             $table->string('picture')->nullable()->default('');
             $table->string('link')->nullable()->default('');
             $table->string('show_link')->nullable()->default('');
-            $table->string('brand_link')->nullable()->default('');
-            $table->string('brand_title1')->nullable()->default('');
             $table->string('brand_description1')->nullable()->default('');
-            $table->string('brand_title2')->nullable()->default('');
             $table->string('brand_description2')->nullable()->default('');
             $table->string('doctor_name')->nullable()->default('');
             $table->string('doctor_job')->nullable()->default('');

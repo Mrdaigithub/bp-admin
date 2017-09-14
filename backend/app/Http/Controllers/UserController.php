@@ -49,6 +49,10 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->expired_date = $request->has('expired_date') ? $request->expired_date : date('Y-m-d H:i:s', time() + 2592000);
         if (!$user->save()) return Response(['error' => 500001], 500);
+        $configs = new Config();
+        if (!$configs->save()) return Response(['error' => 500001], 500);
+        $configs = Config::find($configs->id);
+        $user->config()->attach($configs->id);
         return $user;
     }
 

@@ -44,7 +44,7 @@
               v-model.trim="configs.domainname"
               v-validate="''"
               :errorText="errors.first('手机站域名绑定')"
-              hintText="(以英文逗号分割 如m.aa.com,4g.bb.com"
+              hintText="(以英文逗号分割 如aa.com,bb.com"
               type="text"/>
           </mu-col>
           <mu-col width="100" tablet="45" desktop="45">
@@ -106,7 +106,7 @@
               name="顶部漂浮广告图片url"
               v-model.trim="configs.piaoimg"
               v-validate="'url:true'"
-              hintText="尺寸:360x50"
+              hintText="尺寸:650x190"
               :errorText="errors.first('顶部漂浮广告图片url')"
               type="text"/>
           </mu-col>
@@ -153,22 +153,34 @@
                            :rows="3"
                            :rowsMax="6"/>
           </mu-col>
-          <mu-col width="100" tablet="45" desktop="45">
+          <mu-col width="100" tablet="45" desktop="45"
+                  v-if="$store.state.oneself ? $store.state.oneself.power === 1 : false">
             <mu-text-field fullWidth
-                           label="商务通霸屏文件url"
-                           name="商务通霸屏文件url"
-                           v-model.trim="swtPath"
-                           v-validate="'url:true'"
-                           hintText="http://bpfile.php"
-                           :errorText="errors.first('商务通霸屏文件url')"/>
-          </mu-col>
-          <mu-col width="100" tablet="45" desktop="45">
-            <mu-text-field fullWidth
-                           ref="copySwt"
-                           label="预览商务通霸屏url   (禁止修改!!!)"
-                           name="预览商务通霸屏url"
+                           label="霸屏文件url"
+                           name="霸屏文件url"
                            v-model.trim="configs.swturl"
-                           @focus="autoCopy"
+                           @input="changeSwturl"
+                           v-validate="'required|url'"
+                           hintText="http://bpfile.php"
+                           :errorText="errors.first('霸屏文件url')"/>
+          </mu-col>
+          <mu-col width="100" tablet="45" desktop="45"
+                  v-if="$store.state.oneself ? $store.state.oneself.power === 1 : false">
+            <mu-text-field
+              fullWidth
+              label="前端url"
+              name="前端url"
+              v-model.trim="configs.fronturl"
+              v-validate="'required|url'"
+              :errorText="errors.first('前端url')"
+              type="text"/>
+          </mu-col>
+          <mu-col width="100" tablet="100" desktop="100">
+            <mu-text-field disabled
+                           fullWidth
+                           label="预览商务通霸屏url"
+                           name="预览商务通霸屏url"
+                           v-model="previewurl"
                            :errorText="errors.first('预览商务通霸屏url')"/>
           </mu-col>
         </mu-row>
@@ -205,8 +217,8 @@
         allChannel: ['baidu', 'sogou', '360', 'sm'],
         selectAllState: false,
         openTimeValue: '',
+        previewurl: '',
         closeTimeValue: '',
-        swtPath: '',
         tooltipShow: false
       }
     },
@@ -220,17 +232,6 @@
         let timeArr = this.configs.opentime.split('-')
         timeArr[1] = `${val}:59`
         this.configs.opentime = timeArr.join('-')
-      },
-      swtPath (val) {
-        if (!val) {
-          this.configs.swturl = ''
-          return
-        }
-        let parseUrlDom = document.querySelector('#parseUrl')
-        let uid = this.$store.state.oneself ? this.$store.state.oneself.uid : ''
-        parseUrlDom.href = val
-        this.configs.swturl = `<script src="http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}"></scrip`
-        this.configs.swturl += 't>'
       },
       selectAllState (val) {
         if (val) this.configs.area = this.allArea
@@ -256,8 +257,13 @@
       changeArea (val) {
         this.selectAllState = val.length === this.allArea.length
       },
-      autoCopy () {
-        this.$refs.copySwt.$refs.input.select()
+      changeSwturl (val) {
+        if (!val) {
+          this.previewurl = ''
+          return
+        }
+        this.previewurl = `<script src="${val}?uid=${this.$store.state.oneself.uid}"><`
+        this.previewurl += `/script>`
       }
     },
     mounted () {
@@ -278,19 +284,10 @@
         self.configs.ipduan = configs.ipduan ? configs.ipduan : ''
         self.configs.cith = configs.cith ? configs.cith : ''
         self.configs.mobilecode = configs.mobilecode ? configs.mobilecode : ''
-        let parseUrlDom = document.querySelector('#parseUrl')
-        if (configs.swturl) {
-          configs.swturl = configs.swturl.replace(/<script src="|"><\/script>/g, '')
-          parseUrlDom.href = configs.swturl ? configs.swturl : ''
-          self.swtPath = configs.swturl ? `http://${parseUrlDom.hostname}${parseUrlDom.pathname}` : ''
-        }
-        if (!configs.swturl) self.configs.swturl = ''
-        else {
-          let uid = self.$store.state.oneself ? self.$store.state.oneself.uid : ''
-          self.configs.swturl = `<script src="http://${parseUrlDom.hostname}${parseUrlDom.pathname}?uid=${uid}"></scrip`
-          self.configs.swturl += 't>'
-        }
-
+        self.configs.fronturl = configs.fronturl ? configs.fronturl : ''
+        self.configs.swturl = configs.swturl ? configs.swturl : ''
+        self.configs.previewurl = configs.previewurl ? configs.previewurl : ''
+        self.previewurl = self.configs.previewurl
         if (self.configs.opentime) {
           self.openTimeValue = `${self.configs.opentime.split('-')[0].split(':')[0]}:${self.configs.opentime.split('-')[0].split(':')[1]}`
           self.closeTimeValue = `${self.configs.opentime.split('-')[1].split(':')[0]}:${self.configs.opentime.split('-')[1].split(':')[1]}`

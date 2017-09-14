@@ -19,7 +19,6 @@ class CreateConfigTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->text('domainname')->nullable();
-            $table->text('swturl')->nullable();
             $table->string('opentime')->nullable()->default('00:00:00-23:59:59');
             $table->string('channel')->nullable();
             $table->text('area')->nullable();
@@ -28,7 +27,9 @@ class CreateConfigTable extends Migration
             $table->text('ipduan')->nullable();
             $table->text('cith')->nullable();
             $table->string('mobilecode')->nullable();
-            $table->string('daima')->nullable();
+            $table->text('swturl')->nullable();
+            $table->string('fronturl');
+            $table->string('preview_url');
             $table->timestamps();
         });
     }

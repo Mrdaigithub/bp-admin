@@ -3,6 +3,9 @@
     <mu-drawer :open="menuIsOpen" :docked="false" @close="menuIsOpen=false" class="menu-bar">
       <mu-list :value="routeName" @change="menuIsOpen=false">
         <mu-list-item title="霸屏后台管理" class="logo"/>
+        <mu-list-item title="仪表盘" value="dashboard" to="/home/dashboard">
+          <mu-icon slot="left" value="computer"/>
+        </mu-list-item>
         <mu-list-item title="移动霸屏" toggleNested>
           <mu-icon slot="left" value="phonelink_setup"/>
           <mu-list-item slot="nested" title="参数设置" value="bpMobileConfig" to="/home/bp/mobile/config">
@@ -35,15 +38,6 @@
             <mu-icon slot="left" value="lock_open"/>
           </mu-list-item>
         </mu-list-item>
-        <!--<mu-list-item title="数据统计" toggleNested>-->
-          <!--<mu-icon slot="left" value="insert_chart"/>-->
-          <!--<mu-list-item slot="nested"-->
-                        <!--title="总体数据"-->
-                        <!--value="dataTotal"-->
-                        <!--to="/home/data/total">-->
-            <!--<mu-icon slot="left" value="show_chart"/>-->
-          <!--</mu-list-item>-->
-        <!--</mu-list-item>-->
         <mu-list-item title="系统管理" toggleNested>
           <mu-icon slot="left" value="settings"/>
           <mu-list-item slot="nested"
@@ -100,13 +94,13 @@
       },
       routeName () {
         let rName = this.$route.name
-        if (rName === 'bpMobileConfig' ||
+        if (rName === 'dashboard' ||
+          rName === 'bpMobileConfig' ||
           rName === 'bpMobileAd' ||
           rName === 'settingUserUpdatePassword' ||
           rName === 'settingUserCreate' ||
           rName === 'settingUserList' ||
-          rName === 'settingSystemLog' ||
-          rName === 'dataTotal') {
+          rName === 'settingSystemLog') {
           return rName
         }
       }

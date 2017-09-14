@@ -51,10 +51,7 @@ class AdController extends Controller
         $ad->picture = $request->picture;
         $ad->link = $request->link;
         $ad->show_link = $request->show_link;
-        $ad->brand_link = $request->brand_link;
-        $ad->brand_title1 = $request->brand_title1;
         $ad->brand_description1 = $request->brand_description1;
-        $ad->brand_title2 = $request->brand_title2;
         $ad->brand_description2 = $request->brand_description2;
         $ad->doctor_name = $request->doctor_name;
         $ad->doctor_job = $request->doctor_job;
