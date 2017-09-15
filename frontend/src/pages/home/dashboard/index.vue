@@ -18,7 +18,7 @@
             <h4>搜狗昨日访问人数</h4>
             <div class="clearfix">
               <i class="icon pull-left">搜</i>
-              <span class="pull-right">{{yesterdayData.sougou}}</span>
+              <span class="pull-right">{{yesterdayData.sogou}}</span>
             </div>
           </mu-paper>
         </mu-col>
@@ -41,18 +41,6 @@
           </mu-paper>
         </mu-col>
       </mu-row>
-      <mu-row class="chart-box" gutter>
-        <mu-col width="100" tablet="50" desktop="50">
-          <mu-paper id="roundChart" :zDepth="1">
-            <ve-pie :data="roundChartData" :settings="roundChartSettings"></ve-pie>
-          </mu-paper>
-        </mu-col>
-        <mu-col width="100" tablet="50" desktop="50">
-          <mu-paper id="lineChart" :zDepth="1">
-            <ve-line :data="lineChartData" :settings="lineChartSettings"></ve-line>
-          </mu-paper>
-        </mu-col>
-      </mu-row>
       <mu-row class="table-box" gutter>
         <mu-col width="100" tablet="100" desktop="100">
           <mu-paper :zDepth="1">
@@ -68,35 +56,39 @@
               </mu-thead>
               <mu-tbody>
                 <mu-tr>
-                  <mu-td>1</mu-td>
-                  <mu-td>John Smith</mu-td>
-                  <mu-td>Employed</mu-td>
-                  <mu-td>Employed</mu-td>
-                  <mu-td>Employed</mu-td>
+                  <mu-td>今日</mu-td>
+                  <mu-td v-for="i of tableData.today" :key="i">{{i}}</mu-td>
                 </mu-tr>
                 <mu-tr>
-                  <mu-td>2</mu-td>
-                  <mu-td>Randal White</mu-td>
-                  <mu-td>Unemployed</mu-td>
-                  <mu-td>Unemployed</mu-td>
-                  <mu-td>Unemployed</mu-td>
+                  <mu-td>昨日</mu-td>
+                  <mu-td v-for="i of tableData.yesterday" :key="i">{{i}}</mu-td>
                 </mu-tr>
                 <mu-tr>
-                  <mu-td>3</mu-td>
-                  <mu-td>Stephanie Sanders</mu-td>
-                  <mu-td>Employed</mu-td>
-                  <mu-td>Employed</mu-td>
-                  <mu-td>Employed</mu-td>
+                  <mu-td>本月</mu-td>
+                  <mu-td v-for="i of tableData.currentMonth" :key="i">{{i}}</mu-td>
                 </mu-tr>
                 <mu-tr>
-                  <mu-td>4</mu-td>
-                  <mu-td>Steve Brown</mu-td>
-                  <mu-td>Employed</mu-td>
-                  <mu-td>Employed</mu-td>
-                  <mu-td>Employed</mu-td>
+                  <mu-td>上月</mu-td>
+                  <mu-td v-for="i of tableData.lastMonth" :key="i">{{i}}</mu-td>
+                </mu-tr>
+                <mu-tr>
+                  <mu-td>环比增长率</mu-td>
+                  <mu-td v-for="i of tableData.mom" :key="i">{{i}}</mu-td>
                 </mu-tr>
               </mu-tbody>
             </mu-table>
+          </mu-paper>
+        </mu-col>
+      </mu-row>
+      <mu-row class="chart-box" gutter>
+        <mu-col width="100" tablet="50" desktop="50">
+          <mu-paper id="roundChart" :zDepth="1">
+            <ve-pie :data="roundChartData" :settings="roundChartSettings" :title="roundChartSettings.title"></ve-pie>
+          </mu-paper>
+        </mu-col>
+        <mu-col width="100" tablet="50" desktop="50">
+          <mu-paper id="lineChart" :zDepth="1">
+            <ve-line :data="lineChartData" :settings="lineChartSettings" :title="lineChartSettings.title"></ve-line>
           </mu-paper>
         </mu-col>
       </mu-row>
@@ -111,18 +103,20 @@
     name: 'dashboard',
     data () {
       return {
-        yesterdayData: {baidu: [], sougou: [], 360: [], sm: []},
-        monthData: {baidu: [], sougou: [], 360: [], sm: []},
+        yesterdayData: {baidu: 0, sogou: 0, 360: 0, sm: 0},
+        monthData: {baidu: [], sogou: [], 360: [], sm: []},
         roundChartData: {
           columns: ['百度', '搜狗', '360', '神马'],
-          rows: [
-            {'searchEngine': '百度', 'value': 1523},
-            {'searchEngine': '搜狗', 'value': 1223},
-            {'searchEngine': '360', 'value': 2123},
-            {'searchEngine': '神马', 'value': 4123}
-          ]
+          rows: []
         },
         roundChartSettings: {
+          title: {
+            text: '近30天占比',
+            textStyle: {
+              fontWeight: 'normal'
+            },
+            padding: [0, 0, 0, 20]
+          },
           dimension: 'searchEngine',
           metrics: 'value',
           selectedMode: 'single',
@@ -131,30 +125,61 @@
           offsetY: 230
         },
         lineChartData: {
-          columns: ['日期', '百度', '搜狗', '360', '神马'],
-          rows: [
-            {'日期': '08-01', '百度': 1523, '搜狗': 1523, '360': 0.12, '神马': 1000},
-            {'日期': '08-02', '百度': 1223, '搜狗': 1523, '360': 0.345, '神马': 1000},
-            {'日期': '08-03', '百度': 2123, '搜狗': 1523, '360': 0.7, '神马': 1000},
-            {'日期': '08-04', '百度': 4123, '搜狗': 1523, '360': 0.31, '神马': 10000},
-            {'日期': '08-05', '百度': 3123, '搜狗': 1523, '360': 0.12, '神马': 1000},
-            {'日期': '08-06', '百度': 7123, '搜狗': 1523, '360': 0.65, '神马': 1000}
-          ]
+          columns: ['date', '百度', '搜狗', '360', '神马'],
+          rows: []
         },
         lineChartSettings: {
-          dimension: ['日期'],
+          title: {
+            text: '近30天趋势',
+            textStyle: {
+              fontWeight: 'normal'
+            },
+            padding: [0, 0, 0, 20]
+          },
+          dimension: ['date'],
           metrics: ['百度', '搜狗', '360', '神马'],
           area: true
+        },
+        tableData: {
+          today: [0, 0, 0, 0],
+          yesterday: [0, 0, 0, 0],
+          lastMonth: [0, 0, 0, 0],
+          currentMonth: [0, 0, 0, 0],
+          mom: ['0%', '0%', '0%', '0%']
         }
       }
     },
-    computed: {},
-    methods: {},
-    mounted () {
-      axios.get('dashboard/yesterday')
-        .then(res => {
-          this.yesterdayData = res
+    methods: {
+      mergeMonthData (sourceData) {
+        let res = [
+          {'searchEngine': '百度', 'value': 0},
+          {'searchEngine': '搜狗', 'value': 0},
+          {'searchEngine': '360', 'value': 0},
+          {'searchEngine': '神马', 'value': 0}
+        ]
+        sourceData.forEach(item => {
+          res[0].value += item['百度']
+          res[1].value += item['搜狗']
+          res[2].value += item['360']
+          res[3].value += item['神马']
         })
+        return res
+      }
+    },
+    mounted () {
+      let self = this
+      !(async function () {
+        [
+          self.yesterdayData,
+          self.lineChartData.rows,
+          self.tableData
+        ] = await Promise.all([
+          axios.get('dashboard/yesterday'),
+          axios.get('dashboard/month'),
+          axios.get('dashboard/table')
+        ])
+        self.roundChartData.rows = self.mergeMonthData(self.lineChartData.rows)
+      })()
     }
   }
 </script>

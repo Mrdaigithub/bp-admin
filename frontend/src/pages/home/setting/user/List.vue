@@ -111,23 +111,22 @@
 </script>
 
 <style lang="scss">
-  .mu-table {
-    .mu-thead {
-      .mu-th:nth-child(1) {
-        width: 5%;
-      }
-      .mu-th:nth-child(3) {
-        width: 10%;
-      }
-      .mu-th:nth-child(5), .mu-th:nth-child(6) {
-        width: 15%;
-      }
-    }
-  }
-
   .users-list {
     .expired-slider {
       margin: 0;
+    }
+    .mu-table {
+      .mu-thead {
+        .mu-th:nth-child(1) {
+          width: 5%;
+        }
+        .mu-th:nth-child(3) {
+          width: 10%;
+        }
+        .mu-th:nth-child(5), .mu-th:nth-child(6) {
+          width: 15%;
+        }
+      }
     }
   }
 </style>

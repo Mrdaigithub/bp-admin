@@ -1,9 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use JWTAuth, JWTException;
-use App\Models\Log;
 
 class DashboardController extends Controller
 {
@@ -11,36 +9,6 @@ class DashboardController extends Controller
     function __construct()
     {
         $this->user = JWTAuth::parseToken()->authenticate();
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store()
-    {
-        //
     }
 
     /**
@@ -54,10 +22,10 @@ class DashboardController extends Controller
         $end_time = date('Y-m-d', strtotime('-1 days')) . " 23:59:59";
 
         return [
-            'baidu' => Log::where('channel', 'baidu')->whereBetween('created_at', [$start_time, $end_time])->count(),
-            'sougou' => Log::where('channel', 'sougou')->whereBetween('created_at', [$start_time, $end_time])->count(),
-            '360' => Log::where('channel', '360')->whereBetween('created_at', [$start_time, $end_time])->count(),
-            'sm' => Log::where('channel', 'sm')->whereBetween('created_at', [$start_time, $end_time])->count()
+            'baidu' => $this->user->log()->where('channel', 'baidu')->whereBetween('created_at', [$start_time, $end_time])->count(),
+            'sogou' => $this->user->log()->where('channel', 'sogou')->whereBetween('created_at', [$start_time, $end_time])->count(),
+            '360' => $this->user->log()->where('channel', '360')->whereBetween('created_at', [$start_time, $end_time])->count(),
+            'sm' => $this->user->log()->where('channel', 'sm')->whereBetween('created_at', [$start_time, $end_time])->count()
         ];
     }
 
@@ -68,65 +36,66 @@ class DashboardController extends Controller
      */
     public function showMonth()
     {
-        return date('Y-m-d', strtotime(date('Y-m-01', strtotime($date)) . ' +1 month -1 day'));
-        $start_time = date('Y-m', strtotime('-1 month')) . "-01 00:00:00";
-        $end_time = date('Y-m', strtotime('-1 month')) . "-31 23:59:59";
-
-        $log_baidu = $this->user->log()->where('channel', 'baidu');
-        $log_sougou = $this->user->log()->where('channel', 'sougou');
-        $log_360 = $this->user->log()->where('channel', '360');
-        $log_sm = $this->user->log()->where('channel', 'sm');
-
-        return [
-            'baidu' => $log_baidu->whereBetween('created_at', [$start_time, $end_time])->count(),
-            'sougou' => $log_sougou->whereBetween('created_at', [$start_time, $end_time])->count(),
-            '360' => $log_360->whereBetween('created_at', [$start_time, $end_time])->count(),
-            'sm' => $log_sm->whereBetween('created_at', [$start_time, $end_time])->count()
-        ];
+        $res = [];
+        for ($i = 30; $i >= 0; $i--) {
+            $day = date('Y-m-d', strtotime("-$i day"));
+            $start_time = "$day 00:00:00";
+            $end_time = "$day 23:59:59";
+            $day_log_data = [
+                'date' => date('m-d', strtotime($day)),
+                '百度' => $this->user->log()->where('channel', 'baidu')->whereBetween('created_at', [$start_time, $end_time])->count(),
+                '搜狗' => $this->user->log()->where('channel', 'sogou')->whereBetween('created_at', [$start_time, $end_time])->count(),
+                '360' => $this->user->log()->where('channel', '360')->whereBetween('created_at', [$start_time, $end_time])->count(),
+                '神马' => $this->user->log()->where('channel', 'sm')->whereBetween('created_at', [$start_time, $end_time])->count()
+            ];
+            array_push($res, $day_log_data);
+        }
+        return json_encode($res);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
      * @return Response
      */
-    public function show($id)
+    public function showTableData()
     {
-        //
+        $today = [
+            $this->user->log()->where('channel', 'baidu')->whereBetween('created_at', [date('Y-m-d') . " 00:00:00", date('Y-m-d') . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sogou')->whereBetween('created_at', [date('Y-m-d') . " 00:00:00", date('Y-m-d') . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', '360')->whereBetween('created_at', [date('Y-m-d') . " 00:00:00", date('Y-m-d') . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sm')->whereBetween('created_at', [date('Y-m-d') . " 00:00:00", date('Y-m-d') . " 23:59:59"])->count(),
+        ];
+        $yesterday = [
+            $this->user->log()->where('channel', 'baidu')->whereBetween('created_at', [date('Y-m-d', strtotime('-1 days')) . " 00:00:00", date('Y-m-d', strtotime('-1 days')) . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sogou')->whereBetween('created_at', [date('Y-m-d', strtotime('-1 days')) . " 00:00:00", date('Y-m-d', strtotime('-1 days')) . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', '360')->whereBetween('created_at', [date('Y-m-d', strtotime('-1 days')) . " 00:00:00", date('Y-m-d', strtotime('-1 days')) . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sm')->whereBetween('created_at', [date('Y-m-d', strtotime('-1 days')) . " 00:00:00", date('Y-m-d', strtotime('-1 days')) . " 23:59:59"])->count(),
+        ];
+        $last_month = [
+            $this->user->log()->where('channel', 'baidu')->whereBetween('created_at', [date('Y-m-01', strtotime("-1 month")) . " 00:00:00", date('Y-m-t', strtotime("-1 month")) . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sogou')->whereBetween('created_at', [date('Y-m-01', strtotime("-1 month")) . " 00:00:00", date('Y-m-t', strtotime("-1 month")) . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', '360')->whereBetween('created_at', [date('Y-m-01', strtotime("-1 month")) . " 00:00:00", date('Y-m-t', strtotime("-1 month")) . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sm')->whereBetween('created_at', [date('Y-m-01', strtotime("-1 month")) . " 00:00:00", date('Y-m-t', strtotime("-1 month")) . " 23:59:59"])->count()
+        ];
+        $current_month = [
+            $this->user->log()->where('channel', 'baidu')->whereBetween('created_at', [date('Y-m-01') . " 00:00:00", date('Y-m-t') . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sogou')->whereBetween('created_at', [date('Y-m-01') . " 00:00:00", date('Y-m-t') . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', '360')->whereBetween('created_at', [date('Y-m-01') . " 00:00:00", date('Y-m-t') . " 23:59:59"])->count(),
+            $this->user->log()->where('channel', 'sm')->whereBetween('created_at', [date('Y-m-01') . " 00:00:00", date('Y-m-t') . " 23:59:59"])->count()
+        ];
+        $mom = [
+            $last_month[0] === 0 ? '上月暂无数据' : (($current_month[0] - $last_month[0]) / $last_month[0] * 100) . "%",
+            $last_month[1] === 0 ? '上月暂无数据' : (($current_month[1] - $last_month[1]) / $last_month[1] * 100) . "%",
+            $last_month[2] === 0 ? '上月暂无数据' : (($current_month[2] - $last_month[2]) / $last_month[2] * 100) . "%",
+            $last_month[3] === 0 ? '上月暂无数据' : (($current_month[3] - $last_month[3]) / $last_month[3] * 100) . "%"
+        ];
+        return [
+            'today' => $today,
+            'yesterday' => $yesterday,
+            'lastMonth' => $last_month,
+            'currentMonth' => $current_month,
+            'mom' => $mom
+        ];
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function update($id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
 }

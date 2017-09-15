@@ -18,7 +18,7 @@ class LogController extends Controller
     public function index()
     {
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->log()->orderBy('created_at', 'desc')->paginate(10);
+        return $user->log()->orderBy('created_at', 'desc')->paginate(20);
     }
 
     /**

@@ -1,5 +1,5 @@
 <template>
-  <div class="users-list">
+  <div class="log">
     <mu-sub-header>系统管理 - 访问日志</mu-sub-header>
     <mu-divider/>
     <mu-content-block>
@@ -22,7 +22,7 @@
                 <mu-td>{{log.id}}</mu-td>
                 <mu-td>{{log.keyword}}</mu-td>
                 <mu-td>{{log.channel}}</mu-td>
-                <mu-td>{{log.sourceurl}}</mu-td>
+                <mu-td class="sourceurl">{{log.sourceurl}}</mu-td>
                 <mu-td>{{log.ip}}</mu-td>
                 <mu-td><a :href="log.geography" target="_blank">查询IP</a></mu-td>
                 <mu-td>{{log.created_at}}</mu-td>
@@ -32,7 +32,7 @@
         </mu-col>
       </mu-row>
       <mu-pagination :total="page.total" :current="page.current"
-                     @pageChange="changePage"></mu-pagination>
+                     @pageChange="changePage" :pageSize="30"></mu-pagination>
     </mu-content-block>
   </div>
 </template>
@@ -84,16 +84,29 @@
 </script>
 
 <style lang="scss">
-  .users-list {
-    .expired-slider {
-      margin: 0;
+  .log {
+    .mu-table {
+      .mu-thead {
+        .mu-tr {
+          .mu-th:nth-child(1) {
+            width: 5%;
+          }
+          .mu-th:nth-child(2) {
+            width: 15%;
+          }
+          .mu-th:nth-child(4) {
+            width: 35%;
+          }
+          .mu-th:nth-child(6) {
+            width: 8%;
+          }
+        }
+      }
+      tbody{
+        .mu-td:nth-child(4){
+          white-space: normal;
+        }
+      }
     }
-  }
-
-  .remove-button {
-    position: fixed;
-    right: 5vw;
-    bottom: 5vh;
-    background: #dd5044;
   }
 </style>
