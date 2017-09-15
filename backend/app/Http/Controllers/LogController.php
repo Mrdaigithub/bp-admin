@@ -13,12 +13,14 @@ class LogController extends Controller
     /**
      * Display a listing of the logs.
      *
-     * @return Response
+     * @return mixed
      */
     public function index()
     {
+        $page_size = 20;
         $user = JWTAuth::parseToken()->authenticate();
-        return $user->log()->orderBy('created_at', 'desc')->paginate(20);
+        $res = $user->log()->orderBy('created_at', 'desc')->paginate($page_size);
+        return $res;
     }
 
     /**

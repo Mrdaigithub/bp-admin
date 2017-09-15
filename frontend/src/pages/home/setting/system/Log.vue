@@ -18,8 +18,8 @@
               </mu-tr>
             </mu-thead>
             <mu-tbody>
-              <mu-tr v-for="log of logData" :key="log.id">
-                <mu-td>{{log.id}}</mu-td>
+              <mu-tr v-for="(log, index) of logData" :key="log.id">
+                <mu-td>{{index + logs.from}}</mu-td>
                 <mu-td>{{log.keyword}}</mu-td>
                 <mu-td>{{log.channel}}</mu-td>
                 <mu-td class="sourceurl">{{log.sourceurl}}</mu-td>
@@ -102,8 +102,8 @@
           }
         }
       }
-      tbody{
-        .mu-td:nth-child(4){
+      tbody {
+        .mu-td:nth-child(4) {
           white-space: normal;
         }
       }
