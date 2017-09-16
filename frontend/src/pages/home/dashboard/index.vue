@@ -111,7 +111,7 @@
         },
         roundChartSettings: {
           title: {
-            text: '近30天占比',
+            text: '上月占比',
             textStyle: {
               fontWeight: 'normal'
             },

@@ -178,8 +178,8 @@
           <mu-col width="100" tablet="100" desktop="100">
             <mu-text-field disabled
                            fullWidth
-                           label="预览商务通霸屏url"
-                           name="预览商务通霸屏url"
+                           label="预览霸屏url"
+                           name="预览霸屏url"
                            v-model="previewurl"
                            :errorText="errors.first('预览商务通霸屏url')"/>
           </mu-col>

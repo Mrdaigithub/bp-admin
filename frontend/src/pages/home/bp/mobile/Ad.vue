@@ -14,13 +14,27 @@
                            @keyup.native.enter="handlerPreview"
                            fullWidth/>
           </mu-col>
-          <mu-paper :zDepth="2" class="ad-container" v-for="adItem of ad" :key="adItem.id">
-            <mu-sub-header style="font-weight: 600">{{adItem.id}}号广告位</mu-sub-header>
+          <mu-paper :zDepth="2" class="ad-container" v-for="(adItem, index) of ad" :key="adItem.id">
+            <mu-row gutter>
+              <mu-col width="100" tablet="50" desktop="50">
+                <mu-sub-header style="font-weight: 600">{{adItem.id}}号广告位</mu-sub-header>
+              </mu-col>
+              <mu-col width="100" tablet="20" desktop="10">
+                <mu-icon-button
+                  icon="vertical_align_top"
+                  :disabled="index===0"
+                  @click="toTop(index)"/>
+                <mu-icon-button
+                  icon="vertical_align_bottom"
+                  :disabled="index===ad.length-1"
+                  @click="toBottom(index)"/>
+              </mu-col>
+            </mu-row>
             <mu-divider style="margin-bottom: 40px"/>
             <mu-row gutter>
               <mu-col width="100" tablet="100" desktop="100">
                 <mu-row>
-                  <mu-col width="50" tablet="50" desktop="50">
+                  <mu-col width="100" tablet="50" desktop="50">
                     <mu-select-field v-model.trim="adItem.type" label="广告类型">
                       <mu-menu-item value="default" title="普通广告位 (带图片)"/>
                       <mu-menu-item value="defaulttext" title="普通广告位 (纯文字)"/>
@@ -28,7 +42,7 @@
                       <mu-menu-item value="doctor" title="专家咨询广告位"/>
                     </mu-select-field>
                   </mu-col>
-                  <mu-col width="15" tablet="15" desktop="15">
+                  <mu-col width="50" tablet="25" desktop="10">
                     <mu-raised-button label="删除" @click="removeAd(adItem.id)" icon="delete" backgroundColor="#dd5044"/>
                   </mu-col>
                 </mu-row>
@@ -121,7 +135,9 @@
               </mu-col>
             </mu-row>
           </mu-paper>
-          <mu-raised-button icon="add" primary label="点击增加广告位" @click="addAd" style="margin:20px 0;"/>
+          <mu-col width="100" tablet="100" desktop="100">
+            <mu-raised-button icon="add" primary label="点击增加广告位" @click="addAd" style="margin:20px 0;"/>
+          </mu-col>
         </mu-row>
       </div>
       <mu-float-button @click="handleSubmit" class="submit-button" ref="submitButton" @hover="tooltipShow = true"
@@ -142,6 +158,7 @@
     data () {
       return {
         ad: [],
+        idList: [],
         tooltipShow: false,
         previewKeyword: ''
       }
@@ -169,6 +186,10 @@
       handleSubmit () {
         this.$validator.validateAll().then(res => {
           if (res) {
+            this.ad = this.ad.map((ad, index) => {
+              ad.id = this.idList[index]
+              return ad
+            })
             this.$store.dispatch('updateAd', this.ad)
           } else {
             this.$toast('表单验证未通过', {
@@ -184,6 +205,16 @@
         if (!this.previewKeyword) return
         window.open(`${this.$store.state.configs.fronturl}/?uid=${this.$store.state.oneself.uid}&word=${this.previewKeyword}&mykey=${this.$store.state.configs.hospital}&sourceurl=后台预览&flag=1`)
         this.previewKeyword = ''
+      },
+      toTop (index) {
+        let tmp = this.ad[index - 1]
+        this.ad.splice(index - 1, 1, this.ad[index])
+        this.ad.splice(index, 1, tmp)
+      },
+      toBottom (index) {
+        let tmp = this.ad[index + 1]
+        this.ad.splice(index + 1, 1, this.ad[index])
+        this.ad.splice(index, 1, tmp)
       }
     },
     mounted () {
@@ -192,6 +223,7 @@
         if (!self.$store.state.configs) self.$store.commit('getConfig', await axios.get('/config'))
         if (!self.$store.state.ad) self.$store.commit('getAd', await axios.get('/ad'))
         self.ad = self.$store.state.ad
+        self.idList = self.ad.map(ad => ad.id)
       })()
     }
   }

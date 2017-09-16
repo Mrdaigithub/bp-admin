@@ -54,6 +54,7 @@ export default new Vuex.Store({
     updateAd ({commit}, _ad) {
       _ad.forEach(each => {
         let args = {
+          id: each.id,
           title: each.title ? each.title : '',
           description: each.description ? each.description : '',
           picture: each.picture ? each.picture : '',
@@ -72,7 +73,6 @@ export default new Vuex.Store({
           args.type = 'doctor'
           args.doctor_name = each['doctor_name'] ? each['doctor_name'] : ''
           args.doctor_job = each['doctor_job'] ? each['doctor_job'] : ''
-          args.doctor_pic = each['doctor_pic'] ? each['doctor_pic'] : ''
         }
         for (let key in each) {
           if (key === 'id') continue
@@ -82,13 +82,13 @@ export default new Vuex.Store({
           each[key] = args[key]
         }
       })
-      commit('getAd', [])
       _ad.forEach(item => {
         axios.put(`ad/${item.id}`, qs.stringify(item))
           .then(adItem => {
             // commit('pushAd', adItem)
           })
       })
+      commit('getAd', _ad)
     },
     removeAd ({commit, state}, adId) {
       axios.delete(`ad/${adId}`)

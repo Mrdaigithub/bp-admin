@@ -19,7 +19,7 @@ class AdController extends Controller
      */
     public function index()
     {
-        return $this->user->ad->all();
+        return $this->user->ad()->orderBy('id', 'asc')->get();
     }
 
     /**

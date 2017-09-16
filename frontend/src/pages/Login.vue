@@ -95,7 +95,6 @@
       z-index: 0;
       top: 0;
       left: 0;
-      filter: blur(5px);
       width: 100vw;
       height: 100vh;
       background-position: center;

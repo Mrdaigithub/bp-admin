@@ -2,7 +2,7 @@
   <div id="home">
     <mu-drawer :open="menuIsOpen" :docked="false" @close="menuIsOpen=false" class="menu-bar">
       <mu-list :value="routeName" @change="menuIsOpen=false">
-        <mu-list-item title="霸屏后台管理" class="logo"/>
+        <mu-list-item title="霸屏后台管理" class="logo" to="/home/dashboard" @click="menuIsOpen=false"/>
         <mu-list-item title="仪表盘" value="dashboard" to="/home/dashboard">
           <mu-icon slot="left" value="computer"/>
         </mu-list-item>

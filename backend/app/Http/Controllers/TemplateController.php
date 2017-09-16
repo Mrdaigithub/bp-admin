@@ -8,7 +8,6 @@ use App\Models\Ad;
 
 class TemplateController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +17,7 @@ class TemplateController extends Controller
     {
         $user = Users::where('uid', $uid)->first();
         $config = $user->config->first();
-        $ads = $user->ad->all();
+        $ads = $user->ad()->orderBy('id', 'asc')->get();
         $htmlStr ="";
         if ($config->piaoimg !== '') {
             $htmlStr .=
@@ -30,11 +29,6 @@ class TemplateController extends Controller
             if ($ad->type === 'brand') {
                 $htmlStr .=
                     "<div class='ec_ad_results' sourceid='160' posid='1' prank='1'style='display:block !important;visibility: visible !important;'>
-                    <div class='ec_xiaobao'>
-                        <a href='http://baozhang.baidu.com/guarantee/?mdevice=mobile'>
-                            <i class='ec_font_xiaobao'></i>
-                        </a>
-                    </div>
                     <div class='c-container ec_resitem ec_wise_pp' style='display:block !important;visibility: visible !important;'>
                         <div class='ec_img_zone'>
                             <a class='ec_title c-blocka' href='$ad->link'>
@@ -80,7 +74,7 @@ class TemplateController extends Controller
                             <div class='ec_urlbtn'></div>
                             <div class='ec_urlline'>
                                 <a href='$ad->link'><span class='ec_site c-color-url'>$ad->show_link</span></a>
-                                <span class='ec_vlogo c-gap-left'><i class='ec_font_v3'></i></span>
+                                <span class='ec_vlogo c-gap-left'><i class='ec_font_v2'></i></span>
 								<span class='c-gap-left ec-tuiguang'>广告</span>
                             </div>
                         </div>
@@ -103,16 +97,16 @@ class TemplateController extends Controller
 						  </div>
 						</div>
 						<div class=' c-showurl c-line-clamp1 c-gap-top-small'><span class='ec_urlbtn'></span>
-						  <div class='ec_urlline'><a href='$ad->link' class='ec-showurl-line'><span class='c-showurl'>$ad->show_link</span></a><span class='c-gap-left ec-vicon'><i class='ec_font ec_font_v3'></i></span><span class='c-gap-left ec-tuiguang'>广告</span></div>
+						  <div class='ec_urlline'><a href='$ad->link' class='ec-showurl-line'><span class='c-showurl'>$ad->show_link</span></a><span class='c-gap-left ec-vicon'><i class='ec_font ec_font_v2'></i></span><span class='c-gap-left ec-tuiguang'>广告</span></div>
 						</div>
 					  </div>
 					</div>";
             } elseif ($ad->type === 'defaulttext') {
                 $htmlStr .=
-                    "<div class='c-container ec_resitem ec-new2  ec_wise_pp ec_adv_last' style='display:block !important;visibility: visible !important;'><div><a class='c-blocka ec_title' href='$ad->link'><h3 class='c-title c-color-link c-gap-top-small c-gap-bottom-small'>$ad->title</h3><p class='c-line-clamp3 c-color '>$ad->description</p></a><div class='c-showurl c-line-clamp1 c-gap-top-small'><span class='ec_urlbtn'></span><div class='ec_urlline'><a href='$ad->link' class='ec-showurl-line'><span class='c-showurl'>$ad->show_link</span></a><span class='c-gap-left ec-vicon'><i class='ec_font ec_font_v3'></i></span><span class='c-gap-left ec-tuiguang'><i class='c-icon c-gap-right-small'>&#xe62a;</i>393</span></a><span class='c-gap-left ec-tuiguang'>广告</span></div></div></div></div>";
+                    "<div class='c-container ec_resitem ec-new2  ec_wise_pp ec_adv_last' style='display:block !important;visibility: visible !important;'><div><a class='c-blocka ec_title' href='$ad->link'><h3 class='c-title c-color-link c-gap-top-small c-gap-bottom-small'>$ad->title</h3><p class='c-line-clamp3 c-color '>$ad->description</p></a><div class='c-showurl c-line-clamp1 c-gap-top-small'><span class='ec_urlbtn'></span><div class='ec_urlline'><a href='$ad->link' class='ec-showurl-line'><span class='c-showurl'>$ad->show_link</span></a><span class='c-gap-left ec-vicon'><i class='ec_font ec_font_v2'></i></span><span class='c-gap-left ec-tuiguang'><i class='c-icon c-gap-right-small'>&#xe62a;</i>393</span></a><span class='c-gap-left ec-tuiguang'>广告</span></div></div></div></div>";
             } elseif ($ad->type === 'doctor') {
                 $htmlStr .=
-                    "<div class='c-container'><a href='$ad->link' class='c-blocka'><h3 class='c-title c-gap-top-small'>$ad->title</h3></a><a href='$ad->link' class='c-blocka'><div class='c-row c-gap-top-small wa-bk-polysemy-origin-row'><div class='c-span4 wa-bk-polysemy-miaodong'><div class='c-img c-img-s' style='background:none'><img src='$ad->picture'><div class='wa-bk-polysemy-miaodong-mask'></div></div></div><div class='c-span8 wa-bk-polysemy-origin-intro'><p class='c-color wa-bk-polysemy-clamp c-line-clamp5 wa-bk-polysemy-lineh'>姓名：$ad->doctor_name<br>职业：$ad->doctor_job<br>简介：$ad->description<br></p></div></div></a><div class='c-row c-gray c-line-clamp1'><div class='ec_urlline'><div class='c-line-clamp1'><span class='c-color-gray'>$config->hospital</span><span class='c-gap-left ec-tuiguang'>广告</span></div></div><div class='c-span6'><div class='c-blocka c-moreinfo'></div></div></div></div>";
+                    "<div class='c-container'><a href='$ad->link' class='c-blocka'><h3 class='c-title c-gap-top-small'>$ad->title</h3></a><a href='$ad->link' class='c-blocka'><div class='c-row c-gap-top-small wa-bk-polysemy-origin-row'><div class='c-span4 wa-bk-polysemy-miaodong'><div class='c-img c-img-s' style='background:none'><img src='$ad->picture'><div class='wa-bk-polysemy-miaodong-mask'></div></div></div><div class='c-span8 wa-bk-polysemy-origin-intro'><p class='c-color wa-bk-polysemy-clamp c-line-clamp5 wa-bk-polysemy-lineh'>姓名：$ad->doctor_name<br>职业：$ad->doctor_job<br>简介：$ad->description<br></p></div></div></a><div class='c-row c-gray c-line-clamp1'><div class='ec_urlline'><div class='c-line-clamp1'><span class='c-color-gray'>$ad->show_link</span></div></div><div class='c-span6'><div class='c-blocka c-moreinfo'></div></div></div></div>";
             }
         }
         return $htmlStr;
