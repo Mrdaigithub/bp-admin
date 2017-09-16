@@ -19,6 +19,7 @@ const errors = {
   400014: '请求参数存在非法字符',
   401000: '密码错误',
   401001: '用户有效期限已过',
+  401002: '未授权',
   403000: '权限不足',
   500000: '网络错误',
   500001: '保存失败',
@@ -28,7 +29,7 @@ const errors = {
 }
 
 let axiosInstance = axios.create({
-  // baseURL: 'http://127.0.0.1',
+  baseURL: 'http://127.0.0.1',
   timeout: 3000,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
